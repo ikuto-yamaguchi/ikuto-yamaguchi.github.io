@@ -1,15 +1,305 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>ikuto-yamaguchi.github.io</title>
+  <meta charset="UTF-8">
+  <title>Life Garden 公式サイト｜ライフゲーム育成パズル</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Life Garden は、セル・オートマトン『ライフゲーム』をベースにしたブラウザゲームです。種を配置して世代を進め、どれだけ長く・広くパターンを維持できるかをスコアで競います。">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6799951658165737"
      crossorigin="anonymous"></script>
 
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.8;
+      color: #222;
+      background: #faf7ff;
+    }
+    a {
+      color: #5b3fd0;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      background: linear-gradient(120deg, #5b3fd0, #8e5bd9);
+      color: #fff;
+      padding: 1.6rem 1.2rem 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.2rem;
+    }
+    .site-title {
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.04em;
+    }
+    .site-sub {
+      margin: 0.4rem 0 0.6rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+    nav {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+    }
+    nav a {
+      color: #f9f7ff;
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    main {
+      padding: 2rem 0 3rem;
+    }
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .hero-main {
+      flex: 2 1 260px;
+    }
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.6rem;
+    }
+    .hero p {
+      margin: 0.3rem 0;
+    }
+    .hero-cta {
+      margin-top: 1rem;
+    }
+    .hero-cta a {
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      background: #ffb300;
+      color: #222;
+      border-radius: 999px;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+      text-decoration: none;
+    }
+    .hero-cta a:hover {
+      filter: brightness(1.05);
+      text-decoration: none;
+    }
+    .hero-side {
+      flex: 1 1 220px;
+      min-width: 220px;
+      padding: 0.9rem 1rem;
+      border-radius: 1rem;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      font-size: 0.85rem;
+    }
+    h2 {
+      margin-top: 2.2rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.3rem;
+      border-left: 4px solid #5b3fd0;
+      padding-left: 0.6rem;
+    }
+    h3 {
+      margin-top: 1.4rem;
+      margin-bottom: 0.3rem;
+      font-size: 1.05rem;
+    }
+    p {
+      margin: 0.4rem 0;
+    }
+    ul {
+      margin: 0.4rem 0 0.8rem 1.4rem;
+    }
+    .note {
+      font-size: 0.85rem;
+      color: #555;
+      background: #f3ecff;
+      border-left: 3px solid #5b3fd0;
+      padding: 0.55rem 0.7rem;
+      border-radius: 0.4rem;
+      margin-top: 0.6rem;
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    footer {
+      border-top: 1px solid #ddd;
+      background: #f5f5f5;
+      font-size: 0.8rem;
+      padding: 0.7rem 1.2rem;
+    }
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    footer a {
+      color: #5b3fd0;
+    }
+    @media (max-width: 640px) {
+      header {
+        padding-bottom: 1.4rem;
+      }
+      .hero {
+        flex-direction: column;
+      }
+      .hero h1 {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Life Garden 公式サイト</h1>
-  <p><a href="https://ikuto-yamaguchi.github.io/life-garden/">Life Garden を遊ぶ</a></p>
+  <header>
+    <div class="container">
+      <h1 class="site-title">Life Garden 公式サイト</h1>
+      <p class="site-sub">ライフゲームの増殖パターンを「育てて」スコアを競う、ブラウザ育成パズル。</p>
+      <nav>
+        <a href="#about">Life Garden とは</a>
+        <a href="#howto">遊び方</a>
+        <a href="#score">スコアと戦略</a>
+        <a href="https://ikuto-yamaguchi.github.io/life-garden/">ゲーム画面を開く</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-main">
+        <h1>ブラウザで遊べる「ライフゲーム育成パズル」</h1>
+        <p>
+          <strong>Life Garden</strong> は、セル・オートマトン「ライフゲーム」のルールをベースに、
+          盤面に「種」をまいて世代を進め、その広がり方を楽しむ実験的なゲームです。
+        </p>
+        <p>
+          シンプルなルールからは想像できないほど複雑な模様が現れ、
+          わずかな配置の違いで結果が大きく変わるため、何度でも試したくなります。
+        </p>
+        <div class="hero-cta">
+          <a href="https://ikuto-yamaguchi.github.io/life-garden/">
+            Life Garden を今すぐ遊ぶ
+          </a>
+        </div>
+        <p class="note">
+          スマホ・PCのどちらからでもブラウザだけで遊べます。追加のインストールは不要です。
+        </p>
+      </div>
+      <aside class="hero-side">
+        <strong>こんな人におすすめ</strong>
+        <ul>
+          <li>ライフゲームやセル・オートマトンが好き</li>
+          <li>放置系・育成系ゲームの「眺めている時間」が好き</li>
+          <li>数学・情報系のネタをSNSで共有したい</li>
+          <li>軽いブラウザゲームで息抜きしたい</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="about" class="section">
+      <h2>Life Garden とは？</h2>
+      <p>
+        Life Garden は、コンウェイのライフゲームを土台にしつつ、
+        「スコア」「ループ検出」「パターンの安定性」などをゲームとして楽しめるように調整したブラウザゲームです。
+      </p>
+      <p>
+        ライフゲームは、マス目状の世界で以下のような単純なルールだけで動きます。
+      </p>
+      <ul>
+        <li>生きているセルの周囲に 2〜3 個のセルがいれば生存</li>
+        <li>ちょうど 3 個のセルに囲まれた空のマスには新しいセルが誕生</li>
+        <li>それ以外のセルは過疎や過密で死亡</li>
+      </ul>
+      <p>
+        それにもかかわらず、実際に世代を進めていくと、宇宙船・オシレータ・グライダー銃のような複雑なパターンが自然に現れます。
+        Life Garden は、この面白さを「スコア」と「遊びやすいUI」で体験できるようにしたものです。
+      </p>
+    </section>
+
+    <section id="howto" class="section">
+      <h2>基本的な遊び方</h2>
+      <h3>1. 種をまく</h3>
+      <p>
+        まずは盤面の好きな位置をタップ / クリックしてセルを配置します。
+        1つだけ試しても、たくさん並べて「模様」を作っても構いません。
+      </p>
+      <h3>2. 世代を進める</h3>
+      <p>
+        「スタート」ボタンを押すと、ライフゲームのルールに従って自動的に世代が進んでいきます。
+        セルが増えたり減ったりしながら、思いもよらない形に変化していく様子を観察できます。
+      </p>
+      <h3>3. 終了条件とリセット</h3>
+      <p>
+        盤面のパターンが完全に消滅するか、同じパターンが繰り返されるループ状態になると、その試行はいったん終了です。
+        そのときのスコアが記録され、新しい種をまいて再挑戦できます。
+      </p>
+    </section>
+
+    <section id="score" class="section">
+      <h2>スコアと戦略の考え方</h2>
+      <p>
+        Life Garden のスコアは、単純に「生きているセルの数」だけでなく、
+        世代数や盤面の広がり方など、いくつかの要素を組み合わせて決まるように設計しています。
+        そのため、ただ広げるだけではなく「いかに安定して長生きさせるか」が重要になります。
+      </p>
+      <h3>長生きパターンを探す</h3>
+      <p>
+        典型的なオシレータや静的パターンをうまく組み合わせると、
+        爆発的に広がることなく長寿命の形を作ることができます。
+        実際にプレイしながら、どの配置が長く生き残るのかを試行錯誤してみてください。
+      </p>
+      <h3>X（旧Twitter）への共有</h3>
+      <p>
+        ゲーム内の共有ボタンから、スコアや感想を X に投稿できます。
+        友だちとスコアを競ったり、「こんなカオスなパターンになった」とスクリーンショット付きでシェアしたりして楽しんでもらえると嬉しいです。
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>開発者からのメッセージ</h2>
+      <p>
+        Life Garden は、個人開発の小さなプロジェクトとして少しずつ改良を続けているゲームです。
+        ライフゲームの「先が読めない増殖の面白さ」を、できるだけシンプルなUIで体験できるように意識して作っています。
+      </p>
+      <p>
+        不具合の報告やご意見があれば、X やブログなどからメッセージをいただけると励みになります。
+        今後も、スコア要素やチャレンジモードなど、少しずつ遊びの幅を広げていく予定です。
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>© 2025 Ikuto Yamaguchi</div>
+      <div>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
