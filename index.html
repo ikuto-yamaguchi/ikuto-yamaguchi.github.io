@@ -149,6 +149,24 @@
       box-shadow: 0 0 30px rgba(178, 73, 248, 0.6);
     }
 
+    .privacy-link-container {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .privacy-link-container a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      transition: color 0.2s;
+    }
+
+    .privacy-link-container a:hover {
+      color: var(--secondary-color);
+      border-bottom-color: var(--secondary-color);
+    }
+
     /* CONTENT SECTIONS */
     .container {
       max-width: 900px;
@@ -291,7 +309,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(10, 10, 20, 0.9);
+      background: rgba(10, 10, 20, 0.95);
       backdrop-filter: blur(10px);
       z-index: 50;
       display: flex;
@@ -316,6 +334,7 @@
       text-align: center;
       width: 90%;
       max-width: 500px;
+      box-shadow: 0 0 50px rgba(178, 73, 248, 0.2);
     }
 
     /* MOBILE OPTIMIZATION */
@@ -373,8 +392,11 @@
           ライフゲームの増殖パターンを「育てて」スコアを競う。<br>
           シンプルで奥深い、ブラウザ育成パズル。
         </p>
-        <!-- Use ID for listener -->
         <button id="hero-start-btn" class="btn-start">GAME START</button>
+
+        <div class="privacy-link-container">
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
       </div>
       <div style="margin-top: 1rem;">
         <span style="font-size: 0.8rem; opacity: 0.7;">↓ SCROLL FOR INFO</span>
@@ -428,9 +450,9 @@
     </footer>
   </div>
 
-  <!-- 3. Game Interface (Hidden initially) -->
+  <!-- 3. Game Interface (Visible only in Game Mode) -->
   <div id="game-interface" class="hidden">
-    <button id="btn-exit" onclick="app.exitGame()">← QUIT</button>
+    <button id="btn-exit">← QUIT</button>
 
     <div id="hud">
       <div class="score-display">
@@ -492,6 +514,7 @@
 
       enterGame() {
         this.isGameMode = true;
+        window.scrollTo(0, 0); // Reset scroll
         document.body.classList.add('game-mode');
         document.getElementById('content-layer').classList.add('hidden');
         document.getElementById('game-interface').classList.remove('hidden');
@@ -528,6 +551,10 @@
       score: 0,
       maxPop: 0,
       history: [],
+
+      // Loop Detection
+      lastPop: 0,
+      stableFrames: 0,
 
       init() {
         this.canvas = document.getElementById('game-canvas');
@@ -606,6 +633,8 @@
         this.score = 0;
         this.maxPop = 0;
         this.history = [];
+        this.lastPop = 0;
+        this.stableFrames = 0;
         this.updateHUD();
       },
 
@@ -635,7 +664,8 @@
 
             if (this.nextGrid[i][j] === 1) {
               active++;
-              if (this.state === 'RUNNING' && (i + j) % 3 === 0) hash += `${i},${j}|`;
+              // Simple spatial sampling for hash (every 3rd pos)
+              if (this.state === 'RUNNING' && (i + j) % 3 === 0) hash += (i + j).toString(16);
             }
           }
         }
@@ -646,19 +676,38 @@
         if (this.state === 'RUNNING') {
           this.gen++;
           if (active > this.maxPop) this.maxPop = active;
+          // Score with cap? No, score is fine if it ends
           this.score = (this.gen * 10) + (this.maxPop * 5);
           this.updateHUD();
 
-          // Game Over Checks
-          if (active === 0) this.gameOver("EXTINCTION");
-
-          if (this.gen % 30 === 0) {
-            if (this.history.includes(hash)) this.gameOver("LOOP DETECTED");
-            this.history.push(hash);
-            if (this.history.length > 8) this.history.shift();
+          // 1. Extinction Check
+          if (active === 0) {
+            this.gameOver("EXTINCTION");
+            return;
           }
-        } else if (this.state === 'BG') {
-          // Logic update for BG (slower or normal)
+
+          // 2. Exact Hash Loop Check (every 60 frames)
+          if (this.gen % 60 === 0) {
+            if (this.history.includes(hash)) {
+              this.gameOver("LOOP DETECTED");
+              return;
+            }
+            this.history.push(hash);
+            if (this.history.length > 10) this.history.shift();
+          }
+
+          // 3. Population Stability Check (Catches Gliders/Stills)
+          // If population doesn't change for 60 frames (1 sec) -> Stable/Boring
+          if (active === this.lastPop) {
+            this.stableFrames++;
+            if (this.stableFrames > 60) {
+              this.gameOver("STABILISED");
+              return;
+            }
+          } else {
+            this.stableFrames = 0;
+            this.lastPop = active;
+          }
         }
       },
 
