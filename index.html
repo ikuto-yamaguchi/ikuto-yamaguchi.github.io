@@ -5,12 +5,15 @@
   <meta charset="UTF-8">
   <title>Life Garden | ライフゲーム育成パズル</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="シンプルで美しい、ブラウザで遊べるライフゲーム。パターンを育てて、シェアしよう。">
+  <meta name="description"
+    content="Life Gardenは、セル・オートマトン『ライフゲーム』をベースにしたブラウザゲームです。種を配置して世代を進め、どれだけ長く・広くパターンを維持できるかを競います。">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6799951658165737"
@@ -23,393 +26,508 @@
       /* Neon Purple */
       --secondary-color: #49f8f8;
       /* Neon Cyan */
-      --text-color: #ffffff;
-      --glass-bg: rgba(20, 20, 30, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #f0f0f5;
+      --glass-bg: rgba(20, 20, 30, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --section-bg: rgba(30, 30, 40, 0.5);
     }
 
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      /* Prevent text selection during play */
     }
 
+    html,
     body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Zen Kaku Gothic New', 'Outfit', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      /* Prevent horizontal scroll */
     }
 
+    body {
+      overflow-y: auto;
+      /* Allow scrolling initially */
+    }
+
+    body.game-mode {
+      overflow: hidden;
+      /* No scroll in game mode */
+    }
+
+    /* CANVAS BACKGROUND */
     #game-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 0;
     }
 
-    /* UI Layers */
-    .layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    /* --- CONTENT SCROLL LAYER --- */
+    #content-layer {
+      position: relative;
       z-index: 10;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      min-height: 100vh;
+      pointer-events: auto;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .hidden {
       opacity: 0 !important;
       pointer-events: none !important;
-      transform: scale(0.95);
+      display: none !important;
+      /* Hide to prevent layout issues */
     }
 
-    /* Title Screen */
-    .title-card {
+    /* HERO SECTION */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .hero-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 2.5rem 3.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 3rem 4rem;
       border-radius: 24px;
       border: 1px solid var(--glass-border);
-      text-align: center;
-      pointer-events: auto;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-      max-width: 90%;
-      animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      max-width: 800px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      margin-bottom: 2rem;
     }
 
     h1 {
-      font-size: 3.2rem;
-      margin: 0 0 0.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.5rem;
+      margin: 0 0 1rem;
       background: linear-gradient(135deg, #fff 30%, var(--primary-color) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 30px rgba(178, 73, 248, 0.4);
-      letter-spacing: -0.02em;
     }
 
-    p.subtitle {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 2rem;
-      line-height: 1.5;
+    .subtitle {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
     }
 
-    .btn-large {
+    .btn-start {
       background: linear-gradient(135deg, var(--primary-color), #7c24cc);
       color: white;
       border: none;
-      padding: 1rem 3rem;
-      font-size: 1.3rem;
+      padding: 1.2rem 4rem;
+      font-size: 1.4rem;
       font-weight: 700;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.2s;
       box-shadow: 0 0 20px rgba(178, 73, 248, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
       font-family: 'Outfit', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
-    .btn-large:hover {
+    .btn-start:hover {
       transform: scale(1.05);
       box-shadow: 0 0 30px rgba(178, 73, 248, 0.6);
     }
 
-    .btn-large:active {
-      transform: scale(0.98);
+    /* CONTENT SECTIONS */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
     }
 
-    /* HUD (Top Bar) */
-    #hud {
+    section {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      border: 1px solid var(--glass-border);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-top: 0;
+      border-left: 4px solid var(--primary-color);
+      padding-left: 1rem;
+      color: var(--secondary-color);
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      color: #fff;
+    }
+
+    p,
+    li {
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    .note {
+      background: rgba(178, 73, 248, 0.15);
+      border-left: 3px solid var(--primary-color);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    /* --- GAME UI LAYERS (Visible only in Game Mode) --- */
+    #game-interface {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-      z-index: 5;
+      height: 100%;
+      z-index: 20;
       pointer-events: none;
-    }
-
-    .score-box {
+      /* Let clicks pass to canvas/buttons */
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      justify-content: space-between;
     }
 
-    .score-label {
-      font-size: 0.7rem;
-      opacity: 0.7;
-      letter-spacing: 0.1em;
-      margin-bottom: 2px;
+    /* HUD */
+    #hud {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+    }
+
+    .score-display {
+      text-align: left;
     }
 
     .score-val {
-      font-size: 1.5rem;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      font-variant-numeric: tabular-nums;
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
     }
 
-    /* Controls (Bottom Bar) */
+    .score-label {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+    }
+
+    /* Controls */
     #controls {
-      position: fixed;
-      bottom: 30px;
-      width: 100%;
+      padding: 30px;
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
+      gap: 20px;
       pointer-events: auto;
-      z-index: 20;
-      padding-bottom: env(safe-area-inset-bottom);
     }
 
-    .icon-btn {
-      width: 64px;
-      height: 64px;
+    .ctrl-btn {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: rgba(30, 30, 35, 0.85);
-      border: 1px solid var(--glass-border);
-      color: white;
-      font-size: 1.6rem;
+      background: rgba(30, 30, 40, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
       display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .ctrl-btn:hover {
+      background: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    .ctrl-btn.active {
+      background: var(--primary-color);
+      box-shadow: 0 0 15px var(--primary-color);
+    }
+
+    /* EXIT BUTTON */
+    #btn-exit {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 99px;
+      cursor: pointer;
+      pointer-events: auto;
+      backdrop-filter: blur(5px);
+      z-index: 30;
+    }
+
+    /* RESULT SCREEN */
+    #result-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 20, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s cubic-bezier(0.3, 1.5, 0.5, 1);
-    }
-
-    .icon-btn:hover {
-      background: var(--primary-color);
-      transform: translateY(-4px);
-    }
-
-    .icon-btn:active {
-      transform: translateY(0) scale(0.95);
-    }
-
-    .icon-btn.primary {
-      background: var(--primary-color);
-      box-shadow: 0 0 20px rgba(178, 73, 248, 0.6);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Result Overlay */
-    #result-screen h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .result-score {
-      font-size: 4.5rem;
-      font-weight: 800;
-      background: linear-gradient(to bottom, #fff, var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 0.5rem 0 1.5rem;
-      text-shadow: 0 0 30px rgba(73, 248, 248, 0.3);
-      line-height: 1;
-    }
-
-    .result-stats {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      justify-content: center;
-    }
-
-    .stat-col {
-      text-align: center;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      opacity: 0.6;
-      margin-bottom: 4px;
-    }
-
-    .stat-val {
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Message Toast */
-    #toast {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      pointer-events: none;
       opacity: 0;
+      pointer-events: none;
       transition: opacity 0.3s;
-      border: 1px solid var(--primary-color);
-      text-shadow: 0 0 10px var(--primary-color);
     }
 
-    /* Mobile Adjustments */
+    #result-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .result-content {
+      background: var(--glass-bg);
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    /* MOBILE OPTIMIZATION */
     @media (max-width: 600px) {
       h1 {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
       }
 
-      .title-card {
+      .hero-card {
+        padding: 2rem 1.5rem;
+      }
+
+      section {
         padding: 1.5rem;
-        width: 90%;
       }
 
-      .btn-large {
-        padding: 0.8rem 2rem;
-        font-size: 1.1rem;
+      .score-val {
+        font-size: 1.5rem;
       }
 
-      .result-score {
-        font-size: 3.5rem;
+      .ctrl-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
       }
+    }
 
-      .icon-btn {
-        width: 56px;
-        height: 56px;
-        font-size: 1.4rem;
-      }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      background: #000;
+    }
 
-      #controls {
-        bottom: 20px;
-        gap: 1rem;
-      }
-
-      #hud {
-        padding: 10px 15px;
-      }
+    footer a {
+      color: var(--secondary-color);
+      text-decoration: none;
     }
   </style>
 </head>
 
 <body>
 
+  <!-- 1. Background Game -->
   <canvas id="game-canvas"></canvas>
 
-  <!-- Title Screen -->
-  <div id="title-layer" class="layer">
-    <div class="title-card">
-      <h1>Life Garden</h1>
-      <p class="subtitle">種をまき、育て、美しさを競う。<br>シンプルで奥深い育成パズル。</p>
-      <button class="btn-large" onclick="game.start()">GAME START</button>
-      <div style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">
-        <a href="privacy.html"
-          style="color:white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3);">Privacy Policy</a>
+  <!-- 2. Main Content Site (Scrollable) -->
+  <div id="content-layer">
+
+    <div class="hero-section">
+      <div class="hero-card">
+        <h1>Life Garden</h1>
+        <p class="subtitle">
+          ライフゲームの増殖パターンを「育てて」スコアを競う。<br>
+          シンプルで奥深い、ブラウザ育成パズル。
+        </p>
+        <!-- Use ID for listener -->
+        <button id="hero-start-btn" class="btn-start">GAME START</button>
+      </div>
+      <div style="margin-top: 1rem;">
+        <span style="font-size: 0.8rem; opacity: 0.7;">↓ SCROLL FOR INFO</span>
       </div>
     </div>
+
+    <div class="container">
+      <section id="about">
+        <h2>Life Garden とは？</h2>
+        <p>
+          Life Garden は、コンウェイのライフゲームを土台にしつつ、
+          「スコア」「ループ検出」「パターンの安定性」などをゲームとして楽しめるように調整したブラウザゲームです。
+        </p>
+        <div class="note">
+          生きているセルが2〜3個で生存、3個で誕生。それ以外は淘汰される。<br>
+          たったこれだけのルールから、驚くほど複雑な宇宙が生まれます。
+        </div>
+      </section>
+
+      <section id="howto">
+        <h2>遊び方と戦略</h2>
+        <h3>1. 種をまく (Plant)</h3>
+        <p>
+          盤面をタップ・ドラッグしてセルを自由に配置します。
+          これがあなたの「種」です。
+        </p>
+
+        <h3>2. 育てる (Grow)</h3>
+        <p>
+          再生ボタンを押すと、世代が進みます。
+          どこまで広がるか、いつまで生き残るかを見守りましょう。
+        </p>
+
+        <h3>3. スコア (Score)</h3>
+        <p>
+          スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code> で決まります。
+          ただ長生きするだけでなく、<strong>一瞬の「爆発的な広がり」</strong>を持たせることが高得点の鍵です。
+        </p>
+      </section>
+
+      <section>
+        <h2>開発者より</h2>
+        <p>
+          不具合やご意見は X (Twitter) 等でお知らせください。
+        </p>
+      </section>
+    </div>
+
+    <footer>
+      © 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
+    </footer>
   </div>
 
-  <!-- Gameplay UI -->
-  <div id="game-ui" class="layer hidden" style="pointer-events: none;">
+  <!-- 3. Game Interface (Hidden initially) -->
+  <div id="game-interface" class="hidden">
+    <button id="btn-exit" onclick="app.exitGame()">← QUIT</button>
+
     <div id="hud">
-      <div class="score-box">
+      <div class="score-display">
         <div class="score-label">SCORE</div>
-        <div class="score-val" id="score-val" style="color: var(--secondary-color);">0</div>
+        <div class="score-val" id="disp-score">0</div>
       </div>
-      <div class="score-box" style="align-items: flex-end;">
-        <div class="score-label">GEN</div>
-        <div class="score-val" id="gen-val">0</div>
+      <div class="score-display" style="text-align: right;">
+        <div class="score-label">GENERATION</div>
+        <div class="score-val" id="disp-gen">0</div>
       </div>
     </div>
 
-    <div id="toast">TAP TO PLANT</div>
+    <div id="controls">
+      <button class="ctrl-btn" id="btn-reset" title="Reset">↻</button>
+      <button class="ctrl-btn" id="btn-toggle" title="Play/Pause">▶</button>
+      <button class="ctrl-btn" id="btn-snap" title="Snapshot">📷</button>
+    </div>
   </div>
 
-  <!-- Controls -->
-  <div id="controls" class="hidden">
-    <button class="icon-btn" onclick="game.reset()" title="Reset">↻</button>
-    <button class="icon-btn primary" id="btn-play" onclick="game.toggle()" title="Run Simulation">▶</button>
-    <button class="icon-btn" onclick="game.snapshot()" title="Share">📷</button>
-  </div>
-
-  <!-- Result Screen -->
-  <div id="result-layer" class="layer hidden">
-    <div class="title-card" id="result-card">
-      <h2 id="result-title">Result</h2>
-      <div class="result-score" id="final-score">0</div>
-
-      <div class="result-stats">
-        <div class="stat-col">
-          <div class="stat-label">Generations</div>
-          <div class="stat-val" id="res-gen">0</div>
-        </div>
-        <div class="stat-col">
-          <div class="stat-label">Max Pop</div>
-          <div class="stat-val" id="res-pop">0</div>
-        </div>
+  <!-- 4. Result Overlay -->
+  <div id="result-screen">
+    <div class="result-content">
+      <h2 id="res-reason" style="color:var(--secondary-color)">GAME OVER</h2>
+      <div style="font-size:3.5rem; font-weight:800; margin:1rem 0;" id="res-score">0</div>
+      <div style="margin-bottom:2rem; opacity:0.8;">
+        Generations: <span id="res-gen-val">0</span><br>
+        Max Pop: <span id="res-pop-val">0</span>
       </div>
-
-      <button class="btn-large" onclick="game.retry()">RETRY</button>
+      <button class="btn-start" id="btn-retry">RETRY</button>
+      <br>
+      <button
+        style="background:none; border:none; color:white; margin-top:1rem; cursor:pointer; text-decoration:underline;"
+        onclick="app.exitGame()">Back to Home</button>
     </div>
   </div>
 
   <script>
-    /**
-     * Life Garden Game Engine
-     */
+    // Main Application Controller
+    const app = {
+      isGameMode: false,
+
+      init() {
+        // Event Bindings
+        document.getElementById('hero-start-btn').addEventListener('click', () => this.enterGame());
+        document.getElementById('btn-exit').addEventListener('click', () => this.exitGame());
+        document.getElementById('btn-retry').addEventListener('click', () => {
+          document.getElementById('result-screen').classList.remove('visible');
+          game.reset();
+        });
+
+        // Game Controls
+        document.getElementById('btn-reset').addEventListener('click', () => game.reset());
+        document.getElementById('btn-toggle').addEventListener('click', () => game.toggle());
+        document.getElementById('btn-snap').addEventListener('click', () => game.snapshot());
+
+        // Start background simulation
+        game.init();
+      },
+
+      enterGame() {
+        this.isGameMode = true;
+        document.body.classList.add('game-mode');
+        document.getElementById('content-layer').classList.add('hidden');
+        document.getElementById('game-interface').classList.remove('hidden');
+
+        // Reset game for clean start
+        game.startMatch();
+      },
+
+      exitGame() {
+        this.isGameMode = false;
+        document.body.classList.remove('game-mode');
+        document.getElementById('content-layer').classList.remove('hidden');
+        document.getElementById('game-interface').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('visible');
+
+        // Back to chill background mode
+        game.toBackgroundMode();
+      }
+    };
+
+    // Game Engine
     const game = {
       canvas: null,
       ctx: null,
+      grid: [],
+      nextGrid: [],
       cols: 0,
       rows: 0,
       res: 20,
-      grid: [],
-      nextGrid: [],
-      state: 'TITLE', // TITLE, SETUP, RUNNING, RESULT
 
-      // Stats
-      generation: 0,
-      maxPop: 0,
+      state: 'BG', // BG (Background), SETUP, RUNNING, RESULT
+
+      gen: 0,
       score: 0,
-
-      // Loop Detection
+      maxPop: 0,
       history: [],
-
-      // Animation
-      animId: null,
-      lastFrame: 0,
-      fps: 60,
 
       init() {
         this.canvas = document.getElementById('game-canvas');
@@ -418,21 +536,18 @@
         window.addEventListener('resize', () => this.resize());
         this.resize();
 
-        // Input
         this.setupInput();
 
-        // Start Loop
-        this.randomize(0.1); // Demo background
+        // Initial State
+        this.toBackgroundMode();
         this.loop();
       },
 
       resize() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        // Adjust cell size based on screen area
-        this.res = Math.sqrt((window.innerWidth * window.innerHeight) / 2000);
-        if (this.res < 16) this.res = 16;
-        if (this.res > 30) this.res = 30;
+        // Responsive resolution
+        this.res = window.innerWidth < 600 ? 15 : 20;
 
         this.cols = Math.ceil(this.canvas.width / this.res);
         this.rows = Math.ceil(this.canvas.height / this.res);
@@ -441,99 +556,86 @@
         this.nextGrid = new Array(this.cols).fill(0).map(() => new Array(this.rows).fill(0));
       },
 
-      randomize(density) {
-        for (let i = 0; i < this.cols; i++) {
-          for (let j = 0; j < this.rows; j++) {
-            this.grid[i][j] = Math.random() < density ? 1 : 0;
-          }
-        }
+      toBackgroundMode() {
+        this.state = 'BG';
+        this.clear();
+        this.randomize(0.12);
+      },
+
+      startMatch() {
+        this.state = 'SETUP';
+        this.clear();
+
+        // Initial seed center
+        let cx = Math.floor(this.cols / 2), cy = Math.floor(this.rows / 2);
+        this.grid[cx][cy] = 1; this.grid[cx + 1][cy] = 1; this.grid[cx - 1][cy] = 1;
+        this.grid[cx][cy - 1] = 1; this.grid[cx][cy + 1] = 1;
+
+        this.resetStats();
+        this.updateUI();
+      },
+
+      reset() {
+        if (this.state === 'BG') return;
+        this.state = 'SETUP';
+        this.clear();
+        this.resetStats();
+        this.updateUI();
+      },
+
+      toggle() {
+        if (this.state === 'SETUP') this.state = 'RUNNING';
+        else if (this.state === 'RUNNING') this.state = 'SETUP';
+        this.updateUI();
       },
 
       clear() {
         for (let i = 0; i < this.cols; i++) this.grid[i].fill(0);
       },
 
-      start() {
-        this.state = 'SETUP';
-        this.clear();
-
-        // Initial cross pattern in center
-        const cx = Math.floor(this.cols / 2);
-        const cy = Math.floor(this.rows / 2);
-        this.grid[cx][cy] = 1; this.grid[cx + 1][cy] = 1; this.grid[cx - 1][cy] = 1;
-        this.grid[cx][cy + 1] = 1; this.grid[cx][cy - 1] = 1;
-
-        this.transitionUI('game-ui');
-        this.showToast("TAP TO PLANT");
-        this.updateBtn();
-        this.resetStats();
-      },
-
-      retry() {
-        document.getElementById('result-layer').classList.add('hidden');
-        this.start();
-      },
-
-      reset() {
-        if (this.state === 'RESULT') {
-          this.retry();
-        } else {
-          this.state = 'SETUP';
-          this.clear();
-          this.resetStats();
-          this.updateBtn();
+      randomize(p) {
+        for (let i = 0; i < this.cols; i++) {
+          for (let j = 0; j < this.rows; j++) {
+            this.grid[i][j] = Math.random() < p ? 1 : 0;
+          }
         }
-      },
-
-      toggle() {
-        if (this.state === 'SETUP') {
-          this.state = 'RUNNING';
-          this.showToast("RUNNING");
-        } else if (this.state === 'RUNNING') {
-          this.state = 'SETUP';
-          this.showToast("PAUSED");
-        }
-        this.updateBtn();
       },
 
       resetStats() {
-        this.generation = 0;
-        this.maxPop = 0;
+        this.gen = 0;
         this.score = 0;
+        this.maxPop = 0;
         this.history = [];
-        this.updateHud();
+        this.updateHUD();
       },
 
       update() {
-        if (this.state !== 'RUNNING' && this.state !== 'TITLE') return;
+        if (this.state !== 'RUNNING' && this.state !== 'BG') return;
 
-        let activeCells = 0;
+        let active = 0;
         let hash = "";
 
         for (let i = 0; i < this.cols; i++) {
           for (let j = 0; j < this.rows; j++) {
-            let state = this.grid[i][j];
-
-            // Count neighbors
+            let s = this.grid[i][j];
             let sum = 0;
-            for (let x = -1; x < 2; x++) {
-              for (let y = -1; y < 2; y++) {
+            // Neighbors
+            for (let x = -1; x <= 1; x++) {
+              for (let y = -1; y <= 1; y++) {
                 if (x === 0 && y === 0) continue;
-                let col = (i + x + this.cols) % this.cols;
-                let row = (j + y + this.rows) % this.rows;
-                sum += this.grid[col][row];
+                let c = (i + x + this.cols) % this.cols;
+                let r = (j + y + this.rows) % this.rows;
+                sum += this.grid[c][r];
               }
             }
 
-            // Rule
-            if (state === 0 && sum === 3) this.nextGrid[i][j] = 1;
-            else if (state === 1 && (sum < 2 || sum > 3)) this.nextGrid[i][j] = 0;
-            else this.nextGrid[i][j] = state;
+            if (s === 0 && sum === 3) this.nextGrid[i][j] = 1;
+            else if (s === 1 && (sum < 2 || sum > 3)) this.nextGrid[i][j] = 0;
+            else this.nextGrid[i][j] = s;
 
             if (this.nextGrid[i][j] === 1) {
-              activeCells++;
-              // Simple spatial hash for loop check using only a few cells
-              if (this.state === 'RUNNING' && (i + j) % 3 === 0) hash += (i * this.rows + j).toString(36);
+              active++;
+              if (this.state === 'RUNNING' && (i + j) % 3 === 0) hash += `${i},${j}|`;
             }
           }
         }
@@ -542,138 +644,92 @@
         [this.grid, this.nextGrid] = [this.nextGrid, this.grid];
 
         if (this.state === 'RUNNING') {
-          this.generation++;
-          if (activeCells > this.maxPop) this.maxPop = activeCells;
-          // Score: Survival Time * 10 + Max Population * 5
-          this.score = (this.generation * 10) + (this.maxPop * 5);
-          this.updateHud();
+          this.gen++;
+          if (active > this.maxPop) this.maxPop = active;
+          this.score = (this.gen * 10) + (this.maxPop * 5);
+          this.updateHUD();
 
-          // Checks
-          if (activeCells === 0) this.gameOver("EXTINCTION");
+          // Game Over Checks
+          if (active === 0) this.gameOver("EXTINCTION");
 
-          // Loop check (every 60 frames to save perf)
-          if (this.generation % 30 === 0) {
-            if (this.history.includes(hash)) {
-              // Simple check found match
-              this.gameOver("LOOP DETECTED");
-            }
+          if (this.gen % 30 === 0) {
+            if (this.history.includes(hash)) this.gameOver("LOOP DETECTED");
             this.history.push(hash);
-            if (this.history.length > 10) this.history.shift();
+            if (this.history.length > 8) this.history.shift();
           }
+        } else if (this.state === 'BG') {
+          // Logic update for BG (slower or normal)
         }
       },
 
       gameOver(reason) {
         this.state = 'RESULT';
-        document.getElementById('result-title').innerText = reason;
-        document.getElementById('final-score').innerText = this.score;
-        document.getElementById('res-gen').innerText = this.generation;
-        document.getElementById('res-pop').innerText = this.maxPop;
-
-        document.getElementById('game-ui').classList.add('hidden');
-        document.getElementById('controls').classList.add('hidden');
-        document.getElementById('result-layer').classList.remove('hidden');
+        document.getElementById('res-reason').innerText = reason;
+        document.getElementById('res-score').innerText = this.score;
+        document.getElementById('res-gen-val').innerText = this.gen;
+        document.getElementById('res-pop-val').innerText = this.maxPop;
+        document.getElementById('result-screen').classList.add('visible');
       },
 
-      render() {
-        // Clear
-        this.ctx.fillStyle = '#0a0a0f'; // BG Color
+      draw() {
+        // Fill BG
+        this.ctx.fillStyle = '#0a0a0f';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Glow effect setup
-        this.ctx.shadowBlur = 10;
+        // Cells
+        this.ctx.fillStyle = this.state === 'BG' ? '#333' : '#b249f8'; // Dimmer in BG
+        this.ctx.shadowBlur = this.state === 'BG' ? 0 : 10;
         this.ctx.shadowColor = '#b249f8';
-        this.ctx.fillStyle = '#b249f8';
 
         for (let i = 0; i < this.cols; i++) {
           for (let j = 0; j < this.rows; j++) {
             if (this.grid[i][j] === 1) {
-              this.ctx.beginPath();
-              // Optimize: Draw Rectangle instead of round rect for speed if needed, 
-              // but round rect looks better.
               let x = i * this.res;
               let y = j * this.res;
-              this.ctx.roundRect(x + 1, y + 1, this.res - 2, this.res - 2, 4);
+              this.ctx.beginPath();
+              this.ctx.rect(x + 1, y + 1, this.res - 2, this.res - 2);
               this.ctx.fill();
             }
           }
         }
-        this.ctx.shadowBlur = 0;
       },
 
-      loop(now) {
-        // Throttling for "Title" to be chill
-        if (this.state === 'TITLE') {
-          // Update every 3rd frame
-          if (this.generation % 3 === 0) this.update();
-          this.generation++; // Just for frame count in title
+      loop() {
+        // Throttling for BG mode to save battery
+        if (this.state === 'BG') {
+          if (Date.now() % 100 < 30) this.update();
         } else {
           this.update();
         }
-
-        this.render();
-        requestAnimationFrame(t => this.loop(t));
+        this.draw();
+        requestAnimationFrame(() => this.loop());
       },
 
-      // Interaction
       setupInput() {
         let isDrag = false;
-        const handle = (x, y) => {
-          if (this.state !== 'SETUP') return;
-          let i = Math.floor(x / this.res);
-          let j = Math.floor(y / this.res);
+        const plot = (cx, cy) => {
+          // Allow drawing in BG mode (fun) or SETUP mode
+          if (this.state !== 'SETUP' && this.state !== 'BG') return;
+
+          let i = Math.floor(cx / this.res);
+          let j = Math.floor(cy / this.res);
           if (i >= 0 && i < this.cols && j >= 0 && j < this.rows) {
             this.grid[i][j] = 1;
           }
         };
 
-        this.canvas.addEventListener('mousedown', e => { isDrag = true; handle(e.clientX, e.clientY); });
+        this.canvas.addEventListener('mousedown', e => { isDrag = true; plot(e.clientX, e.clientY); });
         window.addEventListener('mouseup', () => isDrag = false);
-        this.canvas.addEventListener('mousemove', e => { if (isDrag) handle(e.clientX, e.clientY); });
+        this.canvas.addEventListener('mousemove', e => { if (isDrag) plot(e.clientX, e.clientY); });
 
         this.canvas.addEventListener('touchstart', e => {
-          isDrag = true;
-          handle(e.touches[0].clientX, e.touches[0].clientY);
+          isDrag = true; plot(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: false });
         window.addEventListener('touchend', () => isDrag = false);
         this.canvas.addEventListener('touchmove', e => {
-          if (isDrag) handle(e.touches[0].clientX, e.touches[0].clientY);
-          e.preventDefault();
+          if (isDrag) plot(e.touches[0].clientX, e.touches[0].clientY);
+          e.preventDefault(); // Stop scroll when drawing on canvas
         }, { passive: false });
-      },
-
-      transitionUI(activeId) {
-        ['title-layer', 'game-ui', 'controls', 'result-layer'].forEach(id => {
-          const el = document.getElementById(id);
-          if (id === activeId || (id === 'controls' && activeId === 'game-ui')) {
-            el.classList.remove('hidden');
-          } else {
-            el.classList.add('hidden');
-          }
-        });
-      },
-
-      showToast(msg) {
-        const t = document.getElementById('toast');
-        t.innerText = msg;
-        t.style.opacity = '1';
-        setTimeout(() => t.style.opacity = '0', 1500);
-      },
-
-      updateHud() {
-        document.getElementById('score-val').innerText = this.score;
-        document.getElementById('gen-val').innerText = this.generation;
-      },
-
-      updateBtn() {
-        const btn = document.getElementById('btn-play');
-        if (this.state === 'RUNNING') {
-          btn.innerText = '⏸';
-          btn.classList.remove('primary');
-        } else {
-          btn.innerText = '▶';
-          btn.classList.add('primary');
-        }
       },
 
       snapshot() {
@@ -682,11 +738,29 @@
         a.download = `lifegarden-${this.score}.png`;
         a.href = d;
         a.click();
+      },
+
+      updateHUD() {
+        document.getElementById('disp-score').innerText = this.score;
+        document.getElementById('disp-gen').innerText = this.gen;
+      },
+
+      updateUI() {
+        const btn = document.getElementById('btn-toggle');
+        if (this.state === 'RUNNING') {
+          btn.innerText = '⏸';
+          btn.classList.remove('active');
+        } else {
+          btn.innerText = '▶';
+          btn.classList.add('active');
+        }
       }
     };
 
-    // Start
-    game.init();
+    // Initialize when DOM ready
+    window.addEventListener('DOMContentLoaded', () => {
+      app.init();
+    });
 
   </script>
 </body>
