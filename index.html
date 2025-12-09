@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>Life Garden | ライフゲーム育成パズル</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Life Gardenは、ライフゲームを�Eースにしたシンプルで奥深ぁE��成パズル。種をまき、世代を進め、スコアと美しぁE��ターンで競ぁE��ラウザゲームです、E>
+  <meta name="description" content="Life Gardenは、ライフゲームをベースにしたシンプルで奥深い育成パズル。種をまき、世代を進め、スコアと美しいパターンで競うブラウザゲームです。">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -325,37 +325,48 @@
     }
 
     #controls {
-      padding: 32px 16px;
+      padding: 20px 18px 26px;
       display: flex;
       justify-content: center;
-      gap: 14px;
+      gap: 10px;
       pointer-events: auto;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(10, 10, 15, 0.8), rgba(10, 10, 15, 0.4));
     }
 
     .ctrl-btn {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      background: rgba(30, 30, 40, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      min-width: 86px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(30, 30, 40, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       color: #fff;
-      font-size: 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       backdrop-filter: blur(6px);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      padding: 0 14px;
+      letter-spacing: 0.02em;
       transition: all 0.16s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
 
     .ctrl-btn:hover {
       background: var(--primary-color);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
-    .ctrl-btn.active {
-      background: var(--primary-color);
-      box-shadow: 0 0 16px var(--primary-color);
+    .ctrl-btn.primary {
+      background: linear-gradient(135deg, var(--primary-color), #7c24cc);
+      box-shadow: 0 0 12px rgba(178, 73, 248, 0.45);
+    }
+
+    .ctrl-btn.danger {
+      border-color: #ff5c5c;
+      color: #ff6f6f;
     }
 
     #result-screen {
@@ -375,6 +386,7 @@
       pointer-events: none;
       transition: opacity 0.25s ease;
       padding: 1rem;
+      overflow-y: auto;
     }
 
     #result-screen.visible {
@@ -397,6 +409,12 @@
       margin-bottom: 1.8rem;
       opacity: 0.82;
       line-height: 1.6;
+    }
+
+    .result-content .btn-start,
+    .result-content button {
+      width: 100%;
+      max-width: 420px;
     }
 
     #toast {
@@ -455,12 +473,21 @@
         padding: 1.6rem;
       }
       .ctrl-btn {
-        width: 56px;
-        height: 56px;
-        font-size: 1.2rem;
+        min-width: 72px;
+        height: 44px;
+        font-size: 0.9rem;
+        padding: 0 10px;
       }
       .topbar {
         padding: 0.9rem 1rem;
+      }
+      #controls {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .result-content .btn-start,
+      .result-content button {
+        max-width: 100%;
       }
     }
   </style>
@@ -482,49 +509,49 @@
         <div class="eyebrow" data-i18n="concept">Eternal Simple Fun</div>
         <h1 data-i18n="title">Life Garden</h1>
         <p class="subtitle" data-i18n="subtitle">
-          ライフゲームの増殖パターンを「育てて」スコアを競ぁEシンプルで奥深ぁE眺めて良しE触って良しEネオン育成パズル、E        </p>
+          繝ｩ繧､繝輔ご繝ｼ繝縺ｮ蠅玲ｮ悶ヱ繧ｿ繝ｼ繝ｳ繧偵瑚ご縺ｦ縺ｦ縲阪せ繧ｳ繧｢繧堤ｫｶ縺・繧ｷ繝ｳ繝励Ν縺ｧ螂･豺ｱ縺・逵ｺ繧√※濶ｯ縺勇隗ｦ縺｣縺ｦ濶ｯ縺勇繝阪が繝ｳ閧ｲ謌舌ヱ繧ｺ繝ｫ縲・        </p>
         <div class="cta-row">
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
-        <p class="scroll-hint" data-i18n="scrollHint">ↁESCROLL FOR INFO</p>
+        <p class="scroll-hint" data-i18n="scrollHint">竊・SCROLL FOR INFO</p>
       </div>
     </div>
 
     <div class="container">
       <section id="about">
-        <h2 data-i18n="aboutTitle">Life Garden とは</h2>
+        <h2 data-i18n="aboutTitle">Life Garden 縺ｨ縺ｯ</h2>
         <p data-i18n="aboutBody">
-          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよぁE整したブラウザゲームです、E        </p>
+          Life Garden 縺ｯ縲√さ繝ｳ繧ｦ繧ｧ繧､縺ｮ繝ｩ繧､繝輔ご繝ｼ繝繧貞悄蜿ｰ縺ｫ縺励▽縺､縲√後せ繧ｳ繧｢縲阪後Ν繝ｼ繝玲､懃衍縲阪後ヱ繧ｿ繝ｼ繝ｳ縺ｮ螳牙ｮ壽ｧ縲阪ｒ繧ｲ繝ｼ繝縺ｨ縺励※讌ｽ縺励ａ繧九ｈ縺・謨ｴ縺励◆繝悶Λ繧ｦ繧ｶ繧ｲ繝ｼ繝縺ｧ縺吶・        </p>
         <div class="note" data-i18n-html="noteBody">
-          生きてぁEセルは 2、E 個E隣接で生存、E 個で誕生。それ以外E淘汰される。たったこれだけEルールから、信じられなぁEど多彩な軌跡が生まれます、E        </div>
+          逕溘″縺ｦ縺・繧ｻ繝ｫ縺ｯ 2縲・ 蛟畿髫｣謗･縺ｧ逕溷ｭ倥・ 蛟九〒隱慕函縲ゅ◎繧御ｻ･螟胞豺俶ｱｰ縺輔ｌ繧九ゅ◆縺｣縺溘％繧後□縺薦繝ｫ繝ｼ繝ｫ縺九ｉ縲∽ｿ｡縺倥ｉ繧後↑縺・縺ｩ螟壼ｽｩ縺ｪ霆瑚ｷ｡縺檎函縺ｾ繧後∪縺吶・        </div>
       </section>
 
       <section id="howto">
-        <h2 data-i18n="howtoTitle">遊E方と戦略</h2>
-        <h3 data-i18n="howtoPlantTitle">1. 種をまぁE(Plant)</h3>
+        <h2 data-i18n="howtoTitle">驕界譁ｹ縺ｨ謌ｦ逡･</h2>
+        <h3 data-i18n="howtoPlantTitle">1. 遞ｮ繧偵∪縺・(Plant)</h3>
         <p data-i18n="howtoPlantBody">
-          盤面を指めEEウスでドラチEしてセルをE由に配置、EタチEEで置き、もぁEタチEEで消せます。ドラチE中は線で補完され、穴が空きません、E        </p>
+          逶､髱｢繧呈欠繧・E繧ｦ繧ｹ縺ｧ繝峨Λ繝・縺励※繧ｻ繝ｫ繧脱逕ｱ縺ｫ驟咲ｽｮ縲・繧ｿ繝・E縺ｧ鄂ｮ縺阪√ｂ縺・繧ｿ繝・E縺ｧ豸医○縺ｾ縺吶ゅラ繝ｩ繝・荳ｭ縺ｯ邱壹〒陬懷ｮ後＆繧後∫ｩｴ縺檎ｩｺ縺阪∪縺帙ｓ縲・        </p>
 
-        <h3 data-i18n="howtoGrowTitle">2. 育てめE(Grow)</h3>
+        <h3 data-i18n="howtoGrowTitle">2. 閧ｲ縺ｦ繧・(Grow)</h3>
         <p data-i18n="howtoGrowBody">
-          再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編雁Eきます、E        </p>
+          蜀咲函繝懊ち繝ｳ縺ｧ荳紋ｻ｣縺碁ｲ陦後りｵｰ繧峨○縺ｪ縺後ｉ隗ｦ繧九→閾ｪ蜍輔〒荳譎ょ●豁｢縺励√◎縺ｮ縺ｾ縺ｾ邱ｨ髮・縺阪∪縺吶・        </p>
 
-        <h3 data-i18n="howtoScoreTitle">3. スコア (Score)</h3>
+        <h3 data-i18n="howtoScoreTitle">3. 繧ｹ繧ｳ繧｢ (Score)</h3>
         <p data-i18n-html="howtoScoreBody">
-          スコアは <code>(世代数 ÁE10) + (最大個体数 ÁE5)</code>。長生きと瞬間火力E両立が鍵、Ebr>
-          同じパターンのループに入るとゲームオーバEになります、E        </p>
+          繧ｹ繧ｳ繧｢縺ｯ <code>(荳紋ｻ｣謨ｰ ﾃ・10) + (譛螟ｧ蛟倶ｽ捺焚 ﾃ・5)</code>縲る聞逕溘″縺ｨ迸ｬ髢鍋↓蜉妣荳｡遶九′骰ｵ縲・br>
+          蜷後§繝代ち繝ｼ繝ｳ縺ｮ繝ｫ繝ｼ繝励↓蜈･繧九→繧ｲ繝ｼ繝繧ｪ繝ｼ繝職縺ｫ縺ｪ繧翫∪縺吶・        </p>
       </section>
 
       <section id="support">
-        <h2 data-i18n="supportTitle">開発老E一言</h2>
+        <h2 data-i18n="supportTitle">髢狗匱閠・荳險</h2>
         <p data-i18n="supportBody">
-          不E合やアイチEは X (Twitter) などでお知らせください。遊んでくださってありがとぁEざいます！E        </p>
+          荳孔蜷医ｄ繧｢繧､繝・縺ｯ X (Twitter) 縺ｪ縺ｩ縺ｧ縺顔衍繧峨○縺上□縺輔＞縲る♀繧薙〒縺上□縺輔▲縺ｦ縺ゅｊ縺後→縺・縺悶＞縺ｾ縺呻ｼ・        </p>
       </section>
     </div>
 
     <footer>
-      © 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
+      ﾂｩ 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
     </footer>
   </div>
 
@@ -545,12 +572,12 @@
     </div>
 
     <div id="controls">
-      <button class="ctrl-btn" id="btn-undo" title="Undo" aria-label="Undo">↩</button>
-      <button class="ctrl-btn" id="btn-redo" title="Redo" aria-label="Redo">↪</button>
-      <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">↻</button>
-      <button class="ctrl-btn active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">▶</button>
-      <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">📷</button>
-      <button class="ctrl-btn" id="btn-exit-game" title="Quit" aria-label="Quit" style="border-color: #ff4444; color:#ff4444;">✁E/button>
+      <button class="ctrl-btn" id="btn-undo" title="Undo" aria-label="Undo">UNDO</button>
+      <button class="ctrl-btn" id="btn-redo" title="Redo" aria-label="Redo">REDO</button>
+      <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">RESET</button>
+      <button class="ctrl-btn primary active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">PLAY</button>
+      <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">SAVE</button>
+      <button class="ctrl-btn danger" id="btn-exit-game" title="Quit" aria-label="Quit">EXIT</button>
     </div>
   </div>
 
@@ -576,101 +603,102 @@
   <script>
     
         
-    const i18n = {
-      ja: {
-        pageTitle: 'Life Garden | Life Game Puzzle',
-        metaDesc: 'Life Garden is a simple yet deep Life Game puzzle. Place seeds, run generations, and compete with scores and beautiful patterns.',
-        concept: 'Eternal Simple Fun',
-        title: 'Life Garden',
-        subtitle: 'Grow patterns and chase scores in a neon Game of Life playground. Simple to start, deep to master.',
-        scrollHint: 'SCROLL FOR INFO',
-        aboutTitle: 'What is Life Garden?',
-        aboutBody: "Life Garden adapts Conway's Game of Life into a score-chasing, loop-detecting, stability-tuning browser game.",
-        noteBody: 'A live cell survives with 2-3 neighbors; 3 births a new one. From this tiny rule-set, endless motion emerges.',
-        howtoTitle: 'How to Play',
-        howtoPlantTitle: '1. Plant',
-        howtoPlantBody: 'Drag with finger or mouse to place cells. Tap once to place, tap again to erase. Dragging auto-fills gaps.',
-        howtoGrowTitle: '2. Grow',
-        howtoGrowBody: 'Press play to advance generations. Touch while running auto-pauses so you can edit immediately.',
-        howtoScoreTitle: '3. Score',
-        howtoScoreBody: 'Score = (Generations x 10) + (Max Population x 5). Balance longevity and bursts. Repeating loops end the run.',
-        supportTitle: 'Feedback',
-        supportBody: 'Found a bug or idea? DM on X (Twitter). Thanks for playing!',
-        btnStart: 'PLAY',
-        btnRetry: 'RETRY',
-        btnShare: 'SHARE SCORE',
-        backHome: 'Back to Home',
-        hudScore: 'SCORE',
-        hudGen: 'GENERATION',
-        btnReset: 'Reset',
-        btnPlay: 'Play',
-        btnPause: 'Pause',
-        btnSnap: 'Save Image',
-        btnQuit: 'Quit',
-        btnUndo: 'Undo',
-        btnRedo: 'Redo',
-        resultGen: 'Generations',
-        resultPop: 'Max Pop',
-        dexLabel: 'DISCOVERY',
-        shareTitle: 'Life Garden Result',
-        newPattern: (name) => `New pattern: ${name}`,
-        reasons: {
-          EXTINCTION: 'EXTINCTION',
-          LOOP: 'LOOP DETECTED',
-          ETERNAL: 'ETERNAL LIFE'
-        },
-        shareText: (gen, score) => `Survived ${gen} gens! Score: ${score} #LifeGarden`
-      },
-      en: {
-        pageTitle: 'Life Garden | Life Game Puzzle',
-        metaDesc: 'Life Garden is a simple yet deep Life Game puzzle. Place seeds, run generations, and compete with scores and beautiful patterns.',
-        concept: 'Eternal Simple Fun',
-        title: 'Life Garden',
-        subtitle: 'Grow patterns and chase scores in a neon Game of Life playground. Simple to start, deep to master.',
-        scrollHint: 'SCROLL FOR INFO',
-        aboutTitle: 'What is Life Garden?',
-        aboutBody: "Life Garden adapts Conway's Game of Life into a score-chasing, loop-detecting, stability-tuning browser game.",
-        noteBody: 'A live cell survives with 2-3 neighbors; 3 births a new one. From this tiny rule-set, endless motion emerges.',
-        howtoTitle: 'How to Play',
-        howtoPlantTitle: '1. Plant',
-        howtoPlantBody: 'Drag with finger or mouse to place cells. Tap once to place, tap again to erase. Dragging auto-fills gaps.',
-        howtoGrowTitle: '2. Grow',
-        howtoGrowBody: 'Press play to advance generations. Touch while running auto-pauses so you can edit immediately.',
-        howtoScoreTitle: '3. Score',
-        howtoScoreBody: 'Score = (Generations x 10) + (Max Population x 5). Balance longevity and bursts. Repeating loops end the run.',
-        supportTitle: 'Feedback',
-        supportBody: 'Found a bug or idea? DM on X (Twitter). Thanks for playing!',
-        btnStart: 'PLAY',
-        btnRetry: 'RETRY',
-        btnShare: 'SHARE SCORE',
-        backHome: 'Back to Home',
-        hudScore: 'SCORE',
-        hudGen: 'GENERATION',
-        btnReset: 'Reset',
-        btnPlay: 'Play',
-        btnPause: 'Pause',
-        btnSnap: 'Save Image',
-        btnQuit: 'Quit',
-        btnUndo: 'Undo',
-        btnRedo: 'Redo',
-        resultGen: 'Generations',
-        resultPop: 'Max Pop',
-        dexLabel: 'DISCOVERY',
-        shareTitle: 'Life Garden Result',
-        newPattern: (name) => `New pattern: ${name}`,
-        reasons: {
-          EXTINCTION: 'EXTINCTION',
-          LOOP: 'LOOP DETECTED',
-          ETERNAL: 'ETERNAL LIFE'
-        },
-        shareText: (gen, score) => `Survived ${gen} gens! Score: ${score} #LifeGarden`
-      }
-    };
-
+    
+                        const i18n = {
+  "ja": {
+    "pageTitle": "Life Garden | ã©ã¤ãã²ã¼ã è²æããºã«",
+    "metaDesc": "Life Gardenã¯ãã©ã¤ãã²ã¼ã ããã¼ã¹ã«ããã·ã³ãã«ã§å¥¥æ·±ãè²æããºã«ãç¨®ãã¾ããä¸ä»£ãé²ããã¹ã³ã¢ã¨ç¾ãããã¿ã¼ã³ã§ç«¶ããã©ã¦ã¶ã²ã¼ã ã§ãã",
+    "concept": "Eternal Simple Fun",
+    "title": "Life Garden",
+    "subtitle": "ã©ã¤ãã²ã¼ã ã®å¢æ®ãã¿ã¼ã³ããè²ã¦ã¦ãã¹ã³ã¢ãç«¶ããã·ã³ãã«ã§å¥¥æ·±ããçãã°æ¥½ããÂ·è§¦ã£ã¦æ¥½ããããªã³è²æããºã«ã",
+    "scrollHint": "? SCROLL FOR INFO",
+    "aboutTitle": "Life Garden ã¨ã¯",
+    "aboutBody": "Life Garden ã¯ãã³ã³ã¦ã§ã¤ã®ã©ã¤ãã²ã¼ã ãåå°ã«ãã¤ã¤ããã¹ã³ã¢ããã«ã¼ãæ¤ç¥ãããã¿ã¼ã³ã®å®å®æ§ããã²ã¼ã ã¨ãã¦æ¥½ãããããèª¿æ´ãããã©ã¦ã¶ã²ã¼ã ã§ãã",
+    "noteBody": "çãã¦ããã»ã«ã¯ 2ï½3 åã®é£æ¥ã§çå­ã3 åã§èªçãããä»¥å¤ã¯æ·æ±°ãããããã£ãããã ãã®ã«ã¼ã«ãããä¿¡ããããªãã»ã©å¤å½©ãªè»è·¡ãçã¾ãã¾ãã",
+    "howtoTitle": "éã³æ¹ã¨æ¦ç¥",
+    "howtoPlantTitle": "1. ç¨®ãã¾ã (Plant)",
+    "howtoPlantBody": "ç¤é¢ãæããã¦ã¹ã§ãã©ãã°ãã¦ã»ã«ãèªç±ã«é
+ç½®ã1ã¿ããã§ç½®ãããã1ã¿ããã§æ¶ãã¾ãããã©ãã°ä¸­ã¯ç·ã§è£å®ãããç©ºããåºã¾ããã",
+    "howtoGrowTitle": "2. è²ã¦ã (Grow)",
+    "howtoGrowBody": "åçãã¿ã³ã§ä¸ä»£ãé²è¡ãä¸åº¦ã¹ã¿ã¼ããããç¤é¢ã®ç·¨éã¯ã§ãã¾ããã",
+    "howtoScoreTitle": "3. ??? (Score)",
+    "howtoScoreBody": "???? <code>(??? ? 10) + (????? ? 5)</code>???????????????<br>???????????????????????????",
+    "supportTitle": "??????",
+    "supportBody": "????????? X (Twitter) ???????????????????????????????",
+    "btnStart": "???????",
+    "btnRetry": "????",
+    "btnShare": "???????",
+    "backHome": "??????",
+    "hudScore": "???",
+    "hudGen": "??",
+    "btnReset": "????",
+    "btnPlay": "??",
+    "btnPause": "????",
+    "btnSnap": "????",
+    "btnQuit": "??",
+    "btnUndo": "1???",
+    "btnRedo": "????",
+    "resultGen": "???",
+    "resultPop": "?????",
+    "dexLabel": "??",
+    "shareTitle": "Life Garden ??",
+    "newPattern": (name) => `New pattern: ${name}`,
+    "reasons": {
+      "EXTINCTION": "??",
+      "LOOP": "?????",
+      "ETERNAL": "ETERNAL LIFE"
+    },
+    "shareText": (gen, score, maxPop) => `Life Gardenã§${gen}ä¸ä»£çå­ï¼æå¤§åä½æ°${maxPop}ãã¹ã³ã¢${score} #LifeGarden`
+  },
+  "en": {
+    "pageTitle": "Life Garden | Life Game Puzzle",
+    "metaDesc": "Life Garden is a simple yet deep Life Game puzzle. Place seeds, run generations, and compete with scores and beautiful patterns.",
+    "concept": "Eternal Simple Fun",
+    "title": "Life Garden",
+    "subtitle": "Grow patterns and chase scores in a neon Game of Life playground. Simple to start, deep to master.",
+    "scrollHint": "SCROLL FOR INFO",
+    "aboutTitle": "What is Life Garden?",
+    "aboutBody": "Life Garden adapts Conway's Game of Life into a score-chasing, loop-detecting, stability-tuning browser game.",
+    "noteBody": "A live cell survives with 2-3 neighbors; 3 births a new one. From this tiny rule-set, endless motion emerges.",
+    "howtoTitle": "How to Play",
+    "howtoPlantTitle": "1. Plant",
+    "howtoPlantBody": "Drag with finger or mouse to place cells. Tap once to place, tap again to erase. Dragging auto-fills gaps.",
+    "howtoGrowTitle": "2. Grow",
+    "howtoGrowBody": "Press play to advance generations. Once running, the board cannot be edited.",
+    "howtoScoreTitle": "3. Score",
+    "howtoScoreBody": "Score = <code>(Generations ? 10) + (Max Population ? 5)</code>. Balance longevity and bursts. Repeating loops end the run.",
+    "supportTitle": "Feedback",
+    "supportBody": "Found a bug or idea? DM on X (Twitter). Thanks for playing!",
+    "btnStart": "PLAY",
+    "btnRetry": "RETRY",
+    "btnShare": "SHARE SCORE",
+    "backHome": "Back to Home",
+    "hudScore": "SCORE",
+    "hudGen": "GENERATION",
+    "btnReset": "Reset",
+    "btnPlay": "Play",
+    "btnPause": "Pause",
+    "btnSnap": "Save Image",
+    "btnQuit": "Quit",
+    "btnUndo": "Undo",
+    "btnRedo": "Redo",
+    "resultGen": "Generations",
+    "resultPop": "Max Pop",
+    "dexLabel": "DISCOVERY",
+    "shareTitle": "Life Garden Result",
+    "newPattern": (name) => `New pattern: ${name}`,
+    "reasons": {
+      "EXTINCTION": "EXTINCTION",
+      "LOOP": "LOOP DETECTED",
+      "ETERNAL": "ETERNAL LIFE"
+    },
+    "shareText": (gen, score, maxPop) => `Survived ${gen} gens, max pop ${maxPop}! Score: ${score} #LifeGarden`
+  }
+};
 const PATTERNS = [
       {
         id: 'glider',
-        name: { ja: 'グライダー', en: 'Glider' },
+        name: { ja: '繧ｰ繝ｩ繧､繝繝ｼ', en: 'Glider' },
         variants: [
           { cells: [[0, 1], [1, 2], [2, 0], [2, 1], [2, 2]] },
           { cells: [[0, 0], [0, 1], [0, 2], [1, 0], [2, 1]] },
@@ -680,7 +708,7 @@ const PATTERNS = [
       },
       {
         id: 'blinker',
-        name: { ja: 'ブリンカー', en: 'Blinker' },
+        name: { ja: '繝悶Μ繝ｳ繧ｫ繝ｼ', en: 'Blinker' },
         variants: [
           { cells: [[0, 0], [1, 0], [2, 0]] },
           { cells: [[0, 0], [0, 1], [0, 2]] }
@@ -688,14 +716,14 @@ const PATTERNS = [
       },
       {
         id: 'toad',
-        name: { ja: '�g�[�h', en: 'Toad' },
+        name: { ja: 'トード', en: 'Toad' },
         variants: [
           { cells: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]] }
         ]
       },
       {
         id: 'beacon',
-        name: { ja: '�r�[�R��', en: 'Beacon' },
+        name: { ja: 'ビーコン', en: 'Beacon' },
         variants: [
           { cells: [[0, 0], [1, 0], [0, 1], [1, 1], [2, 2], [3, 2], [2, 3], [3, 3]] }
         ]
@@ -820,6 +848,9 @@ const PATTERNS = [
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d', { alpha: false });
 
+        this.grid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
+        this.nextGrid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
+
         window.addEventListener('resize', () => this.resize());
         this.resize();
         this.setupInput();
@@ -834,16 +865,6 @@ const PATTERNS = [
         this.canvas.width = w;
         this.canvas.height = h;
 
-        const oldW = this.LOGICAL_W;
-        const oldH = this.LOGICAL_H;
-        const oldGrid = this.grid.map(col => [...col]);
-
-        const allowedW = Math.max(12, Math.floor(w / this.MIN_CELL));
-        const allowedH = Math.max(12, Math.floor(h / this.MIN_CELL));
-
-        this.LOGICAL_W = Math.min(this.BASE_W, allowedW);
-        this.LOGICAL_H = Math.min(this.BASE_H, allowedH);
-
         const resW = w / this.LOGICAL_W;
         const resH = h / this.LOGICAL_H;
         this.res = Math.min(resW, resH);
@@ -852,31 +873,6 @@ const PATTERNS = [
         const gridPixelH = this.LOGICAL_H * this.res;
         this.offX = Math.floor((w - gridPixelW) / 2);
         this.offY = Math.floor((h - gridPixelH) / 2);
-
-        const newGrid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
-        const newNext = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
-
-        if (oldGrid.length) {
-          const dx = Math.floor((this.LOGICAL_W - oldW) / 2);
-          const dy = Math.floor((this.LOGICAL_H - oldH) / 2);
-          for (let i = 0; i < oldW; i++) {
-            for (let j = 0; j < oldH; j++) {
-              const ni = i + dx;
-              const nj = j + dy;
-              if (ni >= 0 && ni < this.LOGICAL_W && nj >= 0 && nj < this.LOGICAL_H) {
-                newGrid[ni][nj] = oldGrid[i][j];
-              }
-            }
-          }
-        }
-
-        this.grid = newGrid;
-        this.nextGrid = newNext;
-        this.historySet.clear();
-
-        if (this.state === 'BG' && !oldGrid.length) {
-          this.randomize(0.12);
-        }
       },
 
       toBackgroundMode() {
@@ -1242,11 +1238,8 @@ const PATTERNS = [
         };
 
         const startStroke = (cx, cy) => {
-          if (this.state === 'RUNNING') {
-            this.state = 'SETUP';
-            this.updateUI();
-          }
-          if (this.state !== 'SETUP' && this.state !== 'BG') return;
+          // 編集はセットアップのみ許可。RUNNING/BGでは無効。
+          if (this.state !== 'SETUP') return false;
           if (!snapshotTaken) {
             this.pushHistory();
             this.redoStack = [];
@@ -1259,7 +1252,9 @@ const PATTERNS = [
             paintMode = this.grid[p.x][p.y] === 1 ? 0 : 1;
             paintCell(p.x, p.y, paintMode);
             lastPoint = p;
+            return true;
           }
+          return false;
         };
 
         const moveStroke = (cx, cy) => {
@@ -1282,8 +1277,8 @@ const PATTERNS = [
 
         this.canvas.addEventListener('pointerdown', e => {
           e.preventDefault();
-          startStroke(e.clientX, e.clientY);
-          this.canvas.setPointerCapture(e.pointerId);
+          const began = startStroke(e.clientX, e.clientY);
+          if (began) this.canvas.setPointerCapture(e.pointerId);
         });
         this.canvas.addEventListener('pointermove', e => {
           if (!isDrag) return;
@@ -1374,6 +1369,13 @@ const PATTERNS = [
         ctx.lineWidth = 6;
         ctx.strokeRect(80, 130, w - 160, h - 210);
 
+        ctx.fillStyle = '#49f8f8';
+        ctx.font = '28px Outfit, sans-serif';
+        ctx.fillText('#LifeGarden', 90, imgY + imgH + 400);
+        ctx.fillStyle = '#ccc';
+        ctx.font = '24px Outfit, sans-serif';
+        ctx.fillText('Grow it. Share it. Challenge me.', 90, imgY + imgH + 440);
+
         const dataUrl = c.toDataURL('image/png');
         const blob = await new Promise(resolve => c.toBlob(resolve, 'image/png', 0.95));
         return { blob, dataUrl };
@@ -1381,7 +1383,7 @@ const PATTERNS = [
 
       async share() {
         const dict = i18n[app.lang];
-        const text = dict.shareText(this.gen, this.score);
+        const text = dict.shareText(this.gen, this.score, this.maxPop);
         const url = "https://ikuto-yamaguchi.github.io/";
 
         const shareImg = await this.ensureShareImage();
@@ -1403,12 +1405,6 @@ const PATTERNS = [
           console.log("Web Share API failed, falling back", e);
         }
 
-        const downloadUrl = shareImg?.dataUrl || this.canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.download = `lifegarden-${this.score}.png`;
-        a.href = downloadUrl;
-        a.click();
-
         const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=LifeGarden`;
         window.open(tweetUrl, '_blank');
       },
@@ -1422,7 +1418,7 @@ const PATTERNS = [
         const dict = i18n[app.lang];
         const btn = document.getElementById('btn-toggle');
         const label = this.state === 'RUNNING' ? dict.btnPause : dict.btnPlay;
-        btn.innerText = this.state === 'RUNNING' ? '⏸' : '▶';
+        btn.innerText = label.toUpperCase();
         btn.setAttribute('aria-pressed', this.state === 'RUNNING');
         btn.title = label;
         btn.classList.toggle('active', this.state !== 'RUNNING');
