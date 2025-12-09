@@ -86,6 +86,10 @@
       pointer-events: none;
     }
 
+    body.game-mode .topbar {
+      display: none;
+    }
+
     .logo {
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -315,6 +319,11 @@
       letter-spacing: 0.1em;
     }
 
+    #dex-pill {
+      text-align: right;
+      min-width: 110px;
+    }
+
     #controls {
       padding: 32px 16px;
       display: flex;
@@ -390,6 +399,38 @@
       line-height: 1.6;
     }
 
+    #toast {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 60;
+      background: rgba(20, 20, 30, 0.9);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 0.9rem 1.2rem;
+      color: #fff;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    #toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .share-pulse {
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0px rgba(29, 155, 240, 0.6); transform: scale(1); }
+      50% { box-shadow: 0 0 26px rgba(29, 155, 240, 0.7); transform: scale(1.03); }
+      100% { box-shadow: 0 0 0px rgba(29, 155, 240, 0.6); transform: scale(1); }
+    }
+
     footer {
       text-align: center;
       padding: 1.8rem;
@@ -441,13 +482,12 @@
         <div class="eyebrow" data-i18n="concept">Eternal Simple Fun</div>
         <h1 data-i18n="title">Life Garden</h1>
         <p class="subtitle" data-i18n="subtitle">
-          ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。
-        </p>
+          ライフゲームの増殖パターンを「育てて」スコアを競ぁEシンプルで奥深ぁE眺めて良しE触って良しEネオン育成パズル、E        </p>
         <div class="cta-row">
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
-        <p class="scroll-hint" data-i18n="scrollHint">↓ SCROLL FOR INFO</p>
+        <p class="scroll-hint" data-i18n="scrollHint">ↁESCROLL FOR INFO</p>
       </div>
     </div>
 
@@ -455,37 +495,31 @@
       <section id="about">
         <h2 data-i18n="aboutTitle">Life Garden とは</h2>
         <p data-i18n="aboutBody">
-          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。
-        </p>
+          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよぁE整したブラウザゲームです、E        </p>
         <div class="note" data-i18n-html="noteBody">
-          生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。
-        </div>
+          生きてぁEセルは 2、E 個E隣接で生存、E 個で誕生。それ以外E淘汰される。たったこれだけEルールから、信じられなぁEど多彩な軌跡が生まれます、E        </div>
       </section>
 
       <section id="howto">
-        <h2 data-i18n="howtoTitle">遊び方と戦略</h2>
-        <h3 data-i18n="howtoPlantTitle">1. 種をまく (Plant)</h3>
+        <h2 data-i18n="howtoTitle">遊E方と戦略</h2>
+        <h3 data-i18n="howtoPlantTitle">1. 種をまぁE(Plant)</h3>
         <p data-i18n="howtoPlantBody">
-          盤面を指やマウスでドラッグしてセルを自由に配置。1タップで置き、もう1タップで消せます。ドラッグ中は線で補完され、穴が空きません。
-        </p>
+          盤面を指めEEウスでドラチEしてセルをE由に配置、EタチEEで置き、もぁEタチEEで消せます。ドラチE中は線で補完され、穴が空きません、E        </p>
 
-        <h3 data-i18n="howtoGrowTitle">2. 育てる (Grow)</h3>
+        <h3 data-i18n="howtoGrowTitle">2. 育てめE(Grow)</h3>
         <p data-i18n="howtoGrowBody">
-          再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編集できます。
-        </p>
+          再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編雁Eきます、E        </p>
 
         <h3 data-i18n="howtoScoreTitle">3. スコア (Score)</h3>
         <p data-i18n-html="howtoScoreBody">
-          スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code>。長生きと瞬間火力の両立が鍵。<br>
-          同じパターンのループに入るとゲームオーバーになります。
-        </p>
+          スコアは <code>(世代数 ÁE10) + (最大個体数 ÁE5)</code>。長生きと瞬間火力E両立が鍵、Ebr>
+          同じパターンのループに入るとゲームオーバEになります、E        </p>
       </section>
 
       <section id="support">
-        <h2 data-i18n="supportTitle">開発者へ一言</h2>
+        <h2 data-i18n="supportTitle">開発老E一言</h2>
         <p data-i18n="supportBody">
-          不具合やアイデアは X (Twitter) などでお知らせください。遊んでくださってありがとうございます！
-        </p>
+          不E合やアイチEは X (Twitter) などでお知らせください。遊んでくださってありがとぁEざいます！E        </p>
       </section>
     </div>
 
@@ -504,13 +538,19 @@
         <div class="score-label" id="hud-gen-label" data-i18n="hudGen">GENERATION</div>
         <div class="score-val" id="disp-gen">0</div>
       </div>
+      <div class="score-display" id="dex-pill">
+        <div class="score-label" data-i18n="dexLabel">DISCOVERY</div>
+        <div class="score-val" id="dex-count">0/0</div>
+      </div>
     </div>
 
     <div id="controls">
+      <button class="ctrl-btn" id="btn-undo" title="Undo" aria-label="Undo">↩</button>
+      <button class="ctrl-btn" id="btn-redo" title="Redo" aria-label="Redo">↪</button>
       <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">↻</button>
       <button class="ctrl-btn active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">▶</button>
       <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">📷</button>
-      <button class="ctrl-btn" id="btn-exit-game" title="Quit" aria-label="Quit" style="border-color: #ff4444; color:#ff4444;">✕</button>
+      <button class="ctrl-btn" id="btn-exit-game" title="Quit" aria-label="Quit" style="border-color: #ff4444; color:#ff4444;">✁E/button>
     </div>
   </div>
 
@@ -522,51 +562,58 @@
         <span data-i18n="resultGen">Generations</span>: <span id="res-gen-val">0</span><br>
         <span data-i18n="resultPop">Max Pop</span>: <span id="res-pop-val">0</span>
       </div>
+      <img id="res-preview" alt="Result preview" style="width:100%; border-radius:12px; border:1px solid var(--glass-border); margin-bottom:1rem; display:none;">
       <button class="btn-start" id="btn-retry" style="display:block; margin:0 auto 1.2rem auto;" data-i18n="btnRetry">RETRY</button>
-      <button class="btn-start" id="btn-share" style="display:block; margin:0 auto 0.8rem auto; background:linear-gradient(135deg, #1d9bf0, #0c7abf); font-size:1.05rem; padding:0.9rem 2.8rem;" data-i18n="btnShare">
+      <button class="btn-start share-pulse" id="btn-share" style="display:block; margin:0 auto 0.8rem auto; background:linear-gradient(135deg, #1d9bf0, #0c7abf); font-size:1.05rem; padding:0.9rem 2.8rem;" data-i18n="btnShare">
         SHARE SCORE
       </button>
       <button style="background:none; border:none; color:white; margin-top:1rem; cursor:pointer; text-decoration:underline;" id="btn-back-home" data-i18n="backHome">Back to Home</button>
     </div>
   </div>
 
+  <div id="toast" aria-live="polite"></div>
+
   <script>
     const i18n = {
       ja: {
         pageTitle: 'Life Garden | ライフゲーム育成パズル',
-        metaDesc: 'Life Gardenは、ライフゲームをベースにしたシンプルで奥深い育成パズル。種をまき、世代を進め、スコアと美しいパターンで競うブラウザゲームです。',
+        metaDesc: 'Life Gardenは、ライフゲームをEースにしたシンプルで奥深ぁE成パズル。種をまき、世代を進め、スコアと美しぁEターンで競ぁEラウザゲームです、E,
         concept: 'Eternal Simple Fun',
         title: 'Life Garden',
-        subtitle: 'ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。',
-        scrollHint: '↓ SCROLL FOR INFO',
+        subtitle: 'ライフゲームの増殖パターンを「育てて」スコアを競ぁEシンプルで奥深ぁE眺めて良しE触って良しEネオン育成パズル、E,
+        scrollHint: 'ↁESCROLL FOR INFO',
         aboutTitle: 'Life Garden とは',
-        aboutBody: 'Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。',
-        noteBody: '生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。',
-        howtoTitle: '遊び方と戦略',
-        howtoPlantTitle: '1. 種をまく (Plant)',
-        howtoPlantBody: '盤面を指やマウスでドラッグしてセルを自由に配置。1タップで置き、もう1タップで消せます。ドラッグ中は線で補完され、穴が空きません。',
-        howtoGrowTitle: '2. 育てる (Grow)',
-        howtoGrowBody: '再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編集できます。',
+        aboutBody: 'Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよぁE整したブラウザゲームです、E,
+        noteBody: '生きてぁEセルは 2、E 個E隣接で生存、E 個で誕生。それ以外E淘汰される。たったこれだけEルールから、信じられなぁEど多彩な軌跡が生まれます、E,
+        howtoTitle: '遊E方と戦略',
+        howtoPlantTitle: '1. 種をまぁE(Plant)',
+        howtoPlantBody: '盤面を指めEEウスでドラチEしてセルをE由に配置、EタチEEで置き、もぁEタチEEで消せます。ドラチE中は線で補完され、穴が空きません、E,
+        howtoGrowTitle: '2. 育てめE(Grow)',
+        howtoGrowBody: '再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編雁Eきます、E,
         howtoScoreTitle: '3. スコア (Score)',
-        howtoScoreBody: 'スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code>。長生きと瞬間火力の両立が鍵。<br>同じパターンのループに入るとゲームオーバーになります。',
-        supportTitle: '開発者へ一言',
-        supportBody: '不具合やアイデアは X (Twitter) などでお知らせください。遊んでくださってありがとうございます！',
+        howtoScoreBody: 'スコアは <code>(世代数 ÁE10) + (最大個体数 ÁE5)</code>。長生きと瞬間火力E両立が鍵、Ebr>同じパターンのループに入るとゲームオーバEになります、E,
+        supportTitle: '開発老E一言',
+        supportBody: '不E合やアイチEは X (Twitter) などでお知らせください。遊んでくださってありがとぁEざいます！E,
         btnStart: 'GAME START',
         btnRetry: 'もう一度',
         btnShare: 'スコアをシェア',
-        backHome: 'ホームに戻る',
+        backHome: 'ホEムに戻めE,
         hudScore: 'SCORE',
         hudGen: 'GENERATION',
-        btnReset: 'リセット',
+        btnReset: 'リセチE',
         btnPlay: '再生',
         btnPause: '一時停止',
-        btnSnap: '画像保存',
-        btnQuit: '終了',
+        btnSnap: '画像保孁E,
+        btnQuit: '終亁E,
+        btnUndo: '1手戻ぁE,
+        btnRedo: 'めE直ぁE,
         resultGen: '世代数',
         resultPop: '最大個体数',
+        dexLabel: '図鑁E,
+        newPattern: (name) => `新種発見！E${name}`,
         reasons: {
-          EXTINCTION: '全滅',
-          LOOP: 'ループ検出',
+          EXTINCTION: '全滁E,
+          LOOP: 'ループ検E',
           ETERNAL: 'ETERNAL LIFE'
         },
         shareText: (gen, score) => `Life Garden で ${gen} 世代生存！スコア: ${score} #LifeGarden`,
@@ -578,17 +625,17 @@
         concept: 'Eternal Simple Fun',
         title: 'Life Garden',
         subtitle: 'Grow your pattern and chase high scores in a neon Game of Life playground. Simple to start, endlessly deep to master.',
-        scrollHint: '↓ SCROLL FOR INFO',
+        scrollHint: 'ↁESCROLL FOR INFO',
         aboutTitle: 'What is Life Garden?',
         aboutBody: "Life Garden tweaks Conway's Game of Life into a score-chasing, loop-detecting, stability-hunting browser game.",
-        noteBody: 'A live cell survives with 2–3 neighbors, a new cell is born with 3. Everything else dies. From this tiny rule-set, endlessly surprising motion emerges.',
+        noteBody: 'A live cell survives with 2 E neighbors, a new cell is born with 3. Everything else dies. From this tiny rule-set, endlessly surprising motion emerges.',
         howtoTitle: 'How to Play',
         howtoPlantTitle: '1. Plant',
         howtoPlantBody: 'Drag with finger or mouse to place cells. Tap once to place, tap again to erase. Dragging auto-fills gaps.',
         howtoGrowTitle: '2. Grow',
         howtoGrowBody: 'Press play to advance generations. If you touch while running, it auto-pauses so you can edit immediately.',
         howtoScoreTitle: '3. Score',
-        howtoScoreBody: 'Score = <code>(Generations × 10) + (Max Population × 5)</code>. Balance longevity and bursts. Hitting a repeating loop ends the run.',
+        howtoScoreBody: 'Score = <code>(Generations ÁE10) + (Max Population ÁE5)</code>. Balance longevity and bursts. Hitting a repeating loop ends the run.',
         supportTitle: 'Feedback',
         supportBody: 'Spotted a bug or have an idea? Ping me on X (Twitter). Thanks for playing!',
         btnStart: 'PLAY NOW',
@@ -602,8 +649,12 @@
         btnPause: 'Pause',
         btnSnap: 'Save Image',
         btnQuit: 'Quit',
+        btnUndo: 'Undo',
+        btnRedo: 'Redo',
         resultGen: 'Generations',
         resultPop: 'Max Pop',
+        dexLabel: 'DISCOVERY',
+        newPattern: (name) => `New pattern: ${name}`,
         reasons: {
           EXTINCTION: 'EXTINCTION',
           LOOP: 'LOOP DETECTED',
@@ -611,6 +662,53 @@
         },
         shareText: (gen, score) => `Survived ${gen} gens! Score: ${score} #LifeGarden`,
         shareTitle: 'Life Garden Result'
+      }
+    };
+
+    const PATTERNS = [
+      {
+        id: 'glider',
+        name: { ja: 'グライダー', en: 'Glider' },
+        variants: [
+          { cells: [[0, 1], [1, 2], [2, 0], [2, 1], [2, 2]] },
+          { cells: [[0, 0], [0, 1], [0, 2], [1, 0], [2, 1]] },
+          { cells: [[0, 0], [0, 1], [0, 2], [1, 2], [2, 1]] },
+          { cells: [[0, 1], [1, 0], [1, 2], [2, 1], [2, 2]] }
+        ]
+      },
+      {
+        id: 'blinker',
+        name: { ja: 'ブリンカー', en: 'Blinker' },
+        variants: [
+          { cells: [[0, 0], [1, 0], [2, 0]] },
+          { cells: [[0, 0], [0, 1], [0, 2]] }
+        ]
+      },
+      {
+        id: 'toad',
+        name: { ja: 'トEチE, en: 'Toad' },
+        variants: [
+          { cells: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]] }
+        ]
+      },
+      {
+        id: 'beacon',
+        name: { ja: 'ビEコン', en: 'Beacon' },
+        variants: [
+          { cells: [[0, 0], [1, 0], [0, 1], [1, 1], [2, 2], [3, 2], [2, 3], [3, 3]] }
+        ]
+      }
+    ];
+
+    const toast = {
+      timer: null,
+      show(message) {
+        const el = document.getElementById('toast');
+        if (!el) return;
+        el.textContent = message;
+        el.classList.add('visible');
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => el.classList.remove('visible'), 2500);
       }
     };
 
@@ -638,6 +736,8 @@
         document.getElementById('btn-reset').addEventListener('click', () => game.reset());
         document.getElementById('btn-toggle').addEventListener('click', () => game.toggle());
         document.getElementById('btn-snap').addEventListener('click', () => game.snapshot());
+        document.getElementById('btn-undo').addEventListener('click', () => game.undo());
+        document.getElementById('btn-redo').addEventListener('click', () => game.redo());
 
         game.init();
       },
@@ -708,6 +808,11 @@
       score: 0,
       maxPop: 0,
       historySet: new Set(),
+      undoStack: [],
+      redoStack: [],
+      maxHistory: 20,
+      discovered: new Set(),
+      lastShare: null,
 
       init() {
         this.canvas = document.getElementById('game-canvas');
@@ -716,6 +821,7 @@
         window.addEventListener('resize', () => this.resize());
         this.resize();
         this.setupInput();
+        this.loadDex();
         this.toBackgroundMode();
         this.loop();
       },
@@ -780,6 +886,8 @@
       startMatch() {
         this.state = 'SETUP';
         this.clear();
+        const preview = document.getElementById('res-preview');
+        if (preview) preview.style.display = 'none';
         const cx = Math.floor(this.LOGICAL_W / 2);
         const cy = Math.floor(this.LOGICAL_H / 2);
         this.setCell(cx, cy, 1);
@@ -788,14 +896,20 @@
         this.setCell(cx, cy - 1, 1);
         this.setCell(cx, cy + 1, 1);
         this.resetStats();
+        this.redoStack = [];
+        this.pushHistory(true);
         this.updateUI();
       },
 
       reset() {
         if (this.state === 'BG') return;
+        const preview = document.getElementById('res-preview');
+        if (preview) preview.style.display = 'none';
+        this.pushHistory(true);
         this.state = 'SETUP';
         this.clear();
         this.resetStats();
+        this.redoStack = [];
         this.updateUI();
       },
 
@@ -812,7 +926,81 @@
       setCell(x, y, val) {
         if (x >= 0 && x < this.LOGICAL_W && y >= 0 && y < this.LOGICAL_H) {
           this.grid[x][y] = val;
+          this.lastShare = null;
         }
+      },
+
+      serializeGrid() {
+        let res = '';
+        for (let y = 0; y < this.LOGICAL_H; y++) {
+          for (let x = 0; x < this.LOGICAL_W; x++) {
+            res += this.grid[x][y];
+          }
+        }
+        return res;
+      },
+
+      restoreGrid(state) {
+        if (!state || state.w !== this.LOGICAL_W || state.h !== this.LOGICAL_H) return false;
+        let idx = 0;
+        for (let y = 0; y < state.h; y++) {
+          for (let x = 0; x < state.w; x++) {
+            this.grid[x][y] = Number(state.data[idx++] || 0);
+          }
+        }
+        this.historySet.clear();
+        return true;
+      },
+
+      pushHistory(force = false) {
+        const snapshot = { w: this.LOGICAL_W, h: this.LOGICAL_H, data: this.serializeGrid() };
+        const last = this.undoStack[this.undoStack.length - 1];
+        if (force || !last || last.data !== snapshot.data) {
+          this.undoStack.push(snapshot);
+          if (this.undoStack.length > this.maxHistory) this.undoStack.shift();
+        }
+      },
+
+      undo() {
+        if (this.undoStack.length <= 1) return;
+        const current = { w: this.LOGICAL_W, h: this.LOGICAL_H, data: this.serializeGrid() };
+        this.redoStack.push(current);
+        const prev = this.undoStack[this.undoStack.length - 2];
+        this.undoStack.pop();
+        this.restoreGrid(prev);
+        this.lastShare = null;
+      },
+
+      redo() {
+        if (this.redoStack.length === 0) return;
+        const next = this.redoStack.pop();
+        this.undoStack.push(next);
+        this.restoreGrid(next);
+        this.lastShare = null;
+      },
+
+      loadDex() {
+        try {
+          const raw = localStorage.getItem('life-garden-dex');
+          if (raw) {
+            const arr = JSON.parse(raw);
+            this.discovered = new Set(arr);
+          }
+        } catch (e) {
+          this.discovered = new Set();
+        }
+        this.updateDexUI();
+      },
+
+      saveDex() {
+        localStorage.setItem('life-garden-dex', JSON.stringify([...this.discovered]));
+      },
+
+      updateDexUI() {
+        const total = PATTERNS.length;
+        const found = this.discovered.size;
+        const el = document.getElementById('dex-count');
+        if (el) el.innerText = `${found}/${total}`;
       },
 
       randomize(p) {
@@ -829,6 +1017,7 @@
         this.maxPop = 0;
         this.historySet.clear();
         this.updateHUD();
+        this.updateDexUI();
       },
 
       getHash() {
@@ -841,8 +1030,62 @@
         return res;
       },
 
+      checkPatterns() {
+        const foundNow = [];
+        const grid = this.grid;
+        const w = this.LOGICAL_W;
+        const h = this.LOGICAL_H;
+
+        for (const pattern of PATTERNS) {
+          if (this.discovered.has(pattern.id)) continue;
+          for (const variant of pattern.variants) {
+            const maxX = Math.max(...variant.cells.map(c => c[0]));
+            const maxY = Math.max(...variant.cells.map(c => c[1]));
+            for (let x = 0; x <= w - (maxX + 1); x++) {
+              for (let y = 0; y <= h - (maxY + 1); y++) {
+                if (this.matchesPattern(grid, x, y, variant)) {
+                  foundNow.push(pattern.id);
+                  this.registerPattern(pattern);
+                  x = w; y = h; // break loops
+                  break;
+                }
+              }
+            }
+            if (this.discovered.has(pattern.id)) break;
+          }
+        }
+        if (foundNow.length) this.updateDexUI();
+      },
+
+      matchesPattern(grid, ox, oy, variant) {
+        const required = new Set(variant.cells.map(([x, y]) => `${x},${y}`));
+        const maxX = Math.max(...variant.cells.map(c => c[0]));
+        const maxY = Math.max(...variant.cells.map(c => c[1]));
+        for (let x = 0; x <= maxX; x++) {
+          for (let y = 0; y <= maxY; y++) {
+            const alive = grid[ox + x][oy + y] === 1;
+            const needAlive = required.has(`${x},${y}`);
+            if (needAlive !== alive) return false;
+          }
+        }
+        return true;
+      },
+
+      registerPattern(pattern) {
+        this.discovered.add(pattern.id);
+        this.saveDex();
+        const name = pattern.name[app.lang] || pattern.name.ja;
+        const msg = i18n[app.lang].newPattern(name);
+        toast.show(msg);
+        this.updateDexUI();
+      },
+
       update() {
         if (this.state !== 'RUNNING' && this.state !== 'BG') return;
+
+        if (this.state === 'RUNNING') {
+          this.lastShare = null;
+        }
 
         let active = 0;
         for (let i = 0; i < this.LOGICAL_W; i++) {
@@ -892,6 +1135,10 @@
             this.gameOver('ETERNAL');
             return;
           }
+
+          if (this.gen % 5 === 0) {
+            this.checkPatterns();
+          }
         }
       },
 
@@ -904,6 +1151,20 @@
         document.getElementById('res-gen-val').innerText = this.gen;
         document.getElementById('res-pop-val').innerText = this.maxPop;
         document.getElementById('result-screen').classList.add('visible');
+        this.prepareResultPreview();
+      },
+
+      async prepareResultPreview() {
+        try {
+          const img = await this.ensureShareImage();
+          const el = document.getElementById('res-preview');
+          if (el && img?.dataUrl) {
+            el.src = img.dataUrl;
+            el.style.display = 'block';
+          }
+        } catch (e) {
+          console.log('Preview generation failed', e);
+        }
       },
 
       draw() {
@@ -948,6 +1209,7 @@
         let isDrag = false;
         let paintMode = 1;
         let lastPoint = null;
+        let snapshotTaken = false;
 
         const getGridPos = (clientX, clientY) => {
           const gx = Math.floor((clientX - this.offX) / this.res);
@@ -983,6 +1245,11 @@
             this.updateUI();
           }
           if (this.state !== 'SETUP' && this.state !== 'BG') return;
+          if (!snapshotTaken) {
+            this.pushHistory();
+            this.redoStack = [];
+            snapshotTaken = true;
+          }
 
           const p = getGridPos(cx, cy);
           if (p.x >= 0 && p.x < this.LOGICAL_W && p.y >= 0 && p.y < this.LOGICAL_H) {
@@ -1005,6 +1272,10 @@
         const endStroke = () => {
           isDrag = false;
           lastPoint = null;
+          if (snapshotTaken) {
+            this.checkPatterns();
+          }
+          snapshotTaken = false;
         };
 
         this.canvas.addEventListener('pointerdown', e => {
@@ -1037,11 +1308,73 @@
       },
 
       snapshot() {
-        const d = this.canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.download = `lifegarden-${this.score}.png`;
-        a.href = d;
-        a.click();
+        this.ensureShareImage().then(img => {
+          const a = document.createElement('a');
+          a.download = `lifegarden-${this.score}.png`;
+          a.href = img?.dataUrl || this.canvas.toDataURL('image/png');
+          a.click();
+        });
+      },
+
+      async ensureShareImage() {
+        if (this.lastShare && this.lastShare.gen === this.gen && this.lastShare.score === this.score && this.lastShare.maxPop === this.maxPop) {
+          return this.lastShare;
+        }
+        try {
+          const created = await this.generateShareImage();
+          this.lastShare = { ...created, gen: this.gen, score: this.score, maxPop: this.maxPop };
+          return this.lastShare;
+        } catch (e) {
+          console.log('Share image generation failed', e);
+          return null;
+        }
+      },
+
+      async generateShareImage() {
+        const w = 1080;
+        const h = 1920;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#0e0b1e');
+        grad.addColorStop(1, '#1a0f2f');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fillRect(70, 120, w - 140, h - 190);
+
+        const scale = Math.min((w - 160) / this.canvas.width, (h * 0.5) / this.canvas.height);
+        const imgW = this.canvas.width * scale;
+        const imgH = this.canvas.height * scale;
+        const imgX = (w - imgW) / 2;
+        const imgY = 160;
+        ctx.drawImage(this.canvas, imgX, imgY, imgW, imgH);
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 64px Outfit, sans-serif';
+        ctx.fillText('Life Garden', 90, imgY + imgH + 120);
+        ctx.fillStyle = '#49f8f8';
+        ctx.font = '28px Outfit, sans-serif';
+        ctx.fillText('Eternal Simple Fun', 90, imgY + imgH + 160);
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '52px Outfit, sans-serif';
+        ctx.fillText(`Score: ${this.score}`, 90, imgY + imgH + 240);
+        ctx.font = '34px Outfit, sans-serif';
+        ctx.fillText(`${i18n[app.lang].resultGen}: ${this.gen}`, 90, imgY + imgH + 300);
+        ctx.fillText(`${i18n[app.lang].resultPop}: ${this.maxPop}`, 90, imgY + imgH + 350);
+
+        ctx.strokeStyle = '#b249f8';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(80, 130, w - 160, h - 210);
+
+        const dataUrl = c.toDataURL('image/png');
+        const blob = await new Promise(resolve => c.toBlob(resolve, 'image/png', 0.95));
+        return { blob, dataUrl };
       },
 
       async share() {
@@ -1049,25 +1382,31 @@
         const text = dict.shareText(this.gen, this.score);
         const url = "https://ikuto-yamaguchi.github.io/";
 
-        try {
-          const blob = await new Promise(resolve => this.canvas.toBlob(resolve));
-          if (!blob) throw new Error('toBlob returned null');
-          const file = new File([blob], "score.png", { type: "image/png" });
+        const shareImg = await this.ensureShareImage();
 
-          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: dict.shareTitle,
-              text,
-              url,
-              files: [file]
-            });
-            return;
+        try {
+          if (shareImg?.blob) {
+            const file = new File([shareImg.blob], "score.png", { type: "image/png" });
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: dict.shareTitle,
+                text,
+                url,
+                files: [file]
+              });
+              return;
+            }
           }
         } catch (e) {
           console.log("Web Share API failed, falling back", e);
         }
 
-        this.snapshot();
+        const downloadUrl = shareImg?.dataUrl || this.canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.download = `lifegarden-${this.score}.png`;
+        a.href = downloadUrl;
+        a.click();
+
         const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=LifeGarden`;
         window.open(tweetUrl, '_blank');
       },
@@ -1090,8 +1429,11 @@
         document.getElementById('btn-snap').title = dict.btnSnap;
         document.getElementById('btn-exit-game').title = dict.btnQuit;
         document.getElementById('btn-exit-game').setAttribute('aria-label', dict.btnQuit);
+        document.getElementById('btn-undo').title = dict.btnUndo;
+        document.getElementById('btn-redo').title = dict.btnRedo;
         document.getElementById('hud-score-label').innerText = dict.hudScore;
         document.getElementById('hud-gen-label').innerText = dict.hudGen;
+        document.getElementById('dex-pill').querySelector('.score-label').innerText = dict.dexLabel;
         document.getElementById('btn-share').innerText = dict.btnShare;
         document.getElementById('btn-retry').innerText = dict.btnRetry;
         document.getElementById('btn-back-home').innerText = dict.backHome;
