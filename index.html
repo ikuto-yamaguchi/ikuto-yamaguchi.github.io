@@ -782,11 +782,11 @@
         this.clear();
         const cx = Math.floor(this.LOGICAL_W / 2);
         const cy = Math.floor(this.LOGICAL_H / 2);
-        this.grid[cx][cy] = 1;
-        this.grid[cx + 1]?.[cy] = 1;
-        this.grid[cx - 1]?.[cy] = 1;
-        this.grid[cx]?.[cy - 1] = 1;
-        this.grid[cx]?.[cy + 1] = 1;
+        this.setCell(cx, cy, 1);
+        this.setCell(cx + 1, cy, 1);
+        this.setCell(cx - 1, cy, 1);
+        this.setCell(cx, cy - 1, 1);
+        this.setCell(cx, cy + 1, 1);
         this.resetStats();
         this.updateUI();
       },
@@ -807,6 +807,12 @@
 
       clear() {
         for (let i = 0; i < this.LOGICAL_W; i++) this.grid[i].fill(0);
+      },
+
+      setCell(x, y, val) {
+        if (x >= 0 && x < this.LOGICAL_W && y >= 0 && y < this.LOGICAL_H) {
+          this.grid[x][y] = val;
+        }
       },
 
       randomize(p) {
