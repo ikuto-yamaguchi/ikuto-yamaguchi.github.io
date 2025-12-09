@@ -1,34 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <title>Life Garden | ライフゲーム育成パズル</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description"
-    content="Life Gardenは、セル・オートマトン『ライフゲーム』をベースにしたブラウザゲームです。種を配置して世代を進め、どれだけ長く・広くパターンを維持できるかを競います。">
+  <meta name="description" content="Life Gardenは、ライフゲームをベースにしたシンプルで奥深い育成パズル。種をまき、世代を進め、スコアと美しいパターンで競うブラウザゲームです。">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6799951658165737"
-    crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6799951658165737" crossorigin="anonymous"></script>
 
   <style>
     :root {
       --bg-color: #0a0a0f;
       --primary-color: #b249f8;
-      /* Neon Purple */
       --secondary-color: #49f8f8;
-      /* Neon Cyan */
       --text-color: #f0f0f5;
       --glass-bg: rgba(20, 20, 30, 0.7);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --section-bg: rgba(30, 30, 40, 0.5);
     }
 
@@ -37,8 +28,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       font-family: 'Zen Kaku Gothic New', 'Outfit', sans-serif;
@@ -47,20 +37,16 @@
       width: 100%;
       height: 100%;
       overflow-x: hidden;
-      /* Prevent horizontal scroll */
     }
 
     body {
       overflow-y: auto;
-      /* Allow scrolling initially */
     }
 
     body.game-mode {
       overflow: hidden;
-      /* No scroll in game mode */
     }
 
-    /* CANVAS BACKGROUND */
     #game-canvas {
       position: fixed;
       top: 0;
@@ -68,52 +54,99 @@
       width: 100%;
       height: 100%;
       z-index: 0;
+      touch-action: none;
+      background: #05050a;
     }
 
-    /* --- CONTENT SCROLL LAYER --- */
     #content-layer {
       position: relative;
       z-index: 10;
       width: 100%;
       min-height: 100vh;
-      pointer-events: auto;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .hidden {
       opacity: 0 !important;
       pointer-events: none !important;
       display: none !important;
-      /* Hide to prevent layout issues */
     }
 
-    /* HERO SECTION */
+    .topbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 15;
+      background: linear-gradient(180deg, rgba(10, 10, 15, 0.9), rgba(10, 10, 15, 0));
+      pointer-events: none;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      text-shadow: 0 0 16px rgba(73, 248, 248, 0.4);
+      pointer-events: auto;
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 0.35rem;
+      pointer-events: auto;
+    }
+
+    .lang-btn {
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border-radius: 14px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.15s ease;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--primary-color), #7c24cc);
+      box-shadow: 0 0 12px rgba(178, 73, 248, 0.5);
+    }
+
     .hero-section {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 2rem;
-      position: relative;
+      padding: 3rem 1.5rem 2rem;
     }
 
     .hero-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 3rem 4rem;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 3rem 2.6rem;
       border-radius: 24px;
       border: 1px solid var(--glass-border);
-      max-width: 800px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-      margin-bottom: 2rem;
+      max-width: 840px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .eyebrow {
+      letter-spacing: 0.18em;
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-bottom: 0.6rem;
     }
 
     h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 3.5rem;
+      font-size: 3.4rem;
       margin: 0 0 1rem;
       background: linear-gradient(135deg, #fff 30%, var(--primary-color) 100%);
       -webkit-background-clip: text;
@@ -124,72 +157,100 @@
     .subtitle {
       font-size: 1.2rem;
       line-height: 1.8;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.2rem;
       opacity: 0.9;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      align-items: center;
     }
 
     .btn-start {
       background: linear-gradient(135deg, var(--primary-color), #7c24cc);
-      color: white;
+      color: #fff;
       border: none;
-      padding: 1.2rem 4rem;
-      font-size: 1.4rem;
+      padding: 1.1rem 3.6rem;
+      font-size: 1.35rem;
       font-weight: 700;
       border-radius: 999px;
       cursor: pointer;
       box-shadow: 0 0 20px rgba(178, 73, 248, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      display: inline-block;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
       font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.04em;
     }
 
     .btn-start:hover {
-      transform: scale(1.05);
+      transform: scale(1.04);
       box-shadow: 0 0 30px rgba(178, 73, 248, 0.6);
     }
 
-    /* Privacy Button */
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 0.9rem 1.6rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .scroll-hint {
+      margin-top: 1.6rem;
+      opacity: 0.65;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+    }
+
     .privacy-container {
-      margin-top: 1.5rem;
+      margin-top: 1rem;
     }
 
     .btn-privacy {
       background: rgba(255, 255, 255, 0.1);
       color: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 0.5rem 1.5rem;
-      border-radius: 20px;
+      padding: 0.45rem 1.4rem;
+      border-radius: 16px;
       text-decoration: none;
       font-size: 0.9rem;
-      transition: ALL 0.2s ease;
+      transition: all 0.2s ease;
       display: inline-block;
     }
 
     .btn-privacy:hover {
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
-      border-color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.35);
     }
 
-    /* CONTENT SECTIONS */
     .container {
-      max-width: 900px;
+      max-width: 940px;
       margin: 0 auto;
-      padding: 4rem 1.5rem;
+      padding: 3rem 1.4rem 5rem;
     }
 
     section {
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
       border-radius: 16px;
-      padding: 2.5rem;
-      margin-bottom: 3rem;
+      padding: 2.3rem;
+      margin-bottom: 2.8rem;
       border: 1px solid var(--glass-border);
     }
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       margin-top: 0;
       border-left: 4px solid var(--primary-color);
       padding-left: 1rem;
@@ -197,27 +258,26 @@
     }
 
     h3 {
-      font-size: 1.4rem;
-      margin-top: 2rem;
+      font-size: 1.3rem;
+      margin-top: 1.8rem;
       color: #fff;
     }
 
-    p,
-    li {
+    p, li {
       line-height: 1.8;
-      opacity: 0.9;
+      opacity: 0.92;
+      font-size: 1rem;
     }
 
     .note {
-      background: rgba(178, 73, 248, 0.15);
+      background: rgba(178, 73, 248, 0.14);
       border-left: 3px solid var(--primary-color);
       padding: 1rem;
       border-radius: 8px;
-      margin: 1.5rem 0;
-      font-size: 0.95rem;
+      margin: 1.4rem 0;
+      font-size: 0.98rem;
     }
 
-    /* --- GAME UI LAYERS (Visible only in Game Mode) --- */
     #game-interface {
       position: fixed;
       top: 0;
@@ -226,22 +286,21 @@
       height: 100%;
       z-index: 20;
       pointer-events: none;
-      /* Let clicks pass to canvas/buttons */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* HUD */
     #hud {
-      padding: 20px;
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent);
     }
 
     .score-display {
       text-align: left;
+      pointer-events: auto;
     }
 
     .score-val {
@@ -251,70 +310,52 @@
     }
 
     .score-label {
-      font-size: 0.8rem;
-      opacity: 0.7;
+      font-size: 0.82rem;
+      opacity: 0.72;
       letter-spacing: 0.1em;
     }
 
-    /* Controls */
     #controls {
-      padding: 30px;
+      padding: 32px 16px;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 14px;
       pointer-events: auto;
     }
 
     .ctrl-btn {
-      width: 60px;
-      height: 60px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
-      background: rgba(30, 30, 40, 0.9);
+      background: rgba(30, 30, 40, 0.92);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       cursor: pointer;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: all 0.16s ease;
     }
 
     .ctrl-btn:hover {
       background: var(--primary-color);
-      transform: scale(1.1);
+      transform: translateY(-2px);
     }
 
     .ctrl-btn.active {
       background: var(--primary-color);
-      box-shadow: 0 0 15px var(--primary-color);
+      box-shadow: 0 0 16px var(--primary-color);
     }
 
-    /* EXIT BUTTON */
-    #btn-exit {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border-radius: 99px;
-      cursor: pointer;
-      pointer-events: auto;
-      backdrop-filter: blur(5px);
-      z-index: 30;
-    }
-
-    /* RESULT SCREEN */
     #result-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(10, 10, 20, 0.95);
+      background: rgba(10, 10, 20, 0.92);
       backdrop-filter: blur(10px);
       z-index: 50;
       display: flex;
@@ -323,7 +364,8 @@
       align-items: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.25s ease;
+      padding: 1rem;
     }
 
     #result-screen.visible {
@@ -333,45 +375,26 @@
 
     .result-content {
       background: var(--glass-bg);
-      padding: 3rem;
-      border-radius: 20px;
+      padding: 2.6rem;
+      border-radius: 18px;
       border: 1px solid var(--glass-border);
       text-align: center;
       width: 90%;
-      max-width: 500px;
+      max-width: 520px;
       box-shadow: 0 0 50px rgba(178, 73, 248, 0.2);
     }
 
-    /* MOBILE OPTIMIZATION */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-card {
-        padding: 2rem 1.5rem;
-      }
-
-      section {
-        padding: 1.5rem;
-      }
-
-      .score-val {
-        font-size: 1.5rem;
-      }
-
-      .ctrl-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-      }
+    .result-meta {
+      margin-bottom: 1.8rem;
+      opacity: 0.82;
+      line-height: 1.6;
     }
 
     footer {
       text-align: center;
-      padding: 2rem;
-      font-size: 0.8rem;
-      opacity: 0.6;
+      padding: 1.8rem;
+      font-size: 0.85rem;
+      opacity: 0.65;
       background: #000;
     }
 
@@ -379,75 +402,89 @@
       color: var(--secondary-color);
       text-decoration: none;
     }
+
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+      .hero-card {
+        padding: 2.3rem 1.6rem;
+      }
+      section {
+        padding: 1.6rem;
+      }
+      .ctrl-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.2rem;
+      }
+      .topbar {
+        padding: 0.9rem 1rem;
+      }
+    }
   </style>
 </head>
-
 <body>
-
-  <!-- 1. Background Game -->
   <canvas id="game-canvas"></canvas>
 
-  <!-- 2. Main Content Site (Scrollable) -->
-  <div id="content-layer">
+  <div class="topbar">
+    <div class="logo">Life Garden</div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="ja" aria-label="Switch to Japanese">JP</button>
+      <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+    </div>
+  </div>
 
+  <div id="content-layer">
     <div class="hero-section">
       <div class="hero-card">
-        <h1>Life Garden</h1>
-        <p class="subtitle">
-          ライフゲームの増殖パターンを「育てて」スコアを競う。<br>
-          シンプルで奥深い、ブラウザ育成パズル。
+        <div class="eyebrow" data-i18n="concept">Eternal Simple Fun</div>
+        <h1 data-i18n="title">Life Garden</h1>
+        <p class="subtitle" data-i18n="subtitle">
+          ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。
         </p>
-        <button id="hero-start-btn" class="btn-start">GAME START</button>
-
-        <div class="privacy-container">
+        <div class="cta-row">
+          <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
-      </div>
-      <div style="margin-top: 1rem;">
-        <span style="font-size: 0.8rem; opacity: 0.7;">↓ SCROLL FOR INFO</span>
+        <p class="scroll-hint" data-i18n="scrollHint">↓ SCROLL FOR INFO</p>
       </div>
     </div>
 
     <div class="container">
       <section id="about">
-        <h2>Life Garden とは？</h2>
-        <p>
-          Life Garden は、コンウェイのライフゲームを土台にしつつ、
-          「スコア」「ループ検出」「パターンの安定性」などをゲームとして楽しめるように調整したブラウザゲームです。
+        <h2 data-i18n="aboutTitle">Life Garden とは</h2>
+        <p data-i18n="aboutBody">
+          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。
         </p>
-        <div class="note">
-          生きているセルが2〜3個で生存、3個で誕生。それ以外は淘汰される。<br>
-          たったこれだけのルールから、驚くほど複雑な宇宙が生まれます。
+        <div class="note" data-i18n-html="noteBody">
+          生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。
         </div>
       </section>
 
       <section id="howto">
-        <h2>遊び方と戦略</h2>
-        <h3>1. 種をまく (Plant)</h3>
-        <p>
-          盤面をタップ・ドラッグしてセルを自由に配置します。
-          これがあなたの「種」です。
+        <h2 data-i18n="howtoTitle">遊び方と戦略</h2>
+        <h3 data-i18n="howtoPlantTitle">1. 種をまく (Plant)</h3>
+        <p data-i18n="howtoPlantBody">
+          盤面を指やマウスでドラッグしてセルを自由に配置。1タップで置き、もう1タップで消せます。ドラッグ中は線で補完され、穴が空きません。
         </p>
 
-        <h3>2. 育てる (Grow)</h3>
-        <p>
-          再生ボタンを押すと、世代が進みます。
-          どこまで広がるか、いつまで生き残るかを見守りましょう。
+        <h3 data-i18n="howtoGrowTitle">2. 育てる (Grow)</h3>
+        <p data-i18n="howtoGrowBody">
+          再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編集できます。
         </p>
 
-        <h3>3. スコア (Score)</h3>
-        <p>
-          スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code> で決まります。
-          ただ長生きするだけでなく、<strong>一瞬の「爆発的な広がり」</strong>を持たせることが高得点の鍵です。
-          <br>
-          ※同じパターン（ループ）に入るとゲームオーバーになります。
+        <h3 data-i18n="howtoScoreTitle">3. スコア (Score)</h3>
+        <p data-i18n-html="howtoScoreBody">
+          スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code>。長生きと瞬間火力の両立が鍵。<br>
+          同じパターンのループに入るとゲームオーバーになります。
         </p>
       </section>
 
-      <section>
-        <h2>開発者より</h2>
-        <p>
-          不具合やご意見は X (Twitter) 等でお知らせください。
+      <section id="support">
+        <h2 data-i18n="supportTitle">開発者へ一言</h2>
+        <p data-i18n="supportBody">
+          不具合やアイデアは X (Twitter) などでお知らせください。遊んでくださってありがとうございます！
         </p>
       </section>
     </div>
@@ -457,86 +494,187 @@
     </footer>
   </div>
 
-  <!-- 3. Game Interface (Visible only in Game Mode) -->
   <div id="game-interface" class="hidden">
-
     <div id="hud">
       <div class="score-display">
-        <div class="score-label">SCORE</div>
+        <div class="score-label" id="hud-score-label" data-i18n="hudScore">SCORE</div>
         <div class="score-val" id="disp-score">0</div>
       </div>
       <div class="score-display" style="text-align: right;">
-        <div class="score-label">GENERATION</div>
+        <div class="score-label" id="hud-gen-label" data-i18n="hudGen">GENERATION</div>
         <div class="score-val" id="disp-gen">0</div>
       </div>
     </div>
 
-    <!-- Controls (Bottom Bar) -->
     <div id="controls">
-      <button class="ctrl-btn" id="btn-reset" title="Reset">↻</button>
-      <button class="ctrl-btn" id="btn-toggle" title="Play/Pause">▶</button>
-      <button class="ctrl-btn" id="btn-snap" title="Snapshot">📷</button>
-      <!-- Moved EXIT button here to avoid overlap -->
-      <button class="ctrl-btn" id="btn-exit-game" title="Quit" style="border-color: #ff4444; color:#ff4444;">✖</button>
+      <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">↻</button>
+      <button class="ctrl-btn active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">▶</button>
+      <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">📷</button>
+      <button class="ctrl-btn" id="btn-exit-game" title="Quit" aria-label="Quit" style="border-color: #ff4444; color:#ff4444;">✕</button>
     </div>
   </div>
 
-  <!-- 4. Result Overlay -->
   <div id="result-screen">
     <div class="result-content">
       <h2 id="res-reason" style="color:var(--secondary-color)">GAME OVER</h2>
       <div style="font-size:3.5rem; font-weight:800; margin:1rem 0;" id="res-score">0</div>
-      <div style="margin-bottom:2rem; opacity:0.8;">
-        Generations: <span id="res-gen-val">0</span><br>
-        Max Pop: <span id="res-pop-val">0</span>
+      <div class="result-meta">
+        <span data-i18n="resultGen">Generations</span>: <span id="res-gen-val">0</span><br>
+        <span data-i18n="resultPop">Max Pop</span>: <span id="res-pop-val">0</span>
       </div>
-
-      <button class="btn-start" id="btn-retry" style="display:block; margin:0 auto 1.5rem auto;">RETRY</button>
-      <button class="btn-start" id="btn-share"
-        style="display:block; margin:0 auto 1rem auto; background:linear-gradient(135deg, #1d9bf0, #0c7abf); font-size:1.1rem; padding:1rem 3rem;">
-        SHARE SCORE 📤
+      <button class="btn-start" id="btn-retry" style="display:block; margin:0 auto 1.2rem auto;" data-i18n="btnRetry">RETRY</button>
+      <button class="btn-start" id="btn-share" style="display:block; margin:0 auto 0.8rem auto; background:linear-gradient(135deg, #1d9bf0, #0c7abf); font-size:1.05rem; padding:0.9rem 2.8rem;" data-i18n="btnShare">
+        SHARE SCORE
       </button>
-
-      <button
-        style="background:none; border:none; color:white; margin-top:1rem; cursor:pointer; text-decoration:underline;"
-        onclick="app.exitGame()">Back to Home</button>
+      <button style="background:none; border:none; color:white; margin-top:1rem; cursor:pointer; text-decoration:underline;" id="btn-back-home" data-i18n="backHome">Back to Home</button>
     </div>
   </div>
 
   <script>
-    // Main Application Controller
+    const i18n = {
+      ja: {
+        pageTitle: 'Life Garden | ライフゲーム育成パズル',
+        metaDesc: 'Life Gardenは、ライフゲームをベースにしたシンプルで奥深い育成パズル。種をまき、世代を進め、スコアと美しいパターンで競うブラウザゲームです。',
+        concept: 'Eternal Simple Fun',
+        title: 'Life Garden',
+        subtitle: 'ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。',
+        scrollHint: '↓ SCROLL FOR INFO',
+        aboutTitle: 'Life Garden とは',
+        aboutBody: 'Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。',
+        noteBody: '生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。',
+        howtoTitle: '遊び方と戦略',
+        howtoPlantTitle: '1. 種をまく (Plant)',
+        howtoPlantBody: '盤面を指やマウスでドラッグしてセルを自由に配置。1タップで置き、もう1タップで消せます。ドラッグ中は線で補完され、穴が空きません。',
+        howtoGrowTitle: '2. 育てる (Grow)',
+        howtoGrowBody: '再生ボタンで世代が進行。走らせながら触ると自動で一時停止し、そのまま編集できます。',
+        howtoScoreTitle: '3. スコア (Score)',
+        howtoScoreBody: 'スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code>。長生きと瞬間火力の両立が鍵。<br>同じパターンのループに入るとゲームオーバーになります。',
+        supportTitle: '開発者へ一言',
+        supportBody: '不具合やアイデアは X (Twitter) などでお知らせください。遊んでくださってありがとうございます！',
+        btnStart: 'GAME START',
+        btnRetry: 'もう一度',
+        btnShare: 'スコアをシェア',
+        backHome: 'ホームに戻る',
+        hudScore: 'SCORE',
+        hudGen: 'GENERATION',
+        btnReset: 'リセット',
+        btnPlay: '再生',
+        btnPause: '一時停止',
+        btnSnap: '画像保存',
+        btnQuit: '終了',
+        resultGen: '世代数',
+        resultPop: '最大個体数',
+        reasons: {
+          EXTINCTION: '全滅',
+          LOOP: 'ループ検出',
+          ETERNAL: 'ETERNAL LIFE'
+        },
+        shareText: (gen, score) => `Life Garden で ${gen} 世代生存！スコア: ${score} #LifeGarden`,
+        shareTitle: 'Life Garden 結果'
+      },
+      en: {
+        pageTitle: 'Life Garden | Cellular Automata Puzzle',
+        metaDesc: "Life Garden is a simple yet deep puzzle built on Conway's Game of Life. Plant seeds, evolve generations, and compete with scores and mesmerizing patterns.",
+        concept: 'Eternal Simple Fun',
+        title: 'Life Garden',
+        subtitle: 'Grow your pattern and chase high scores in a neon Game of Life playground. Simple to start, endlessly deep to master.',
+        scrollHint: '↓ SCROLL FOR INFO',
+        aboutTitle: 'What is Life Garden?',
+        aboutBody: "Life Garden tweaks Conway's Game of Life into a score-chasing, loop-detecting, stability-hunting browser game.",
+        noteBody: 'A live cell survives with 2–3 neighbors, a new cell is born with 3. Everything else dies. From this tiny rule-set, endlessly surprising motion emerges.',
+        howtoTitle: 'How to Play',
+        howtoPlantTitle: '1. Plant',
+        howtoPlantBody: 'Drag with finger or mouse to place cells. Tap once to place, tap again to erase. Dragging auto-fills gaps.',
+        howtoGrowTitle: '2. Grow',
+        howtoGrowBody: 'Press play to advance generations. If you touch while running, it auto-pauses so you can edit immediately.',
+        howtoScoreTitle: '3. Score',
+        howtoScoreBody: 'Score = <code>(Generations × 10) + (Max Population × 5)</code>. Balance longevity and bursts. Hitting a repeating loop ends the run.',
+        supportTitle: 'Feedback',
+        supportBody: 'Spotted a bug or have an idea? Ping me on X (Twitter). Thanks for playing!',
+        btnStart: 'PLAY NOW',
+        btnRetry: 'RETRY',
+        btnShare: 'SHARE SCORE',
+        backHome: 'Back to Home',
+        hudScore: 'SCORE',
+        hudGen: 'GENERATION',
+        btnReset: 'Reset',
+        btnPlay: 'Play',
+        btnPause: 'Pause',
+        btnSnap: 'Save Image',
+        btnQuit: 'Quit',
+        resultGen: 'Generations',
+        resultPop: 'Max Pop',
+        reasons: {
+          EXTINCTION: 'EXTINCTION',
+          LOOP: 'LOOP DETECTED',
+          ETERNAL: 'ETERNAL LIFE'
+        },
+        shareText: (gen, score) => `Survived ${gen} gens! Score: ${score} #LifeGarden`,
+        shareTitle: 'Life Garden Result'
+      }
+    };
+
     const app = {
+      lang: 'ja',
       isGameMode: false,
 
       init() {
-        // Event Bindings
+        const savedLang = localStorage.getItem('life-garden-lang');
+        if (savedLang && i18n[savedLang]) this.lang = savedLang;
+        this.applyLanguage(this.lang);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => this.applyLanguage(btn.dataset.lang));
+        });
+
         document.getElementById('hero-start-btn').addEventListener('click', () => this.enterGame());
         document.getElementById('btn-exit-game').addEventListener('click', () => this.exitGame());
+        document.getElementById('btn-back-home').addEventListener('click', () => this.exitGame());
         document.getElementById('btn-retry').addEventListener('click', () => {
           document.getElementById('result-screen').classList.remove('visible');
           game.reset();
         });
-
-        // Share Handler
         document.getElementById('btn-share').addEventListener('click', () => game.share());
-
-        // Game Controls
         document.getElementById('btn-reset').addEventListener('click', () => game.reset());
         document.getElementById('btn-toggle').addEventListener('click', () => game.toggle());
         document.getElementById('btn-snap').addEventListener('click', () => game.snapshot());
 
-        // Start background simulation
         game.init();
+      },
+
+      applyLanguage(lang) {
+        if (!i18n[lang]) return;
+        this.lang = lang;
+        localStorage.setItem('life-garden-lang', lang);
+        document.documentElement.lang = lang;
+
+        const dict = i18n[lang];
+        document.title = dict.pageTitle;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', dict.metaDesc);
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.dataset.i18n;
+          if (dict[key]) el.innerText = dict[key];
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+          const key = el.dataset.i18nHtml;
+          if (dict[key]) el.innerHTML = dict[key];
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        game.updateUI();
       },
 
       enterGame() {
         this.isGameMode = true;
-        window.scrollTo(0, 0); // Reset scroll
+        window.scrollTo(0, 0);
         document.body.classList.add('game-mode');
         document.getElementById('content-layer').classList.add('hidden');
         document.getElementById('game-interface').classList.remove('hidden');
-
-        // Reset game for clean start
         game.startMatch();
       },
 
@@ -546,32 +684,26 @@
         document.getElementById('content-layer').classList.remove('hidden');
         document.getElementById('game-interface').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('visible');
-
-        // Back to chill background mode
         game.toBackgroundMode();
       }
     };
 
-    // Game Engine
     const game = {
       canvas: null,
       ctx: null,
+      BASE_W: 30,
+      BASE_H: 50,
+      MIN_CELL: 14,
 
-      // Logic Grid (Fixed)
-      LOGICAL_W: 30, // Fixed width
-      LOGICAL_H: 50, // Fixed height (or adaptive, but plan said 30x50 fixed logic)
-      // Actually, keep it 30x50 for consistency as requested.
-
+      LOGICAL_W: 30,
+      LOGICAL_H: 50,
       grid: [],
       nextGrid: [],
 
-      // Render Transform
       res: 0,
       offX: 0,
       offY: 0,
-
-      state: 'BG', // BG (Background), SETUP, RUNNING, RESULT
-
+      state: 'BG', // BG, SETUP, RUNNING, RESULT
       gen: 0,
       score: 0,
       maxPop: 0,
@@ -583,46 +715,60 @@
 
         window.addEventListener('resize', () => this.resize());
         this.resize();
-
         this.setupInput();
-
-        // Initial State
         this.toBackgroundMode();
         this.loop();
       },
 
       resize() {
-        // Physical screen size
         const w = window.innerWidth;
         const h = window.innerHeight;
         this.canvas.width = w;
         this.canvas.height = h;
 
-        // Game Logic Resolution Calculation (Letterboxing)
-        // We want 30 cells width minimum usually. 
-        // Plan said: Fixed 30x50 Logical Grid.
-        this.LOGICAL_W = 30;
-        this.LOGICAL_H = 50;
+        const oldW = this.LOGICAL_W;
+        const oldH = this.LOGICAL_H;
+        const oldGrid = this.grid.map(col => [...col]);
 
-        // Calculate cell size to fit 30x50 into w x h
-        // Contain strategy
+        const allowedW = Math.max(12, Math.floor(w / this.MIN_CELL));
+        const allowedH = Math.max(12, Math.floor(h / this.MIN_CELL));
+
+        this.LOGICAL_W = Math.min(this.BASE_W, allowedW);
+        this.LOGICAL_H = Math.min(this.BASE_H, allowedH);
+
         const resW = w / this.LOGICAL_W;
         const resH = h / this.LOGICAL_H;
-        this.res = Math.min(resW, resH); // Use smaller scale to fit both
+        this.res = Math.min(resW, resH);
 
-        // Center the grid
         const gridPixelW = this.LOGICAL_W * this.res;
         const gridPixelH = this.LOGICAL_H * this.res;
-
         this.offX = Math.floor((w - gridPixelW) / 2);
         this.offY = Math.floor((h - gridPixelH) / 2);
 
-        // Init Grids
-        this.grid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
-        this.nextGrid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
+        const newGrid = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
+        const newNext = new Array(this.LOGICAL_W).fill(0).map(() => new Array(this.LOGICAL_H).fill(0));
 
-        // Re-randomize if resizing in BG mode to fill new logic grid
-        if (this.state === 'BG') this.randomize(0.12);
+        if (oldGrid.length) {
+          const dx = Math.floor((this.LOGICAL_W - oldW) / 2);
+          const dy = Math.floor((this.LOGICAL_H - oldH) / 2);
+          for (let i = 0; i < oldW; i++) {
+            for (let j = 0; j < oldH; j++) {
+              const ni = i + dx;
+              const nj = j + dy;
+              if (ni >= 0 && ni < this.LOGICAL_W && nj >= 0 && nj < this.LOGICAL_H) {
+                newGrid[ni][nj] = oldGrid[i][j];
+              }
+            }
+          }
+        }
+
+        this.grid = newGrid;
+        this.nextGrid = newNext;
+        this.historySet.clear();
+
+        if (this.state === 'BG' && !oldGrid.length) {
+          this.randomize(0.12);
+        }
       },
 
       toBackgroundMode() {
@@ -634,13 +780,13 @@
       startMatch() {
         this.state = 'SETUP';
         this.clear();
-
-        // Initial seed center
-        let cx = Math.floor(this.LOGICAL_W / 2), cy = Math.floor(this.LOGICAL_H / 2);
-        // Glider
-        this.grid[cx][cy] = 1; this.grid[cx + 1][cy] = 1; this.grid[cx - 1][cy] = 1;
-        this.grid[cx][cy - 1] = 1; this.grid[cx][cy + 1] = 1;
-
+        const cx = Math.floor(this.LOGICAL_W / 2);
+        const cy = Math.floor(this.LOGICAL_H / 2);
+        this.grid[cx][cy] = 1;
+        this.grid[cx + 1]?.[cy] = 1;
+        this.grid[cx - 1]?.[cy] = 1;
+        this.grid[cx]?.[cy - 1] = 1;
+        this.grid[cx]?.[cy + 1] = 1;
         this.resetStats();
         this.updateUI();
       },
@@ -680,7 +826,7 @@
       },
 
       getHash() {
-        let res = "";
+        let res = '';
         for (let i = 0; i < this.LOGICAL_W; i++) {
           for (let j = 0; j < this.LOGICAL_H; j++) {
             res += this.grid[i][j];
@@ -693,17 +839,15 @@
         if (this.state !== 'RUNNING' && this.state !== 'BG') return;
 
         let active = 0;
-
         for (let i = 0; i < this.LOGICAL_W; i++) {
           for (let j = 0; j < this.LOGICAL_H; j++) {
-            let s = this.grid[i][j];
+            const s = this.grid[i][j];
             let sum = 0;
-            // Neighbors (Wrap around)
             for (let x = -1; x <= 1; x++) {
               for (let y = -1; y <= 1; y++) {
                 if (x === 0 && y === 0) continue;
-                let c = (i + x + this.LOGICAL_W) % this.LOGICAL_W;
-                let r = (j + y + this.LOGICAL_H) % this.LOGICAL_H;
+                const c = (i + x + this.LOGICAL_W) % this.LOGICAL_W;
+                const r = (j + y + this.LOGICAL_H) % this.LOGICAL_H;
                 sum += this.grid[c][r];
               }
             }
@@ -712,13 +856,10 @@
             else if (s === 1 && (sum < 2 || sum > 3)) this.nextGrid[i][j] = 0;
             else this.nextGrid[i][j] = s;
 
-            if (this.nextGrid[i][j] === 1) {
-              active++;
-            }
+            if (this.nextGrid[i][j] === 1) active++;
           }
         }
 
-        // Swap
         [this.grid, this.nextGrid] = [this.nextGrid, this.grid];
 
         if (this.state === 'RUNNING') {
@@ -727,33 +868,32 @@
           this.score = (this.gen * 10) + (this.maxPop * 5);
           this.updateHUD();
 
-          // 1. Extinction Check
           if (active === 0) {
-            this.gameOver("EXTINCTION");
+            this.gameOver('EXTINCTION');
             return;
           }
 
-          // 2. Loop Check (Deterministic Hash)
           const currentHash = this.getHash();
           if (this.historySet.has(currentHash)) {
-            this.gameOver("LOOP DETECTED");
+            this.gameOver('LOOP');
             this.historySet.clear();
             return;
           }
           this.historySet.add(currentHash);
-
           if (this.historySet.size > 2000) this.historySet.clear();
 
           if (this.gen > 10000) {
-            this.gameOver("ETERNAL LIFE");
+            this.gameOver('ETERNAL');
             return;
           }
         }
       },
 
-      gameOver(reason) {
+      gameOver(reasonKey) {
         this.state = 'RESULT';
-        document.getElementById('res-reason').innerText = reason;
+        const dict = i18n[app.lang];
+        const reasonText = dict.reasons[reasonKey] || 'GAME OVER';
+        document.getElementById('res-reason').innerText = reasonText;
         document.getElementById('res-score').innerText = this.score;
         document.getElementById('res-gen-val').innerText = this.gen;
         document.getElementById('res-pop-val').innerText = this.maxPop;
@@ -761,11 +901,9 @@
       },
 
       draw() {
-        // Fill BG
         this.ctx.fillStyle = '#0a0a0f';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw Grid Area (Darker box for Play Area)
         if (this.state !== 'BG') {
           this.ctx.fillStyle = '#0f0f16';
           this.ctx.fillRect(this.offX, this.offY, this.LOGICAL_W * this.res, this.LOGICAL_H * this.res);
@@ -773,21 +911,17 @@
           this.ctx.strokeRect(this.offX, this.offY, this.LOGICAL_W * this.res, this.LOGICAL_H * this.res);
         }
 
-        // Cells
         this.ctx.fillStyle = this.state === 'BG' ? '#333' : '#b249f8';
         this.ctx.shadowBlur = this.state === 'BG' ? 0 : 10;
         this.ctx.shadowColor = '#b249f8';
 
-        // We only iterate logic grid
         for (let i = 0; i < this.LOGICAL_W; i++) {
           for (let j = 0; j < this.LOGICAL_H; j++) {
             if (this.grid[i][j] === 1) {
-              let x = this.offX + i * this.res;
-              let y = this.offY + j * this.res;
+              const x = this.offX + i * this.res;
+              const y = this.offY + j * this.res;
               this.ctx.beginPath();
-              // fillRect(x, y, w, h)
-              // Draw slightly smaller than cell for grid look
-              this.ctx.rect(x + 1, y + 1, this.res - 1.5, this.res - 1.5);
+              this.ctx.rect(x + 1, y + 1, this.res - 1.6, this.res - 1.6);
               this.ctx.fill();
             }
           }
@@ -796,7 +930,7 @@
 
       loop() {
         if (this.state === 'BG') {
-          if (Date.now() % 100 < 30) this.update();
+          this.update();
         } else {
           this.update();
         }
@@ -804,10 +938,10 @@
         requestAnimationFrame(() => this.loop());
       },
 
-      // --- SMART INPUT (Draw / Eraser) ---
       setupInput() {
         let isDrag = false;
-        let paintMode = 1; // 1 = Draw, 0 = Erase
+        let paintMode = 1;
+        let lastPoint = null;
 
         const getGridPos = (clientX, clientY) => {
           const gx = Math.floor((clientX - this.offX) / this.res);
@@ -815,41 +949,85 @@
           return { x: gx, y: gy };
         };
 
+        const paintCell = (x, y, val) => {
+          if (x >= 0 && x < this.LOGICAL_W && y >= 0 && y < this.LOGICAL_H) {
+            this.grid[x][y] = val;
+          }
+        };
+
+        const paintLine = (from, to, val) => {
+          let x0 = from.x, y0 = from.y, x1 = to.x, y1 = to.y;
+          const dx = Math.abs(x1 - x0);
+          const dy = Math.abs(y1 - y0);
+          const sx = x0 < x1 ? 1 : -1;
+          const sy = y0 < y1 ? 1 : -1;
+          let err = dx - dy;
+          while (true) {
+            paintCell(x0, y0, val);
+            if (x0 === x1 && y0 === y1) break;
+            const e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; x0 += sx; }
+            if (e2 < dx) { err += dx; y0 += sy; }
+          }
+        };
+
         const startStroke = (cx, cy) => {
+          if (this.state === 'RUNNING') {
+            this.state = 'SETUP';
+            this.updateUI();
+          }
           if (this.state !== 'SETUP' && this.state !== 'BG') return;
 
           const p = getGridPos(cx, cy);
-          // Check bounds
           if (p.x >= 0 && p.x < this.LOGICAL_W && p.y >= 0 && p.y < this.LOGICAL_H) {
             isDrag = true;
-            // Determine mode: if cell is 1, toggle to Erase(0). If 0, Draw(1).
             paintMode = this.grid[p.x][p.y] === 1 ? 0 : 1;
-            this.grid[p.x][p.y] = paintMode;
+            paintCell(p.x, p.y, paintMode);
+            lastPoint = p;
           }
         };
 
         const moveStroke = (cx, cy) => {
           if (!isDrag) return;
           const p = getGridPos(cx, cy);
-          if (p.x >= 0 && p.x < this.LOGICAL_W && p.y >= 0 && p.y < this.LOGICAL_H) {
-            this.grid[p.x][p.y] = paintMode;
+          if (p.x >= 0 && p.x < this.LOGICAL_W && p.y >= 0 && p.y < this.LOGICAL_H && lastPoint) {
+            paintLine(lastPoint, p, paintMode);
+            lastPoint = p;
           }
         };
 
-        // Mouse
-        this.canvas.addEventListener('mousedown', e => startStroke(e.clientX, e.clientY));
-        window.addEventListener('mouseup', () => isDrag = false);
-        this.canvas.addEventListener('mousemove', e => moveStroke(e.clientX, e.clientY));
+        const endStroke = () => {
+          isDrag = false;
+          lastPoint = null;
+        };
 
-        // Touch
-        this.canvas.addEventListener('touchstart', e => {
-          startStroke(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: false });
-        window.addEventListener('touchend', () => isDrag = false);
-        this.canvas.addEventListener('touchmove', e => {
-          moveStroke(e.touches[0].clientX, e.touches[0].clientY);
-          e.preventDefault(); // Stop scroll
-        }, { passive: false });
+        this.canvas.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          startStroke(e.clientX, e.clientY);
+          this.canvas.setPointerCapture(e.pointerId);
+        });
+        this.canvas.addEventListener('pointermove', e => {
+          if (!isDrag) return;
+          e.preventDefault();
+          moveStroke(e.clientX, e.clientY);
+        });
+        const release = e => {
+          endStroke();
+          if (e.pointerId !== undefined) this.canvas.releasePointerCapture(e.pointerId);
+        };
+        this.canvas.addEventListener('pointerup', release);
+        this.canvas.addEventListener('pointercancel', release);
+
+        window.addEventListener('keydown', e => {
+          if (app.isGameMode && e.code === 'Space') {
+            e.preventDefault();
+            this.toggle();
+          }
+          if (app.isGameMode && (e.key === 'r' || e.key === 'R')) {
+            e.preventDefault();
+            this.reset();
+          }
+        });
       },
 
       snapshot() {
@@ -860,32 +1038,30 @@
         a.click();
       },
 
-      // --- SHARING ---
       async share() {
-        const text = `Life Gardenで${this.gen}世代生存！スコア:${this.score}`;
+        const dict = i18n[app.lang];
+        const text = dict.shareText(this.gen, this.score);
         const url = "https://ikuto-yamaguchi.github.io/";
 
-        // Try Web Share API with file
         try {
-          // Create blob from canvas
           const blob = await new Promise(resolve => this.canvas.toBlob(resolve));
+          if (!blob) throw new Error('toBlob returned null');
           const file = new File([blob], "score.png", { type: "image/png" });
 
           if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             await navigator.share({
-              title: 'Life Garden Result',
-              text: text,
-              url: url,
+              title: dict.shareTitle,
+              text,
+              url,
               files: [file]
             });
-            return; // Success
+            return;
           }
         } catch (e) {
           console.log("Web Share API failed, falling back", e);
         }
 
-        // Fallback: Twitter Intent + Download
-        this.snapshot(); // Auto download image
+        this.snapshot();
         const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=LifeGarden`;
         window.open(tweetUrl, '_blank');
       },
@@ -896,23 +1072,31 @@
       },
 
       updateUI() {
+        const dict = i18n[app.lang];
         const btn = document.getElementById('btn-toggle');
-        if (this.state === 'RUNNING') {
-          btn.innerText = '⏸';
-          btn.classList.remove('active');
-        } else {
-          btn.innerText = '▶';
-          btn.classList.add('active');
-        }
+        const label = this.state === 'RUNNING' ? dict.btnPause : dict.btnPlay;
+        btn.innerText = this.state === 'RUNNING' ? '⏸' : '▶';
+        btn.setAttribute('aria-pressed', this.state === 'RUNNING');
+        btn.title = label;
+        btn.classList.toggle('active', this.state !== 'RUNNING');
+
+        document.getElementById('btn-reset').title = dict.btnReset;
+        document.getElementById('btn-snap').title = dict.btnSnap;
+        document.getElementById('btn-exit-game').title = dict.btnQuit;
+        document.getElementById('btn-exit-game').setAttribute('aria-label', dict.btnQuit);
+        document.getElementById('hud-score-label').innerText = dict.hudScore;
+        document.getElementById('hud-gen-label').innerText = dict.hudGen;
+        document.getElementById('btn-share').innerText = dict.btnShare;
+        document.getElementById('btn-retry').innerText = dict.btnRetry;
+        document.getElementById('btn-back-home').innerText = dict.backHome;
+        document.querySelector('[data-i18n="resultGen"]').innerText = dict.resultGen;
+        document.querySelector('[data-i18n="resultPop"]').innerText = dict.resultPop;
       }
     };
 
-    // Initialize when DOM ready
     window.addEventListener('DOMContentLoaded', () => {
       app.init();
     });
-
   </script>
 </body>
-
 </html>
