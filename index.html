@@ -1225,16 +1225,6 @@ const toast = {
           btn.addEventListener('click', () => game.showLeaderboard(btn.dataset.scope, btn));
         });
 
-        const nameInput = document.getElementById('player-name');
-        if (nameInput) {
-          nameInput.addEventListener('change', () => {
-            let v = nameInput.value.trim();
-            if (!v) v = 'YOU';
-            nameInput.value = v;
-            localStorage.setItem('life-garden-name', v);
-          });
-        }
-
         game.init();
       },
 
