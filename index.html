@@ -114,6 +114,7 @@
       cursor: pointer;
       font-size: 0.85rem;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
     .lang-btn.active {
@@ -186,6 +187,7 @@
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       font-family: 'Outfit', sans-serif;
       letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
     .btn-start:hover {
@@ -230,6 +232,7 @@
       font-size: 0.9rem;
       transition: all 0.2s ease;
       display: inline-block;
+      white-space: nowrap;
     }
 
     .btn-privacy:hover {
@@ -350,6 +353,9 @@
       justify-content: center;
       padding: 0 14px;
       letter-spacing: 0.02em;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       transition: all 0.16s ease;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
@@ -415,6 +421,7 @@
     .result-content button {
       width: 100%;
       max-width: 420px;
+      white-space: nowrap;
     }
 
     #toast {
@@ -475,7 +482,7 @@
       .ctrl-btn {
         min-width: 72px;
         height: 44px;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         padding: 0 10px;
       }
       .topbar {
@@ -488,6 +495,23 @@
       .result-content .btn-start,
       .result-content button {
         max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-start {
+        font-size: 1.05rem;
+        padding: 1rem 2.6rem;
+      }
+      .btn-privacy {
+        padding: 0.85rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      .ctrl-btn {
+        min-width: 68px;
+        height: 42px;
+        font-size: 0.82rem;
+        padding: 0 8px;
       }
     }
   </style>
@@ -504,51 +528,59 @@
   </div>
 
   <div id="content-layer">
-    <div class="hero-section">
+        <div class="hero-section">
       <div class="hero-card">
         <div class="eyebrow" data-i18n="concept">Eternal Simple Fun</div>
         <h1 data-i18n="title">Life Garden</h1>
         <p class="subtitle" data-i18n="subtitle">
-          繝ｩ繧､繝輔ご繝ｼ繝縺ｮ蠅玲ｮ悶ヱ繧ｿ繝ｼ繝ｳ繧偵瑚ご縺ｦ縺ｦ縲阪せ繧ｳ繧｢繧堤ｫｶ縺・繧ｷ繝ｳ繝励Ν縺ｧ螂･豺ｱ縺・逵ｺ繧√※濶ｯ縺勇隗ｦ縺｣縺ｦ濶ｯ縺勇繝阪が繝ｳ閧ｲ謌舌ヱ繧ｺ繝ｫ縲・        </p>
+          ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。
+        </p>
         <div class="cta-row">
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
-        <p class="scroll-hint" data-i18n="scrollHint">竊・SCROLL FOR INFO</p>
+        <p class="scroll-hint" data-i18n="scrollHint">↓ SCROLL FOR INFO</p>
       </div>
     </div>
 
     <div class="container">
       <section id="about">
-        <h2 data-i18n="aboutTitle">Life Garden 縺ｨ縺ｯ</h2>
+        <h2 data-i18n="aboutTitle">Life Garden とは</h2>
         <p data-i18n="aboutBody">
-          Life Garden 縺ｯ縲√さ繝ｳ繧ｦ繧ｧ繧､縺ｮ繝ｩ繧､繝輔ご繝ｼ繝繧貞悄蜿ｰ縺ｫ縺励▽縺､縲√後せ繧ｳ繧｢縲阪後Ν繝ｼ繝玲､懃衍縲阪後ヱ繧ｿ繝ｼ繝ｳ縺ｮ螳牙ｮ壽ｧ縲阪ｒ繧ｲ繝ｼ繝縺ｨ縺励※讌ｽ縺励ａ繧九ｈ縺・謨ｴ縺励◆繝悶Λ繧ｦ繧ｶ繧ｲ繝ｼ繝縺ｧ縺吶・        </p>
+          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。
+        </p>
         <div class="note" data-i18n-html="noteBody">
-          逕溘″縺ｦ縺・繧ｻ繝ｫ縺ｯ 2縲・ 蛟畿髫｣謗･縺ｧ逕溷ｭ倥・ 蛟九〒隱慕函縲ゅ◎繧御ｻ･螟胞豺俶ｱｰ縺輔ｌ繧九ゅ◆縺｣縺溘％繧後□縺薦繝ｫ繝ｼ繝ｫ縺九ｉ縲∽ｿ｡縺倥ｉ繧後↑縺・縺ｩ螟壼ｽｩ縺ｪ霆瑚ｷ｡縺檎函縺ｾ繧後∪縺吶・        </div>
+          生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。
+        </div>
       </section>
 
       <section id="howto">
-        <h2 data-i18n="howtoTitle">驕界譁ｹ縺ｨ謌ｦ逡･</h2>
-        <h3 data-i18n="howtoPlantTitle">1. 遞ｮ繧偵∪縺・(Plant)</h3>
+        <h2 data-i18n="howtoTitle">遊び方と戦略</h2>
+        <h3 data-i18n="howtoPlantTitle">1. 種をまく (Plant)</h3>
         <p data-i18n="howtoPlantBody">
-          逶､髱｢繧呈欠繧・E繧ｦ繧ｹ縺ｧ繝峨Λ繝・縺励※繧ｻ繝ｫ繧脱逕ｱ縺ｫ驟咲ｽｮ縲・繧ｿ繝・E縺ｧ鄂ｮ縺阪√ｂ縺・繧ｿ繝・E縺ｧ豸医○縺ｾ縺吶ゅラ繝ｩ繝・荳ｭ縺ｯ邱壹〒陬懷ｮ後＆繧後∫ｩｴ縺檎ｩｺ縺阪∪縺帙ｓ縲・        </p>
+          盤面を指やマウスでドラッグしてセルを自由に配置。1タップで置き、もう1タップで消せます。ドラッグ中は線で補完され、穴が空きません。
+        </p>
 
-        <h3 data-i18n="howtoGrowTitle">2. 閧ｲ縺ｦ繧・(Grow)</h3>
+        <h3 data-i18n="howtoGrowTitle">2. 育てる (Grow)</h3>
         <p data-i18n="howtoGrowBody">
-          蜀咲函繝懊ち繝ｳ縺ｧ荳紋ｻ｣縺碁ｲ陦後りｵｰ繧峨○縺ｪ縺後ｉ隗ｦ繧九→閾ｪ蜍輔〒荳譎ょ●豁｢縺励√◎縺ｮ縺ｾ縺ｾ邱ｨ髮・縺阪∪縺吶・        </p>
+          再生ボタンで世代が進行。一度スタートしたら盤面の編集はできません。
+        </p>
 
-        <h3 data-i18n="howtoScoreTitle">3. 繧ｹ繧ｳ繧｢ (Score)</h3>
+        <h3 data-i18n="howtoScoreTitle">3. スコア (Score)</h3>
         <p data-i18n-html="howtoScoreBody">
-          繧ｹ繧ｳ繧｢縺ｯ <code>(荳紋ｻ｣謨ｰ ﾃ・10) + (譛螟ｧ蛟倶ｽ捺焚 ﾃ・5)</code>縲る聞逕溘″縺ｨ迸ｬ髢鍋↓蜉妣荳｡遶九′骰ｵ縲・br>
-          蜷後§繝代ち繝ｼ繝ｳ縺ｮ繝ｫ繝ｼ繝励↓蜈･繧九→繧ｲ繝ｼ繝繧ｪ繝ｼ繝職縺ｫ縺ｪ繧翫∪縺吶・        </p>
+          スコアは <code>(世代数 × 10) + (最大個体数 × 5)</code>。長生きと瞬間火力の両立が鍵。<br>
+          同じパターンのループに入るとゲームオーバーになります。
+        </p>
       </section>
 
       <section id="support">
-        <h2 data-i18n="supportTitle">髢狗匱閠・荳險</h2>
+        <h2 data-i18n="supportTitle">開発者へ一言</h2>
         <p data-i18n="supportBody">
-          荳孔蜷医ｄ繧｢繧､繝・縺ｯ X (Twitter) 縺ｪ縺ｩ縺ｧ縺顔衍繧峨○縺上□縺輔＞縲る♀繧薙〒縺上□縺輔▲縺ｦ縺ゅｊ縺後→縺・縺悶＞縺ｾ縺呻ｼ・        </p>
+          不具合やアイデアは X (Twitter) などでお知らせください。遊んでくださってありがとうございます！
+        </p>
       </section>
     </div>
+</div>
 
     <footer>
       ﾂｩ 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
