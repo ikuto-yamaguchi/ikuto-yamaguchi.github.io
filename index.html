@@ -675,7 +675,7 @@
       transform: translateY(0);
     }
 
-    #dex-modal {
+    #dex-modal, #lb-modal {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.65);
@@ -685,7 +685,7 @@
       z-index: 70;
     }
 
-    #dex-modal.hidden {
+    #dex-modal.hidden, #lb-modal.hidden {
       display: none;
     }
 
@@ -822,6 +822,7 @@
   <div class="topbar">
     <div class="logo">Life Garden</div>
     <div class="lang-switch">
+      <button class="lang-btn" id="btn-open-lb" aria-label="Open Leaderboard">LB</button>
       <button class="lang-btn active" data-lang="ja" aria-label="Switch to Japanese">JP</button>
       <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
     </div>
@@ -838,6 +839,10 @@
         <div class="cta-row">
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
+        </div>
+        <div class="name-entry">
+          <label for="player-name">プレイヤー名</label>
+          <input id="player-name" maxlength="20" placeholder="YOUR NAME">
         </div>
         <p class="scroll-hint" data-i18n="scrollHint">SCROLL FOR INFO</p>
       </div>
@@ -880,12 +885,11 @@
         </p>
       </section>
     </div>
-</div>
-
-    <footer>
-      &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
-    </footer>
   </div>
+
+  <footer>
+    &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
+  </footer>
 
   <div id="game-interface" class="hidden">
     <div id="hud">
@@ -914,7 +918,7 @@
         <div id="pattern-tools" class="hidden">
           <div class="pattern-label">Quick Place</div>
           <div class="pattern-list">
-            <button class="pattern-btn" data-pattern="" id="btn-freehand">Free Draw</button>
+            <button class="pattern-btn active" data-pattern="" id="btn-freehand">Free Draw</button>
             <button class="pattern-btn" data-pattern="single">Dot</button>
             <button class="pattern-btn" data-pattern="glider">Glider</button>
             <button class="pattern-btn" data-pattern="cross">Cross</button>
@@ -957,11 +961,6 @@
         <div class="res-patterns" id="res-pattern-list"></div>
       </div>
 
-      <div class="name-entry">
-        <label for="player-name">プレイヤー名</label>
-        <input id="player-name" maxlength="20" placeholder="YOUR NAME">
-      </div>
-
       <div class="leaderboard">
         <div class="lb-tabs">
           <button class="lb-tab active" data-scope="daily">デイリー</button>
@@ -987,6 +986,20 @@
         <button id="dex-close" aria-label="Close dex">×</button>
       </div>
       <ul id="dex-list"></ul>
+    </div>
+  </div>
+  <div id="lb-modal" class="hidden">
+    <div class="dex-card">
+      <div class="dex-header">
+        <h3>Leaderboard</h3>
+        <button id="lb-close" aria-label="Close leaderboard">×</button>
+      </div>
+      <div class="lb-tabs">
+        <button class="lb-tab active" data-scope="daily">デイリー</button>
+        <button class="lb-tab" data-scope="weekly">ウィークリー</button>
+        <button class="lb-tab" data-scope="all">通算</button>
+      </div>
+      <ul class="lb-list" id="lb-list-global"></ul>
     </div>
   </div>
 
@@ -1120,10 +1133,56 @@ const PATTERNS = [
     variants: [
       { cells: [[0, 0], [1, 0], [0, 1], [1, 1], [2, 2], [3, 2], [2, 3], [3, 3]] }
     ]
+  },
+  {
+    id: 'block',
+    name: { ja: 'ブロック', en: 'Block' },
+    desc: '最小の静止パターン。シールドや足場に便利。',
+    variants: [
+      { cells: [[0,0],[1,0],[0,1],[1,1]] }
+    ]
+  },
+  {
+    id: 'beehive',
+    name: { ja: 'ハニカム', en: 'Beehive' },
+    desc: '6セルの静止形。密度調整に便利。',
+    variants: [
+      { cells: [[1,0],[2,0],[0,1],[3,1],[1,2],[2,2]] }
+    ]
+  },
+  {
+    id: 'loaf',
+    name: { ja: 'ローフ', en: 'Loaf' },
+    desc: '7セルの静止形。角を保持したまま安定。',
+    variants: [
+      { cells: [[1,0],[2,0],[0,1],[3,1],[1,2],[3,2],[2,3]] }
+    ]
+  },
+  {
+    id: 'boat',
+    name: { ja: 'ボート', en: 'Boat' },
+    desc: '5セル静止形。端の処理に使える小型パターン。',
+    variants: [
+      { cells: [[0,0],[1,0],[0,1],[2,1],[1,2]] }
+    ]
   }
 ];
 
 const leaderboard = {
+  seeds: {
+    daily: [
+      { name: 'Mina', score: 4200, gen: 210, maxPop: 180, ts: Date.now() - 3600000 },
+      { name: 'Ken', score: 3600, gen: 180, maxPop: 150, ts: Date.now() - 7200000 }
+    ],
+    weekly: [
+      { name: 'Ivy', score: 8200, gen: 410, maxPop: 260, ts: Date.now() - 86400000 },
+      { name: 'Leo', score: 7800, gen: 380, maxPop: 240, ts: Date.now() - 86400000 * 2 }
+    ],
+    all: [
+      { name: 'Nova', score: 12000, gen: 520, maxPop: 320, ts: Date.now() - 86400000 * 7 }
+    ]
+  },
+
   key(scope) {
     const now = new Date();
     if (scope === 'daily') {
@@ -1138,11 +1197,13 @@ const leaderboard = {
   },
 
   load(scope) {
+    let base = this.seeds[scope] ? [...this.seeds[scope]] : [];
     try {
       const raw = localStorage.getItem(this.key(scope));
-      if (raw) return JSON.parse(raw);
+      if (raw) base = base.concat(JSON.parse(raw));
     } catch (e) {}
-    return [];
+    base.sort((a, b) => b.score - a.score || b.gen - a.gen || b.maxPop - a.maxPop || a.ts - b.ts);
+    return base.slice(0, 15);
   },
 
   save(scope, list) {
@@ -1206,6 +1267,12 @@ const toast = {
         document.getElementById('dex-modal').addEventListener('click', (e) => {
           if (e.target.id === 'dex-modal') game.closeDex();
         });
+        document.getElementById('lb-close').addEventListener('click', () => game.closeLeaderboard());
+        document.getElementById('lb-modal').addEventListener('click', (e) => {
+          if (e.target.id === 'lb-modal') game.closeLeaderboard();
+        });
+        const lbBtn = document.getElementById('btn-open-lb');
+        if (lbBtn) lbBtn.addEventListener('click', () => game.openLeaderboard());
 
         const nameInput = document.getElementById('player-name');
         if (nameInput) {
@@ -1337,18 +1404,21 @@ const toast = {
 
       resize() {
         const w = window.innerWidth;
-        const h = window.innerHeight;
+        const hudH = document.getElementById('hud')?.offsetHeight || 0;
+        const ctrlH = document.getElementById('control-panel')?.offsetHeight || 0;
+        const usableH = Math.max(120, window.innerHeight - hudH - ctrlH);
+
         this.canvas.width = w;
-        this.canvas.height = h;
+        this.canvas.height = window.innerHeight;
 
         const resW = w / this.LOGICAL_W;
-        const resH = h / this.LOGICAL_H;
+        const resH = usableH / this.LOGICAL_H;
         this.res = Math.min(resW, resH);
 
         const gridPixelW = this.LOGICAL_W * this.res;
         const gridPixelH = this.LOGICAL_H * this.res;
         this.offX = Math.floor((w - gridPixelW) / 2);
-        this.offY = Math.floor((h - gridPixelH) / 2);
+        this.offY = Math.floor((usableH - gridPixelH) / 2) + hudH;
       },
 
       toBackgroundMode() {
@@ -1544,6 +1614,15 @@ const toast = {
         document.getElementById('dex-modal').classList.add('hidden');
       },
 
+      openLeaderboard() {
+        this.showLeaderboard(this.leaderboardScope, null, 'lb-list-global');
+        document.getElementById('lb-modal').classList.remove('hidden');
+      },
+
+      closeLeaderboard() {
+        document.getElementById('lb-modal').classList.add('hidden');
+      },
+
       randomize(p) {
         for (let i = 0; i < this.LOGICAL_W; i++) {
           for (let j = 0; j < this.LOGICAL_H; j++) {
@@ -1573,10 +1652,11 @@ const toast = {
       },
 
       selectPattern(key, btn) {
+        const nextKey = (this.currentPattern === key) ? '' : key;
         if (btn) {
-          document.querySelectorAll('.pattern-btn').forEach(b => b.classList.toggle('active', b === btn));
+          document.querySelectorAll('.pattern-btn').forEach(b => b.classList.toggle('active', b === btn && nextKey));
         }
-        this.currentPattern = key;
+        this.currentPattern = nextKey || null;
       },
 
       placePatternAt(cellX, cellY) {
@@ -1598,7 +1678,6 @@ const toast = {
           const y = offsetY + dy;
           this.grid[x][y] = 1;
         }
-        this.resetStats();
         this.checkPatterns();
         return true;
       },
@@ -2032,12 +2111,12 @@ const toast = {
         document.getElementById('disp-gen').innerText = this.gen;
       },
 
-      showLeaderboard(scope = 'daily', activeBtn) {
+      showLeaderboard(scope = 'daily', activeBtn, listId = 'lb-list') {
         this.leaderboardScope = scope;
         document.querySelectorAll('.lb-tab').forEach(btn => {
           btn.classList.toggle('active', btn.dataset.scope === scope);
         });
-        const ul = document.getElementById('lb-list');
+        const ul = document.getElementById(listId);
         if (!ul) return;
         const list = leaderboard.load(scope);
         if (!list.length) {
