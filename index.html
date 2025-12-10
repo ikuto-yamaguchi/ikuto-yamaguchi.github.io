@@ -335,7 +335,7 @@
       pointer-events: auto;
       backdrop-filter: blur(10px);
       background: linear-gradient(180deg, rgba(10, 10, 15, 0.8), rgba(10, 10, 15, 0.4));
-    }
+      }
 
     .ctrl-btn {
       min-width: 86px;
@@ -358,6 +358,58 @@
       overflow: hidden;
       transition: all 0.16s ease;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    #pattern-tools {
+      padding: 0 18px 18px;
+      pointer-events: auto;
+      background: linear-gradient(180deg, rgba(10, 10, 15, 0.4), transparent);
+    }
+
+    #pattern-tools.hidden {
+      display: none;
+    }
+
+    .pattern-label {
+      font-size: 0.95rem;
+      opacity: 0.75;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .pattern-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 8px;
+    }
+
+    .pattern-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: all 0.15s ease;
+    }
+
+    .pattern-btn.active {
+      background: linear-gradient(135deg, var(--secondary-color), #28bfbf);
+      color: #000;
+      box-shadow: 0 0 14px rgba(73, 248, 248, 0.35);
+    }
+
+    .pattern-tip {
+      font-size: 0.82rem;
+      opacity: 0.65;
+      margin-top: 6px;
+    }
+
+    #pattern-tools.disabled {
+      opacity: 0.4;
+      pointer-events: none;
     }
 
     .ctrl-btn:hover {
@@ -401,20 +453,189 @@
     }
 
     .result-content {
-      background: var(--glass-bg);
+      background: radial-gradient(circle at 20% 20%, rgba(178,73,248,0.2), transparent 45%), var(--glass-bg);
       padding: 2.6rem;
       border-radius: 18px;
       border: 1px solid var(--glass-border);
       text-align: center;
-      width: 90%;
-      max-width: 520px;
-      box-shadow: 0 0 50px rgba(178, 73, 248, 0.2);
+      width: 92%;
+      max-width: 820px;
+      box-shadow: 0 0 50px rgba(178, 73, 248, 0.25);
     }
 
-    .result-meta {
-      margin-bottom: 1.8rem;
-      opacity: 0.82;
-      line-height: 1.6;
+    .res-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .res-pill {
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--secondary-color);
+      text-transform: uppercase;
+    }
+
+    .res-score-block {
+      text-align: right;
+      flex: 1;
+    }
+
+    .res-score-label {
+      opacity: 0.65;
+      letter-spacing: 0.08em;
+    }
+
+    .res-score-val {
+      font-size: 3.6rem;
+      font-weight: 900;
+      margin-top: 4px;
+      text-shadow: 0 0 24px rgba(178,73,248,0.35);
+    }
+
+    .res-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 1.2rem 0 1.6rem;
+    }
+
+    .res-rank-msg {
+      margin: 0.4rem 0 1rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-align: left;
+    }
+
+    .meta-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .meta-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .res-preview-wrap {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 1rem;
+    }
+
+    #res-preview {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      display: none;
+    }
+
+    .res-patterns {
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      opacity: 0.85;
+      text-align: left;
+    }
+
+    .name-entry {
+      text-align: left;
+      margin: 1rem 0;
+    }
+
+    .name-entry label {
+      display: block;
+      font-size: 0.9rem;
+      opacity: 0.75;
+      margin-bottom: 6px;
+    }
+
+    .name-entry input {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .leaderboard {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .lb-tabs {
+      display: inline-flex;
+      gap: 8px;
+      margin-bottom: 0.8rem;
+    }
+
+    .lb-tab {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .lb-tab.active {
+      background: linear-gradient(135deg, var(--secondary-color), #28bfbf);
+      color: #000;
+    }
+
+    .lb-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .lb-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.95rem;
+    }
+
+    .lb-row .lb-name {
+      font-weight: 700;
+    }
+
+    .lb-row .lb-score {
+      font-weight: 800;
+    }
+
+    .res-actions {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 1rem;
     }
 
     .result-content .btn-start,
@@ -422,6 +643,8 @@
       width: 100%;
       max-width: 420px;
       white-space: nowrap;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     #toast {
@@ -446,6 +669,73 @@
       transform: translateY(0);
     }
 
+    #dex-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 70;
+    }
+
+    #dex-modal.hidden {
+      display: none;
+    }
+
+    .dex-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 1rem;
+      width: min(520px, 90%);
+      color: #fff;
+    }
+
+    .dex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    #dex-close {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+    }
+
+    #dex-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .dex-item {
+      padding: 0.6rem 0.7rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .dex-item.missing {
+      opacity: 0.5;
+    }
+
+    .dex-item .dex-desc {
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+
     .share-pulse {
       animation: pulse 1.4s ease-in-out infinite;
     }
@@ -462,6 +752,10 @@
       font-size: 0.85rem;
       opacity: 0.65;
       background: #000;
+    }
+
+    body.game-mode footer {
+      display: none;
     }
 
     footer a {
@@ -539,7 +833,7 @@
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
-        <p class="scroll-hint" data-i18n="scrollHint">↓ SCROLL FOR INFO</p>
+        <p class="scroll-hint" data-i18n="scrollHint">SCROLL FOR INFO</p>
       </div>
     </div>
 
@@ -583,7 +877,7 @@
 </div>
 
     <footer>
-      ﾂｩ 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
+      &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
     </footer>
   </div>
 
@@ -603,34 +897,90 @@
       </div>
     </div>
 
-    <div id="controls">
-      <button class="ctrl-btn" id="btn-undo" title="Undo" aria-label="Undo">UNDO</button>
-      <button class="ctrl-btn" id="btn-redo" title="Redo" aria-label="Redo">REDO</button>
-      <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">RESET</button>
-      <button class="ctrl-btn primary active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">PLAY</button>
-      <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">SAVE</button>
-      <button class="ctrl-btn danger" id="btn-exit-game" title="Quit" aria-label="Quit">EXIT</button>
-    </div>
+      <div id="controls">
+        <button class="ctrl-btn" id="btn-restore-seed" title="Restore last seed" aria-label="Restore last seed">LAST SEED</button>
+        <button class="ctrl-btn" id="btn-reset" title="Reset" aria-label="Reset">RESET</button>
+        <button class="ctrl-btn primary active" id="btn-toggle" title="Play/Pause" aria-label="Play/Pause">PLAY</button>
+        <button class="ctrl-btn" id="btn-snap" title="Snapshot" aria-label="Snapshot">SAVE</button>
+        <button class="ctrl-btn danger" id="btn-exit-game" title="Quit" aria-label="Quit">EXIT</button>
+      </div>
+
+      <div id="pattern-tools" class="hidden">
+        <div class="pattern-label">Quick Place</div>
+        <div class="pattern-list">
+          <button class="pattern-btn" data-pattern="single">Dot</button>
+          <button class="pattern-btn" data-pattern="glider">Glider</button>
+          <button class="pattern-btn" data-pattern="cross">Cross</button>
+          <button class="pattern-btn" data-pattern="block">Block</button>
+          <button class="pattern-btn" data-pattern="line">Line</button>
+        </div>
+        <div class="pattern-tip">SETUP中のみ配置できます</div>
+      </div>
   </div>
 
   <div id="result-screen">
     <div class="result-content">
-      <h2 id="res-reason" style="color:var(--secondary-color)">GAME OVER</h2>
-      <div style="font-size:3.5rem; font-weight:800; margin:1rem 0;" id="res-score">0</div>
-      <div class="result-meta">
-        <span data-i18n="resultGen">Generations</span>: <span id="res-gen-val">0</span><br>
-        <span data-i18n="resultPop">Max Pop</span>: <span id="res-pop-val">0</span>
+      <div class="res-head">
+        <div class="res-pill" id="res-reason">GAME OVER</div>
+        <div class="res-score-block">
+          <div class="res-score-label">TOTAL SCORE</div>
+          <div class="res-score-val" id="res-score">0</div>
+        </div>
       </div>
-      <img id="res-preview" alt="Result preview" style="width:100%; border-radius:12px; border:1px solid var(--glass-border); margin-bottom:1rem; display:none;">
-      <button class="btn-start" id="btn-retry" style="display:block; margin:0 auto 1.2rem auto;" data-i18n="btnRetry">RETRY</button>
-      <button class="btn-start share-pulse" id="btn-share" style="display:block; margin:0 auto 0.8rem auto; background:linear-gradient(135deg, #1d9bf0, #0c7abf); font-size:1.05rem; padding:0.9rem 2.8rem;" data-i18n="btnShare">
-        SHARE SCORE
-      </button>
-      <button style="background:none; border:none; color:white; margin-top:1rem; cursor:pointer; text-decoration:underline;" id="btn-back-home" data-i18n="backHome">Back to Home</button>
+
+      <div class="res-meta-grid">
+        <div class="meta-card">
+          <div class="meta-label" data-i18n="resultGen">Generations</div>
+          <div class="meta-value" id="res-gen-val">0</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label" data-i18n="resultPop">Max Pop</div>
+          <div class="meta-value" id="res-pop-val">0</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">パターン発見</div>
+          <div class="meta-value" id="res-pattern-count">0</div>
+        </div>
+      </div>
+      <div class="res-rank-msg" id="res-rank-msg"></div>
+
+      <div class="res-preview-wrap">
+        <img id="res-preview" alt="Result preview">
+        <div class="res-patterns" id="res-pattern-list"></div>
+      </div>
+
+      <div class="name-entry">
+        <label for="player-name">プレイヤー名</label>
+        <input id="player-name" maxlength="20" placeholder="YOUR NAME">
+      </div>
+
+      <div class="leaderboard">
+        <div class="lb-tabs">
+          <button class="lb-tab active" data-scope="daily">デイリー</button>
+          <button class="lb-tab" data-scope="weekly">ウィークリー</button>
+          <button class="lb-tab" data-scope="all">通算</button>
+        </div>
+        <ul class="lb-list" id="lb-list"></ul>
+      </div>
+
+      <div class="res-actions">
+        <button class="btn-start share-pulse" id="btn-share" data-i18n="btnShare">SHARE SCORE</button>
+        <button class="btn-start" id="btn-retry" data-i18n="btnRetry">RETRY</button>
+        <button class="btn-ghost" id="btn-back-home" data-i18n="backHome" style="margin-top:0.6rem;">Back to Home</button>
+      </div>
     </div>
   </div>
 
   <div id="toast" aria-live="polite"></div>
+  <div id="dex-modal" class="hidden">
+    <div class="dex-card">
+      <div class="dex-header">
+        <h3>図鑑</h3>
+        <button id="dex-close" aria-label="Close dex">×</button>
+      </div>
+      <ul id="dex-list"></ul>
+    </div>
+  </div>
 
   <script>
     
@@ -643,7 +993,7 @@
     concept: 'Eternal Simple Fun',
     title: 'Life Garden',
     subtitle: 'ライフゲームの増殖パターンを「育てて」スコアを競う。シンプルで奥深い、眺めて良し・触って良しのネオン育成パズル。',
-    scrollHint: '↓ SCROLL FOR INFO',
+    scrollHint: 'SCROLL FOR INFO',
     aboutTitle: 'Life Garden とは',
     aboutBody: 'Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。',
     noteBody: '生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。',
@@ -730,6 +1080,7 @@ const PATTERNS = [
   {
     id: 'glider',
     name: { ja: 'グライダー', en: 'Glider' },
+    desc: '対角に滑空し続ける往復パターン。序盤の移動用に最適。',
     variants: [
       { cells: [[0, 1], [1, 2], [2, 0], [2, 1], [2, 2]] },
       { cells: [[0, 0], [0, 1], [0, 2], [1, 0], [2, 1]] },
@@ -740,6 +1091,7 @@ const PATTERNS = [
   {
     id: 'blinker',
     name: { ja: 'ブリンカー', en: 'Blinker' },
+    desc: '2世代で往復する基本オシレーター。安定の計測用。',
     variants: [
       { cells: [[0, 0], [1, 0], [2, 0]] },
       { cells: [[0, 0], [0, 1], [0, 2]] }
@@ -748,6 +1100,7 @@ const PATTERNS = [
   {
     id: 'toad',
     name: { ja: 'トード', en: 'Toad' },
+    desc: '3x2 の周期オシレーター。密集地帯の起点に。',
     variants: [
       { cells: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]] }
     ]
@@ -755,11 +1108,54 @@ const PATTERNS = [
   {
     id: 'beacon',
     name: { ja: 'ビーコン', en: 'Beacon' },
+    desc: '2つのブロックが点滅。境界の作成に使える。',
     variants: [
       { cells: [[0, 0], [1, 0], [0, 1], [1, 1], [2, 2], [3, 2], [2, 3], [3, 3]] }
     ]
   }
 ];
+
+const leaderboard = {
+  key(scope) {
+    const now = new Date();
+    if (scope === 'daily') {
+      return `lb-daily-${now.toISOString().slice(0, 10)}`;
+    }
+    if (scope === 'weekly') {
+      const oneJan = new Date(now.getFullYear(), 0, 1);
+      const week = Math.ceil((((now - oneJan) / 86400000) + oneJan.getDay() + 1) / 7);
+      return `lb-weekly-${now.getFullYear()}-${week}`;
+    }
+    return 'lb-all';
+  },
+
+  load(scope) {
+    try {
+      const raw = localStorage.getItem(this.key(scope));
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return [];
+  },
+
+  save(scope, list) {
+    localStorage.setItem(this.key(scope), JSON.stringify(list));
+  },
+
+  submit(name, score, gen, maxPop) {
+    ['daily', 'weekly', 'all'].forEach(scope => {
+      const list = this.load(scope);
+      list.push({ name, score, gen, maxPop, ts: Date.now() });
+      list.sort((a, b) => b.score - a.score || b.gen - a.gen || b.maxPop - a.maxPop || a.ts - b.ts);
+      this.save(scope, list.slice(0, 10));
+    });
+  },
+
+  rank(scope, name, score) {
+    const list = this.load(scope);
+    const idx = list.findIndex(item => item.name === name && item.score === score);
+    return idx >= 0 ? idx + 1 : null;
+  }
+};
 
 const toast = {
       timer: null,
@@ -797,8 +1193,30 @@ const toast = {
         document.getElementById('btn-reset').addEventListener('click', () => game.reset());
         document.getElementById('btn-toggle').addEventListener('click', () => game.toggle());
         document.getElementById('btn-snap').addEventListener('click', () => game.snapshot());
-        document.getElementById('btn-undo').addEventListener('click', () => game.undo());
-        document.getElementById('btn-redo').addEventListener('click', () => game.redo());
+        document.getElementById('btn-restore-seed').addEventListener('click', () => game.restoreSavedSetup());
+        document.getElementById('dex-pill').addEventListener('click', () => game.openDex());
+        document.getElementById('dex-close').addEventListener('click', () => game.closeDex());
+        document.getElementById('dex-modal').addEventListener('click', (e) => {
+          if (e.target.id === 'dex-modal') game.closeDex();
+        });
+
+        const nameInput = document.getElementById('player-name');
+        if (nameInput) {
+          nameInput.addEventListener('change', () => {
+            let v = nameInput.value.trim();
+            if (!v) v = 'YOU';
+            nameInput.value = v;
+            localStorage.setItem('life-garden-name', v);
+          });
+        }
+
+        document.querySelectorAll('.pattern-btn').forEach(btn => {
+          btn.addEventListener('click', () => game.selectPattern(btn.dataset.pattern, btn));
+        });
+
+        document.querySelectorAll('.lb-tab').forEach(btn => {
+          btn.addEventListener('click', () => game.showLeaderboard(btn.dataset.scope, btn));
+        });
 
         game.init();
       },
@@ -836,6 +1254,7 @@ const toast = {
         document.body.classList.add('game-mode');
         document.getElementById('content-layer').classList.add('hidden');
         document.getElementById('game-interface').classList.remove('hidden');
+        document.getElementById('pattern-tools').classList.remove('hidden');
         game.startMatch();
       },
 
@@ -845,6 +1264,7 @@ const toast = {
         document.getElementById('content-layer').classList.remove('hidden');
         document.getElementById('game-interface').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('visible');
+        document.getElementById('pattern-tools').classList.add('hidden');
         game.toBackgroundMode();
       }
     };
@@ -869,10 +1289,21 @@ const toast = {
       score: 0,
       maxPop: 0,
       historySet: new Set(),
+      discovered: new Set(),
+      foundThisRun: [],
       undoStack: [],
       redoStack: [],
       maxHistory: 20,
-      discovered: new Set(),
+      savedSetup: null,
+      currentPattern: null,
+      palette: {
+        single: [[0, 0]],
+        glider: [[0, 1], [1, 2], [2, 0], [2, 1], [2, 2]],
+        cross: [[0, 1], [1, 0], [1, 1], [1, 2], [2, 1]],
+        block: [[0, 0], [1, 0], [0, 1], [1, 1]],
+        line: [[0, 0], [1, 0], [2, 0], [3, 0]]
+      },
+      leaderboardScope: 'daily',
       lastShare: null,
 
       init() {
@@ -886,6 +1317,12 @@ const toast = {
         this.resize();
         this.setupInput();
         this.loadDex();
+        // プレイヤー名の初期化
+        const savedName = localStorage.getItem('life-garden-name');
+        if (savedName && document.getElementById('player-name')) {
+          document.getElementById('player-name').value = savedName;
+        }
+        this.showLeaderboard(this.leaderboardScope);
         this.toBackgroundMode();
         this.loop();
       },
@@ -927,6 +1364,8 @@ const toast = {
         this.resetStats();
         this.redoStack = [];
         this.pushHistory(true);
+        this.foundThisRun = [];
+        this.saveSetupSnapshot();
         this.updateUI();
       },
 
@@ -939,12 +1378,14 @@ const toast = {
         this.clear();
         this.resetStats();
         this.redoStack = [];
+        this.foundThisRun = [];
         this.updateUI();
       },
 
       toggle() {
         if (this.state === 'RESULT' || this.state === 'BG') return;
         if (this.state === 'SETUP') {
+          this.saveSetupSnapshot();
           this.state = 'RUNNING';
         } else if (this.state === 'RUNNING') {
           this.state = 'PAUSED';
@@ -985,6 +1426,38 @@ const toast = {
         }
         this.historySet.clear();
         return true;
+      },
+
+      saveSetupSnapshot() {
+        this.savedSetup = { w: this.LOGICAL_W, h: this.LOGICAL_H, data: this.serializeGrid() };
+        localStorage.setItem('life-garden-saved-setup', JSON.stringify(this.savedSetup));
+      },
+
+      loadSavedSetup() {
+        if (this.savedSetup) return this.savedSetup;
+        try {
+          const raw = localStorage.getItem('life-garden-saved-setup');
+          if (raw) this.savedSetup = JSON.parse(raw);
+        } catch (e) {
+          this.savedSetup = null;
+        }
+        return this.savedSetup;
+      },
+
+      restoreSavedSetup() {
+        if (this.state !== 'SETUP') {
+          toast.show('SETUP中のみ復元できます');
+          return;
+        }
+        const snap = this.loadSavedSetup();
+        if (!snap) {
+          toast.show('復元できる記録がありません');
+          return;
+        }
+        this.restoreGrid(snap);
+        this.resetStats();
+        toast.show('初期配置を復元しました');
+        this.updateUI();
       },
 
       pushHistory(force = false) {
@@ -1040,6 +1513,29 @@ const toast = {
         if (el) el.innerText = `${found}/${total}`;
       },
 
+      renderDex() {
+        const list = document.getElementById('dex-list');
+        if (!list) return;
+        list.innerHTML = '';
+        PATTERNS.forEach(p => {
+          const item = document.createElement('li');
+          item.className = 'dex-item' + (this.discovered.has(p.id) ? '' : ' missing');
+          const name = p.name[app.lang] || p.name.ja;
+          const desc = p.desc || '';
+          item.innerHTML = `<div><div class="dex-name">${name}</div><div class="dex-desc">${desc}</div></div><div>${this.discovered.has(p.id) ? 'FOUND' : '???'}</div>`;
+          list.appendChild(item);
+        });
+      },
+
+      openDex() {
+        this.renderDex();
+        document.getElementById('dex-modal').classList.remove('hidden');
+      },
+
+      closeDex() {
+        document.getElementById('dex-modal').classList.add('hidden');
+      },
+
       randomize(p) {
         for (let i = 0; i < this.LOGICAL_W; i++) {
           for (let j = 0; j < this.LOGICAL_H; j++) {
@@ -1055,6 +1551,48 @@ const toast = {
         this.historySet.clear();
         this.updateHUD();
         this.updateDexUI();
+      },
+
+      getPlayerName() {
+        const input = document.getElementById('player-name');
+        let name = input?.value?.trim() || '';
+        if (!name) {
+          name = localStorage.getItem('life-garden-name') || 'YOU';
+        }
+        if (input) input.value = name;
+        localStorage.setItem('life-garden-name', name);
+        return name;
+      },
+
+      selectPattern(key, btn) {
+        if (btn) {
+          document.querySelectorAll('.pattern-btn').forEach(b => b.classList.toggle('active', b === btn));
+        }
+        this.currentPattern = key;
+      },
+
+      placePatternAt(cellX, cellY) {
+        if (!this.currentPattern || !this.palette[this.currentPattern]) return false;
+        const cells = this.palette[this.currentPattern];
+        const maxX = Math.max(...cells.map(c => c[0]));
+        const maxY = Math.max(...cells.map(c => c[1]));
+        const offsetX = cellX - Math.floor(maxX / 2);
+        const offsetY = cellY - Math.floor(maxY / 2);
+        for (const [dx, dy] of cells) {
+          const x = offsetX + dx;
+          const y = offsetY + dy;
+          if (x < 0 || y < 0 || x >= this.LOGICAL_W || y >= this.LOGICAL_H) return false;
+        }
+        this.pushHistory();
+        this.redoStack = [];
+        for (const [dx, dy] of cells) {
+          const x = offsetX + dx;
+          const y = offsetY + dy;
+          this.grid[x][y] = 1;
+        }
+        this.resetStats();
+        this.checkPatterns();
+        return true;
       },
 
       getHash() {
@@ -1114,6 +1652,7 @@ const toast = {
         const name = pattern.name[app.lang] || pattern.name.ja;
         const msg = i18n[app.lang].newPattern(name);
         toast.show(msg);
+        if (!this.foundThisRun.includes(pattern.id)) this.foundThisRun.push(pattern.id);
         this.updateDexUI();
       },
 
@@ -1187,6 +1726,29 @@ const toast = {
         document.getElementById('res-score').innerText = this.score;
         document.getElementById('res-gen-val').innerText = this.gen;
         document.getElementById('res-pop-val').innerText = this.maxPop;
+        const patternCount = this.foundThisRun.length;
+        document.getElementById('res-pattern-count').innerText = `${patternCount}`;
+        const list = document.getElementById('res-pattern-list');
+        if (list) {
+          list.innerHTML = patternCount
+            ? `発見: ${this.foundThisRun.map(id => {
+              const pat = PATTERNS.find(p => p.id === id);
+              return pat ? (pat.name[app.lang] || pat.name.ja) : id;
+            }).join(' / ')}`
+            : '発見なし';
+        }
+
+        const playerName = this.getPlayerName();
+        leaderboard.submit(playerName, this.score, this.gen, this.maxPop);
+        this.showLeaderboard(this.leaderboardScope);
+        const rankDaily = leaderboard.rank('daily', playerName, this.score);
+        const rankWeekly = leaderboard.rank('weekly', playerName, this.score);
+        const rankAll = leaderboard.rank('all', playerName, this.score);
+        const rankMsg = [];
+        if (rankDaily) rankMsg.push(`デイリー #${rankDaily}`);
+        if (rankWeekly) rankMsg.push(`ウィークリー #${rankWeekly}`);
+        if (rankAll) rankMsg.push(`通算 #${rankAll}`);
+        document.getElementById('res-rank-msg').innerText = rankMsg.length ? `暫定ランキング: ${rankMsg.join(' / ')}` : '記録を残して、ランキングに挑戦しよう！';
         document.getElementById('result-screen').classList.add('visible');
         this.prepareResultPreview();
       },
@@ -1279,13 +1841,15 @@ const toast = {
         const startStroke = (cx, cy) => {
           // 編集はセットアップのみ許可。RUNNING/BGでは無効。
           if (this.state !== 'SETUP') return false;
+          const p = getGridPos(cx, cy);
+          if (this.currentPattern && this.placePatternAt(p.x, p.y)) {
+            return true;
+          }
           if (!snapshotTaken) {
             this.pushHistory();
             this.redoStack = [];
             snapshotTaken = true;
           }
-
-          const p = getGridPos(cx, cy);
           if (p.x >= 0 && p.x < this.LOGICAL_W && p.y >= 0 && p.y < this.LOGICAL_H) {
             isDrag = true;
             paintMode = this.grid[p.x][p.y] === 1 ? 0 : 1;
@@ -1428,9 +1992,9 @@ const toast = {
         const shareImg = await this.ensureShareImage();
 
         try {
-          if (shareImg?.blob) {
+          if (shareImg?.blob && navigator.share && navigator.canShare) {
             const file = new File([shareImg.blob], "score.png", { type: "image/png" });
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            if (navigator.canShare({ files: [file] })) {
               await navigator.share({
                 title: dict.shareTitle,
                 text,
@@ -1441,16 +2005,44 @@ const toast = {
             }
           }
         } catch (e) {
+          if (e?.name === 'AbortError') {
+            return; // ユーザーのキャンセル時は何もしない
+          }
           console.log("Web Share API failed, falling back", e);
+          toast.show('共有に失敗しました');
         }
 
-        const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=LifeGarden`;
-        window.open(tweetUrl, '_blank');
+        // Web Shareが使えない環境のみXに遷移
+        if (!navigator.share) {
+          const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=LifeGarden`;
+          window.open(tweetUrl, '_blank');
+        }
       },
 
       updateHUD() {
         document.getElementById('disp-score').innerText = this.score;
         document.getElementById('disp-gen').innerText = this.gen;
+      },
+
+      showLeaderboard(scope = 'daily', activeBtn) {
+        this.leaderboardScope = scope;
+        document.querySelectorAll('.lb-tab').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.scope === scope);
+        });
+        const ul = document.getElementById('lb-list');
+        if (!ul) return;
+        const list = leaderboard.load(scope);
+        if (!list.length) {
+          ul.innerHTML = '<li class="lb-row"><span class="lb-name">記録なし</span><span class="lb-score">-</span></li>';
+          return;
+        }
+        ul.innerHTML = '';
+        list.forEach((item, idx) => {
+          const li = document.createElement('li');
+          li.className = 'lb-row';
+          li.innerHTML = `<span class="lb-name">${idx + 1}. ${item.name}</span><span class="lb-score">${item.score}</span>`;
+          ul.appendChild(li);
+        });
       },
 
       updateUI() {
@@ -1466,8 +2058,6 @@ const toast = {
         document.getElementById('btn-snap').title = dict.btnSnap;
         document.getElementById('btn-exit-game').title = dict.btnQuit;
         document.getElementById('btn-exit-game').setAttribute('aria-label', dict.btnQuit);
-        document.getElementById('btn-undo').title = dict.btnUndo;
-        document.getElementById('btn-redo').title = dict.btnRedo;
         document.getElementById('hud-score-label').innerText = dict.hudScore;
         document.getElementById('hud-gen-label').innerText = dict.hudGen;
         document.getElementById('dex-pill').querySelector('.score-label').innerText = dict.dexLabel;
@@ -1476,6 +2066,9 @@ const toast = {
         document.getElementById('btn-back-home').innerText = dict.backHome;
         document.querySelector('[data-i18n="resultGen"]').innerText = dict.resultGen;
         document.querySelector('[data-i18n="resultPop"]').innerText = dict.resultPop;
+
+        const tools = document.getElementById('pattern-tools');
+        if (tools) tools.classList.toggle('disabled', this.state !== 'SETUP');
       }
     };
 
