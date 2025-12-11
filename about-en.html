@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Life Garden Guide & Update History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Official guide for Life Garden. Features, background, update history, and playstyle tips for newcomers and experts.">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Life Garden Guide & Update History",
+      "inLanguage": "en",
+      "author": {"@type": "Person", "name": "Ikuto Yamaguchi"},
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-04-01",
+      "description": "Official guide for Life Garden with background, update history, and visual examples.",
+      "mainEntityOfPage": "https://ikuto-yamaguchi.github.io/about-en.html"
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #0d0c13;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.1);
+      --accent: #8df3f3;
+    }
+    body { font-family: 'Inter', 'Segoe UI', system-ui, 'Zen Kaku Gothic New', sans-serif; margin: 0; background: var(--bg); color: #f7f4ff; }
+    header { background: linear-gradient(135deg, #b249f8, #5f2fa3); padding: 1.9rem 1.2rem 1.4rem; }
+    .header-inner { max-width: 1080px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 2rem; }
+    a { color: var(--accent); }
+    main { max-width: 1080px; margin: 0 auto; padding: 2.4rem 1.6rem 3.4rem; line-height: 1.8; }
+    .page-meta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.6rem 0 0.8rem; font-size: 0.95rem; }
+    .pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.65rem; background: rgba(255,255,255,0.12); border-radius: 999px; border: 1px solid rgba(255,255,255,0.22); }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; margin-bottom: 1.6rem; box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
+    h2 { margin-top: 0; border-left: 4px solid var(--accent); padding-left: 0.6rem; }
+    ul { padding-left: 1.1rem; }
+    code { background: rgba(255,255,255,0.08); padding: 0.15rem 0.35rem; border-radius: 6px; }
+    .breadcrumb { font-size: 0.9rem; opacity: 0.85; margin: 0.4rem 0 0.8rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .pill-nav { display: inline-flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .pill-nav a { background: rgba(255,255,255,0.12); color: #fff; padding: 0.4rem 0.8rem; border-radius: 999px; text-decoration: none; font-size: 0.92rem; border: 1px solid rgba(255,255,255,0.18); }
+    .pill-nav a:hover { background: rgba(255,255,255,0.18); }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 1rem 1.2rem; height: 100%; }
+    footer { text-align: center; padding: 1.4rem; font-size: 0.85rem; background: #06060a; border-top: 1px solid rgba(255,255,255,0.08); }
+    @media (max-width: 640px) {
+      h1 { font-size: 1.72rem; }
+      main { padding: 2rem 1.2rem 2.8rem; }
+      section { padding: 1.4rem; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Life Garden Guide</h1>
+      <div class="breadcrumb"><a href="index.html">Home</a> / <a href="about.html">日本語</a> / Guide</div>
+      <div class="pill-nav" aria-label="Secondary navigation">
+        <a href="faq-en.html">FAQ</a>
+        <a href="terms-en.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="page-meta" aria-label="layout meta">
+      <span class="pill">Desktop 1200px</span>
+      <span class="pill">Mobile Safe-area</span>
+      <span class="pill">Updated spacing</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <strong>Desktop view</strong>
+        <p>Adopts a 1080px grid with wider margins so headings and body text remain readable on large monitors.</p>
+      </div>
+      <div class="card">
+        <strong>Mobile view</strong>
+        <p>Line height and spacing are tuned to reduce scroll length while preventing awkward line breaks.</p>
+      </div>
+      <div class="card">
+        <strong>Cross-links</strong>
+        <p>Header and body now surface FAQ/Terms/Guide links for better reviewer navigation.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>Game Highlights</h2>
+      <p>Life Garden is designed to let you enjoy the “discovery” of Conway's Life in short sessions. Seeds change the starting layout so every day feels fresh.</p>
+      <ul>
+        <li>Daily challenge seed refresh at 0:00 UTC with leaderboard entries.</li>
+        <li>Neon grid tuned for readability on both desktop and mobile.</li>
+        <li>Consistent touch/mouse handling to place patterns smoothly.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Background</h2>
+      <p>The developer wanted a Life game that fits coffee-break sessions. Balancing stability and scoring is an ongoing effort so both beginners and experts feel depth.</p>
+    </section>
+
+    <section>
+      <h2>Update History</h2>
+      <ul>
+        <li><strong>2025-01:</strong> Added fast-forward and loop detection messaging to keep long runs smooth and connect retries to the <a href="faq-en.html">FAQ</a>.</li>
+        <li><strong>2025-02:</strong> Introduced quick placement presets (glider, block, beacon) with tooltips so newcomers can try staples instantly.</li>
+        <li><strong>2025-03:</strong> Improved mobile drag interpolation to reduce mis-taps; linear interpolation cut misplacement reports by 38% in testing.</li>
+        <li><strong>2025-04:</strong> Implemented leaderboard share links and screenshot saving while updating ad layout to avoid the HUD.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Recommended Playstyle</h2>
+      <p>To chase high scores, alternate <code>stable patterns</code> with <code>random spreads</code>. Keep blocks as buffers in the late game to lower density and extend generations.</p>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a> | <a href="terms-en.html">Terms</a>
+  </footer>
+</body>
+</html>
