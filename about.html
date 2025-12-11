@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Life Garden ガイドとアップデート履歴</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Life Garden の特徴、開発背景、アップデート履歴、ビジュアル例をまとめた公式ガイド。初めての方も上級者も役立つ戦略の考え方を掲載。">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Life Garden ガイドとアップデート履歴",
+      "inLanguage": "ja",
+      "author": {
+        "@type": "Person",
+        "name": "Ikuto Yamaguchi"
+      },
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-04-01",
+      "description": "Life Garden の特徴、開発背景、アップデート履歴、ビジュアル例をまとめた公式ガイド",
+      "mainEntityOfPage": "https://ikuto-yamaguchi.github.io/about.html"
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #0d0c13;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.1);
+      --accent: #8df3f3;
+      --purple: #b249f8;
+    }
+    body { font-family: 'Zen Kaku Gothic New', system-ui, sans-serif; margin: 0; background: var(--bg); color: #f7f4ff; }
+    header { background: linear-gradient(135deg, #b249f8, #5f2fa3); padding: 1.9rem 1.2rem 1.4rem; }
+    .header-inner { max-width: 1080px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 2rem; }
+    a { color: var(--accent); }
+    main { max-width: 1080px; margin: 0 auto; padding: 2.4rem 1.6rem 3.4rem; line-height: 1.8; }
+    .page-meta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.6rem 0 0.8rem; font-size: 0.95rem; }
+    .pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.65rem; background: rgba(255,255,255,0.12); border-radius: 999px; border: 1px solid rgba(255,255,255,0.22); }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; margin-bottom: 1.6rem; box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
+    h2 { margin-top: 0; border-left: 4px solid var(--accent); padding-left: 0.6rem; }
+    ul { padding-left: 1.1rem; }
+    code { background: rgba(255,255,255,0.08); padding: 0.15rem 0.35rem; border-radius: 6px; }
+    .breadcrumb { font-size: 0.9rem; opacity: 0.85; margin: 0.4rem 0 0.8rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .pill-nav { display: inline-flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .pill-nav a { background: rgba(255,255,255,0.12); color: #fff; padding: 0.4rem 0.8rem; border-radius: 999px; text-decoration: none; font-size: 0.92rem; border: 1px solid rgba(255,255,255,0.18); }
+    .pill-nav a:hover { background: rgba(255,255,255,0.18); }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 1rem 1.2rem; height: 100%; }
+    footer { text-align: center; padding: 1.4rem; font-size: 0.85rem; background: #06060a; border-top: 1px solid rgba(255,255,255,0.08); }
+    @media (max-width: 640px) {
+      h1 { font-size: 1.72rem; }
+      main { padding: 2rem 1.2rem 2.8rem; }
+      section { padding: 1.4rem; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Life Garden ガイド</h1>
+      <div class="breadcrumb"><a href="index.html">ホーム</a> / ガイド / <a href="about-en.html">English</a></div>
+      <div class="pill-nav" aria-label="補助ナビゲーション">
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">利用規約</a>
+        <a href="privacy.html">プライバシー</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="page-meta" aria-label="layout meta">
+      <span class="pill">Desktop 1200px</span>
+      <span class="pill">Mobile Safe-area</span>
+      <span class="pill">Updated UI spacing</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <strong>PCビュー</strong>
+        <p>1080px 幅のグリッドを採用し、見出しと本文の左右余白を広げて読みやすさを向上しました。</p>
+      </div>
+      <div class="card">
+        <strong>モバイルビュー</strong>
+        <p>行間と余白を再調整し、スクロール量を抑えつつ重要情報が折返しにくいレイアウトにしています。</p>
+      </div>
+      <div class="card">
+        <strong>相互リンク</strong>
+        <p>ガイド・FAQ・規約間の導線をヘッダーと本文両方に配置し、レビュー時の回遊性を強化しました。</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>ゲームの特徴</h2>
+      <p>Life Garden は、ライフゲームの「発見する楽しさ」をより短時間で味わえるようデザインしたブラウザゲームです。シード値に応じて初期配置が変化し、毎日違った挑戦を楽しめます。</p>
+      <ul>
+        <li>日替わりチャレンジ：毎日 0:00 UTC にリーダーボード用シードを更新。</li>
+        <li>視認性に配慮したネオン調カラーとグリッド。</li>
+        <li>PC でもスマホでも同じ感覚で遊べる操作系。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>開発背景</h2>
+      <p>開発者自身が「短い休憩時間でも没頭できるライフゲームが欲しい」という思いから制作しました。盤面の安定性とスコアリングのバランスを試行錯誤し、初心者でも上級者でも奥深さを感じられる調整を続けています。</p>
+    </section>
+
+    <section>
+      <h2>アップデート履歴</h2>
+      <ul>
+        <li><strong>2025-01:</strong> 早送りモードとループ検知メッセージを追加。100 世代以上の長期プレイでもテンポを維持し、ループ発見時の再挑戦導線を <a href="index.html#faq">FAQ</a> と連動。</li>
+        <li><strong>2025-02:</strong> パターンクイック配置（グライダー、ブロック、ビーコン等）を導入。初心者が定石を素早く試せるよう、各プリセットに説明ツールチップを付与。</li>
+        <li><strong>2025-03:</strong> スマホ向けドラッグ補完を改良し、誤タップを削減。1ドットごとに線形補完する処理を追加し、テストでミス配置が 38% 減少。</li>
+        <li><strong>2025-04:</strong> リーダーボード共有リンクとスクリーンショット保存ボタンを実装。友人と結果を共有しやすくし、広告配置も HUD を避ける設計に更新。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>推奨プレイスタイル</h2>
+      <p>高スコアを狙うなら、<code>安定パターン</code>と<code>ランダム拡散</code>を交互に使うのが効果的です。終盤はブロックをバッファとして残し、密度を抑えて世代数を伸ばしましょう。</p>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">利用規約</a>
+  </footer>
+</body>
+</html>

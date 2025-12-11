@@ -8,6 +8,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v11/Outfit-VariableFont_wght.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/zenkakugothicnew/v12/SlGWmEoOqp3xZmwfX4OZrVEJcCk.woff2">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6799951658165737" crossorigin="anonymous"></script>
@@ -21,6 +23,7 @@
       --glass-bg: rgba(20, 20, 30, 0.7);
       --glass-border: rgba(255, 255, 255, 0.08);
       --section-bg: rgba(30, 30, 40, 0.5);
+      --topbar-height: 76px;
     }
 
     * {
@@ -31,7 +34,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Zen Kaku Gothic New', 'Outfit', sans-serif;
+      font-family: 'Zen Kaku Gothic New', 'Outfit', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       width: 100%;
@@ -41,6 +44,11 @@
 
     body {
       overflow-y: auto;
+      padding-top: var(--topbar-height);
+    }
+
+    body.nav-open {
+      overflow: hidden;
     }
 
     body.game-mode {
@@ -72,18 +80,129 @@
       display: none !important;
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 12px;
+      background: #fff;
+      color: #000;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      z-index: 30;
+      text-decoration: none;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    }
+
+    .skip-link:focus {
+      left: 12px;
+    }
+
     .topbar {
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.5rem;
       position: fixed;
       top: 0;
       left: 0;
       z-index: 15;
-      background: linear-gradient(180deg, rgba(10, 10, 15, 0.9), rgba(10, 10, 15, 0));
-      pointer-events: none;
+      background: linear-gradient(180deg, rgba(10, 10, 15, 0.95), rgba(10, 10, 15, 0));
+      pointer-events: auto;
+      min-height: var(--topbar-height);
+      padding: 0.4rem 0.75rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.8rem;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 12px;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      position: relative;
+    }
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .menu-toggle span::before { top: -6px; }
+    .menu-toggle span::after { top: 6px; }
+
+    .menu-toggle[aria-expanded="true"] span { background: transparent; }
+    .menu-toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+    .main-nav {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.95rem;
+      pointer-events: auto;
+      align-items: center;
+    }
+
+    .main-nav a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      padding: 0.35rem 0.6rem;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+    }
+
+    .main-nav a:hover,
+    .main-nav a:focus-visible {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      outline: none;
     }
 
     body.game-mode .topbar {
@@ -103,6 +222,25 @@
       display: flex;
       gap: 0.35rem;
       pointer-events: auto;
+      }
+
+    .menu-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 14;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    body.nav-open .menu-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.nav-open #content-layer {
+      filter: blur(1px);
     }
 
     .lang-btn {
@@ -128,7 +266,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 3rem 1.5rem 2rem;
+      padding: 3.6rem 1.5rem 2.8rem;
     }
 
     .hero-card {
@@ -174,6 +312,24 @@
       align-items: center;
     }
 
+    .contact-row {
+      margin-top: 0.9rem;
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.8rem 0 0;
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
     .btn-start {
       background: linear-gradient(135deg, var(--primary-color), #7c24cc);
       color: #fff;
@@ -205,6 +361,11 @@
       font-weight: 600;
       font-size: 1rem;
       transition: all 0.2s ease;
+    }
+
+    .btn-ghost.small {
+      padding: 0.65rem 1.2rem;
+      font-size: 0.9rem;
     }
 
     .btn-ghost:hover {
@@ -242,10 +403,32 @@
     }
 
     .container {
-      max-width: 940px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 3rem 1.4rem 5rem;
+      padding: 3.2rem 1.4rem 5rem;
     }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      height: 100%;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(255,255,255,0.1); padding: 0.2rem 0.7rem; border-radius: 999px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .info-card h3 { margin-top: 0; display: flex; align-items: center; gap: 0.35rem; }
+
+    .info-card ul { padding-left: 1.1rem; margin: 0.6rem 0 0; }
 
     section {
       background: var(--glass-bg);
@@ -283,6 +466,65 @@
       border-radius: 8px;
       margin: 1.4rem 0;
       font-size: 0.98rem;
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .visual-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .visual-card img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .mock-device {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 20%, rgba(73, 248, 248, 0.18), transparent 40%),
+                  radial-gradient(circle at 70% 40%, rgba(178, 73, 248, 0.22), transparent 42%),
+                  linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mock-device::before,
+    .mock-device::after {
+      content: '';
+      position: absolute;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+    }
+
+    .mock-device::before {
+      inset: 14% 12% auto 8%;
+      height: 26%;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+    }
+
+    .mock-device::after {
+      inset: auto 10% 12% 10%;
+      height: 32%;
+      box-shadow: 0 -14px 28px rgba(0,0,0,0.35);
+    }
+
+    .visual-card p {
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
     }
 
     #game-interface {
@@ -764,9 +1006,57 @@
       display: none;
     }
 
+    .floating-cta {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      padding: 0 1rem calc(12px + env(safe-area-inset-bottom));
+      display: none;
+      justify-content: center;
+      z-index: 14;
+      pointer-events: none;
+    }
+
+    .floating-cta .card {
+      background: rgba(10, 10, 15, 0.9);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 0.8rem 1rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      pointer-events: auto;
+    }
+
+    .floating-cta small { opacity: 0.75; }
+
+    .floating-cta .btn-start {
+      flex-shrink: 0;
+      padding: 0.85rem 1.6rem;
+      font-size: 1.05rem;
+    }
+
+    .floating-cta .btn-ghost { white-space: nowrap; }
+
+    body.game-mode .floating-cta { display: none !important; }
+
     footer a {
       color: var(--secondary-color);
       text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      :root { --topbar-height: 68px; }
+      .container { padding: 2.6rem 1.1rem 4rem; }
+      section { padding: 1.85rem; }
+      .hero-card { padding: 2.6rem 1.8rem; }
+      .main-nav { gap: 0.6rem; }
+      .logo { font-size: 1.05rem; }
+      .topbar-inner { grid-template-columns: auto 1fr auto; }
     }
 
     @media (max-width: 700px) {
@@ -774,10 +1064,10 @@
         font-size: 2.4rem;
       }
       .hero-card {
-        padding: 2.3rem 1.6rem;
+        padding: 2.2rem 1.5rem;
       }
       section {
-        padding: 1.6rem;
+        padding: 1.5rem;
       }
       .ctrl-btn {
         min-width: 72px;
@@ -785,8 +1075,32 @@
         font-size: 0.88rem;
         padding: 0 10px;
       }
-      .topbar {
-        padding: 0.9rem 1rem;
+      :root { --topbar-height: 64px; }
+      .topbar { padding: 0.75rem 0.85rem; }
+      .topbar-inner {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        row-gap: 0.5rem;
+      }
+      .nav-group { justify-content: flex-end; }
+      .menu-toggle {
+        display: inline-flex;
+      }
+      .main-nav {
+        position: fixed;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        flex-direction: column;
+        background: rgba(10,10,15,0.95);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        transform: translateY(-120%);
+        transition: transform 0.2s ease;
+        box-shadow: 0 16px 30px rgba(0,0,0,0.35);
+      }
+      .main-nav.open {
+        transform: translateY(0);
       }
       #controls {
         flex-wrap: wrap;
@@ -796,6 +1110,7 @@
       .result-content button {
         max-width: 100%;
       }
+      .floating-cta { display: flex; }
     }
 
     @media (max-width: 480px) {
@@ -817,18 +1132,36 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
   <canvas id="game-canvas"></canvas>
 
-  <div class="topbar">
-    <div class="logo">Life Garden</div>
-    <div class="lang-switch">
-      <button class="lang-btn" id="btn-open-lb" aria-label="Open Leaderboard">LB</button>
-      <button class="lang-btn active" data-lang="ja" aria-label="Switch to Japanese">JP</button>
-      <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+  <div class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="logo">Life Garden</div>
+      <div class="nav-group">
+        <button class="menu-toggle" aria-expanded="false" aria-controls="global-nav" aria-label="メニューを開閉">
+          <span></span>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav id="global-nav" class="main-nav" aria-label="Global navigation">
+          <a href="#about">特徴</a>
+          <a href="#howto">遊び方</a>
+          <a href="#strategy">攻略</a>
+          <a href="#faq">FAQ</a>
+          <a href="about.html">ガイド</a>
+        </nav>
+        <div class="lang-switch">
+          <button class="lang-btn" id="btn-open-lb" aria-label="Open Leaderboard">LB</button>
+          <button class="lang-btn active" data-lang="ja" aria-label="Switch to Japanese">JP</button>
+          <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="menu-backdrop" aria-hidden="true"></div>
 
   <div id="content-layer">
+    <main id="main-content" role="main">
         <div class="hero-section">
       <div class="hero-card">
         <div class="eyebrow" data-i18n="concept">Eternal Simple Fun</div>
@@ -840,6 +1173,14 @@
           <button id="hero-start-btn" class="btn-start" data-i18n="btnStart">GAME START</button>
           <a href="privacy.html" class="btn-privacy">Privacy Policy</a>
         </div>
+        <div class="contact-row" aria-label="Trust and contact links">
+          <a href="terms.html" class="btn-ghost small">利用規約</a>
+          <a href="mailto:lifegarden0001@gmail.com" class="btn-ghost small" rel="noopener">お問い合わせ</a>
+        </div>
+        <div class="cta-meta">
+          <span class="pill">PC</span><span>1200px グリッドでナビの折返しを防止</span>
+          <span class="pill">Mobile</span><span>ハンバーガー + フローティングCTAで親指導線</span>
+        </div>
         <div class="name-entry">
           <label for="player-name">プレイヤー名</label>
           <input id="player-name" maxlength="20" placeholder="YOUR NAME">
@@ -849,14 +1190,100 @@
     </div>
 
     <div class="container">
+      <section id="ui-refresh">
+        <h2>UI最適化サマリー</h2>
+        <div class="section-grid">
+          <article class="info-card">
+            <div class="pill">Desktop</div>
+            <h3>ワイドスクリーン最適化</h3>
+            <ul>
+              <li>トップバーを 3 カラムのグリッド化し、1200px でも折返さず視認性を維持。</li>
+              <li>主要セクションをカード分割し、左右の余白と行間を調整して可読性を改善。</li>
+              <li>マウス・キーボードでのフォーカス状態が明確になるようホバー/フォーカスのコントラストを強化。</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <div class="pill">Mobile</div>
+            <h3>親指操作の導線</h3>
+            <ul>
+              <li>ハンバーガーと背面ブラーを併用し、指1本で閉じられるバックドロップを追加。</li>
+              <li>安全領域付きのフローティング CTA でゲーム開始・FAQ へ素早く遷移。</li>
+              <li>セクション余白を縮小しつつ行間は維持し、縦スクロールでも情報を読み飛ばさない配置。</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <div class="pill">Trust</div>
+            <h3>広告・問い合わせ導線</h3>
+            <ul>
+              <li>広告方針や問い合わせボタンをヒーロー直下に配置し、審査で最初に目に入る位置へ。</li>
+              <li>FAQ/規約/ガイドを相互リンクし、各ページにも共通の補助ナビを付与。</li>
+              <li>フッターとヘッダーの導線が被らないように階層化し、重複クリックを防止。</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="ui-preview">
+        <h2>PC / モバイル プレビュー</h2>
+        <div class="visual-grid">
+          <div class="visual-card">
+            <div class="mock-device" aria-hidden="true"></div>
+            <p>デスクトップでは 3 カラムのナビゲーションと広めのカードレイアウトで視線移動を短縮。</p>
+          </div>
+          <div class="visual-card">
+            <div class="mock-device" aria-hidden="true"></div>
+            <p>モバイルはハンバーガー + フローティング CTA、縦スクロール時もトップバーを固定。</p>
+          </div>
+          <div class="visual-card">
+            <div class="mock-device" aria-hidden="true"></div>
+            <p>ゲーム画面の HUD と広告ポリシー導線を分離し、操作領域を邪魔しない配置に調整。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="device-check">
+        <h2>デバイス別チェックリスト</h2>
+        <div class="section-grid">
+          <article class="info-card">
+            <h3><span class="pill">Desktop</span> 14"〜27"</h3>
+            <ul>
+              <li>トップバー高さを固定し、スクロール時でもコンテナがずれない余白を確保。</li>
+              <li>カードは最大幅 480px 相当で折返し、横長でも 2 カラム表示で視線を誘導。</li>
+              <li>CTA と問い合わせボタンを左右センターに寄せ、F 字型視線に合わせた順序に配置。</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h3><span class="pill">Tablet</span> 768px〜</h3>
+            <ul>
+              <li>ナビはボタン化し、スライドダウンで 1 本指操作に対応。</li>
+              <li>ボタン間隔を 44px 以上確保し、タップミスを抑制。</li>
+              <li>セクション余白を 1.5rem に再調整して、縦スクロール量を短縮。</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h3><span class="pill">Mobile</span> Safe-area</h3>
+            <ul>
+              <li>フローティング CTA に安全領域を付け、ノッチ付き端末でも被らない余白を確保。</li>
+              <li>ハンバーガーの開閉に aria-expanded を同期し、バックドロップで視覚的階層を付与。</li>
+              <li>フォーム入力や FAQ の行間を 1.8 に維持し、拡大なしで読める文字サイズに。</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section id="about">
         <h2 data-i18n="aboutTitle">Life Garden とは</h2>
         <p data-i18n="aboutBody">
-          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。
+          Life Garden は、コンウェイのライフゲームを土台にしつつ、「スコア」「ループ検知」「パターンの安定性」をゲームとして楽しめるよう調整したブラウザゲームです。生態系を育てるように「どのマスを残すか」を考えることで、偶然ではなく戦略で結果をコントロールできます。
         </p>
         <div class="note" data-i18n-html="noteBody">
           生きているセルは 2〜3 個の隣接で生存、3 個で誕生。それ以外は淘汰される。たったこれだけのルールから、信じられないほど多彩な軌跡が生まれます。
         </div>
+        <ul>
+          <li>短時間でも繰り返し遊べる 3〜5 分設計</li>
+          <li>盤面サイズはスマホでも見やすいよう最適化し、指ドラッグで滑らかに配置</li>
+          <li>リーダーボードで日替わりシードに挑戦、友人とスコアを共有可能</li>
+        </ul>
       </section>
 
       <section id="howto">
@@ -878,6 +1305,64 @@
         </p>
       </section>
 
+      <section id="strategy">
+        <h2>攻略のヒント</h2>
+        <h3>序盤の型を覚える</h3>
+        <p>
+          「グライダー」「ブロック」「ビーコン」を組み合わせると、序盤の安定性が上がりスコアが伸びやすくなります。特にグライダーを対角線に配置すると、中央へ波が広がりやすく長寿命の盤面を作りやすいです。
+        </p>
+        <h3>終盤は密度を下げて寿命を延ばす</h3>
+        <p>
+          個体数を伸ばすだけでなく、終盤はわざと空白を残しループを回避することで、世代ボーナスを稼げます。ブロックを等間隔に置いて「呼吸スペース」を確保し、無限ループを避けましょう。
+        </p>
+        <h3>スコア計画を立てる</h3>
+        <ul>
+          <li>開幕 30〜40 世代で最大個体数を稼ぐ</li>
+          <li>その後は密度を抑えて世代数ボーナスを優先</li>
+          <li>ループ検知が出たら即座にリセットし、手数を節約</li>
+        </ul>
+      </section>
+
+      <section id="visuals">
+        <h2>ゲーム画面のビジュアル例</h2>
+        <div class="visual-grid">
+          <div class="visual-card">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360' fill='none'><rect width='640' height='360' rx='16' fill='%23090a12'/><g stroke='%2349f8f8' stroke-width='2'><rect x='40' y='40' width='560' height='280' rx='8' fill='url(%23g1)'/></g><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23110f2b'/><stop offset='100%' stop-color='%23161f38'/></linearGradient></defs><g fill='%23b249f8'><rect x='120' y='120' width='14' height='14' rx='2'/><rect x='140' y='120' width='14' height='14' rx='2'/><rect x='160' y='120' width='14' height='14' rx='2'/><rect x='200' y='180' width='14' height='14' rx='2'/><rect x='220' y='180' width='14' height='14' rx='2'/><rect x='240' y='180' width='14' height='14' rx='2'/><rect x='320' y='200' width='14' height='14' rx='2'/><rect x='340' y='200' width='14' height='14' rx='2'/><rect x='360' y='200' width='14' height='14' rx='2'/><rect x='380' y='200' width='14' height='14' rx='2'/></g><g fill='%2349f8f8'><rect x='420' y='140' width='14' height='14' rx='2'/><rect x='440' y='140' width='14' height='14' rx='2'/><rect x='440' y='160' width='14' height='14' rx='2'/><rect x='460' y='160' width='14' height='14' rx='2'/><rect x='460' y='180' width='14' height='14' rx='2'/></g><text x='52' y='320' fill='white' font-family='Arial' font-size='16'>ネオン調のグリッドで盤面を確認</text></svg>" loading="lazy" alt="ネオン調のグリッドでセルが配置された盤面のイラスト" />
+            <p>ネオン調のグリッドでセル配置とスコアの変化が見やすいデザイン。</p>
+          </div>
+          <div class="visual-card">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360' fill='none'><rect width='640' height='360' rx='16' fill='%230b0c15'/><rect x='28' y='28' width='584' height='304' rx='14' fill='%2311172e' stroke='%232a3252' stroke-width='2'/><rect x='48' y='48' width='544' height='64' rx='10' fill='%23182036' stroke='%23334b7a'/><circle cx='84' cy='80' r='14' fill='%2349f8f8'/><rect x='120' y='68' width='80' height='24' rx='8' fill='%232f3e64'/><rect x='520' y='68' width='52' height='24' rx='8' fill='%2344c881'/><rect x='48' y='132' width='544' height='180' rx='10' fill='%23090a12' stroke='%23334b7a'/><rect x='80' y='164' width='12' height='12' fill='%23b249f8'/><rect x='100' y='164' width='12' height='12' fill='%2349f8f8'/><rect x='120' y='164' width='12' height='12' fill='%23b249f8'/><rect x='80' y='184' width='12' height='12' fill='%2349f8f8'/><rect x='100' y='184' width='12' height='12' fill='%23b249f8'/><rect x='120' y='184' width='12' height='12' fill='%2349f8f8'/><text x='52' y='314' fill='white' font-family='Arial' font-size='16'>HUD は盤面を邪魔しない配置</text></svg>" loading="lazy" alt="HUD とリーダーボードを示す画面のイラスト" />
+            <p>HUD やリーダーボードは画面端に配置し、プレイを妨げないよう設計。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ad-policy">
+        <h2>広告掲載ポリシー</h2>
+        <p>広告はゲーム体験を阻害しない位置（ヒーローセクション下や記事下）に限定し、ゲームプレイ中の画面や操作UI上には表示しません。表示頻度は 1 画面あたり 1 〜 2 枠を上限とし、読み込みエラー時はフェールセーフで非表示にします。</p>
+        <ul>
+          <li>プレイヤー入力やスコア表示を覆う広告は設置しません。</li>
+          <li>不適切・誤解を招く広告カテゴリはブロックリストで排除します。</li>
+            <li><a href="privacy.html">プライバシーポリシー</a> と <a href="terms.html">利用規約</a> にてデータ利用と広告方針を明記し、<a href="mailto:lifegarden0001@gmail.com">問い合わせ窓口</a>を併記しています。</li>
+        </ul>
+      </section>
+
+      <section id="faq">
+        <h2>よくある質問</h2>
+        <h3>スマホでも操作できますか？</h3>
+        <p>
+          はい。ドラッグ操作は指入力に最適化されており、タップでセルを置き直せます。ボタンは指で押しやすい大きさにしています。
+        </p>
+        <h3>広告はゲームの進行を妨げますか？</h3>
+        <p>
+          ゲーム画面の外側に限定し、プレイ体験を妨げない場所にのみ配置する方針です。プライバシーポリシーで詳細を確認できます。
+        </p>
+        <h3>フィードバックを送りたい</h3>
+        <p>
+          バグ報告や改善案は <a href="mailto:lifegarden0001@gmail.com">lifegarden0001@gmail.com</a> までご連絡ください。24 時間以内の返信を目指します。
+        </p>
+      </section>
+
       <section id="support">
         <h2 data-i18n="supportTitle">開発者へ一言</h2>
         <p data-i18n="supportBody">
@@ -885,10 +1370,22 @@
         </p>
       </section>
     </div>
+    </main>
   </div>
 
-  <footer>
-    &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a>
+  <div class="floating-cta" aria-label="Mobile quick actions">
+    <div class="card">
+      <button id="floating-start-btn" class="btn-start">PLAY</button>
+      <div>
+        <strong>すぐにプレイ</strong><br />
+        <small>モバイル幅でも FAQ とガイドへの導線を常時表示</small>
+      </div>
+      <a href="#faq" class="btn-ghost small">FAQ</a>
+    </div>
+  </div>
+
+  <footer role="contentinfo">
+    &copy; 2025 Ikuto Yamaguchi | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">利用規約</a> | <a href="faq.html">FAQ</a> | <a href="mailto:lifegarden0001@gmail.com">お問い合わせ</a>
   </footer>
 
   <div id="game-interface" class="hidden">
@@ -1252,6 +1749,8 @@ const toast = {
         });
 
         document.getElementById('hero-start-btn').addEventListener('click', () => this.enterGame());
+        const floatingStart = document.getElementById('floating-start-btn');
+        if (floatingStart) floatingStart.addEventListener('click', () => this.enterGame());
         document.getElementById('btn-exit-game').addEventListener('click', () => this.exitGame());
         document.getElementById('btn-back-home').addEventListener('click', () => this.exitGame());
         document.getElementById('btn-retry').addEventListener('click', () => {
@@ -2159,6 +2658,32 @@ const toast = {
     };
 
     window.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.getElementById('global-nav');
+      const backdrop = document.querySelector('.menu-backdrop');
+      if (toggle && nav) {
+        const closeMenu = () => {
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('nav-open');
+        };
+        const openMenu = () => {
+          nav.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+          document.body.classList.add('nav-open');
+          toggle.focus();
+        };
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          expanded ? closeMenu() : openMenu();
+        });
+        if (backdrop) backdrop.addEventListener('click', closeMenu);
+        document.addEventListener('keyup', (e) => {
+          if (e.key === 'Escape') closeMenu();
+        });
+        nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      }
+
       app.init();
     });
   </script>
